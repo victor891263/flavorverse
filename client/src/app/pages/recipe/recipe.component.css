@@ -1,0 +1,19 @@
+.main > div:not(:first-of-type) {
+    @apply mt-12 pt-11 border-t
+}
+
+.details {
+    @apply divide-y border rounded-xl px-6 py-1.5 bg-slate-50 text-[15px]
+}
+
+.details > div {
+    @apply flex justify-between py-3.5
+}
+
+.details > div > span:nth-of-type(1) {
+    @apply font-medium text-slate-900
+}
+
+.review:last-of-type .body {
+    @apply pb-0 border-b-0
+}

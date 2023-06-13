@@ -1,0 +1,124 @@
+<div class="grid lg:grid-cols-[20rem_auto] py-24 px-6 mx-auto container lg:max-w-screen-lg">
+    <div class="lg:border-r lg:pr-10" id="recipes-filters">
+        <div class="space-y-7">
+            <div>
+                <label for="title">Title</label>
+                <input [(ngModel)]="title" type="text" name="title" id="title" class="rounded-md w-full"/>
+            </div>
+            <div>
+                <label for="servings">Servings</label>
+                <input [(ngModel)]="servings" type="number" name="title" id="servings" class="rounded-md w-full"/>
+            </div>
+        </div>
+        <div class="space-y-3.5">
+            <div class="relative">
+                <label for="tag-search">Tags</label>
+                <div class="relative">
+                    <div class="absolute left-2.5 flex items-center h-full">
+                        <svg class="w-4 h-4 text-slate-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" /></svg>
+                    </div>
+                    <input [(ngModel)]="tagKeyword" type="text" name="tag" id="tag-search" placeholder="Search" class="!pl-8 rounded-md w-full"/>
+                </div>
+                <div *ngIf="tagKeyword" class="absolute mt-2.5 bg-white z-10 shadow border rounded-md w-full py-1.5">
+                    <div *ngIf="relevantTags.length > 0">
+                        <button
+                            *ngFor="let tag of relevantTags"
+                            (click)="addTag(tag)"
+                            class="block first-letter:capitalize text-sm px-4 py-1.5 w-full text-left hover:bg-slate-100"
+                        >{{ tag }}</button>
+                    </div>
+                    <div *ngIf="relevantTags.length === 0" class="text-sm text-slate-400 px-4 py-1.5">No tags found</div>
+                </div>
+            </div>
+            <div *ngIf="tags.length > 0" class="w-full text-sm flex gap-1.5 flex-wrap">
+                <button
+                    *ngFor="let tag of tags"
+                    (click)="removeTag(tag)"
+                    class="btn-soft first-letter:capitalize rounded-full py-1.5 px-3.5 h-fit"
+                >{{ tag }}</button>
+            </div>
+        </div>
+        <div class="space-y-3.5">
+            <div class="relative">
+                <label for="ingredient-search">Ingredients</label>
+                <div class="relative">
+                    <div class="absolute left-2.5 flex items-center h-full">
+                        <svg class="w-4 h-4 text-slate-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" /></svg>
+                    </div>
+                    <input [(ngModel)]="ingredientKeyword" type="text" name="ingredient" id="ingredient-search" placeholder="Search" class="!pl-8 rounded-md w-full"/>
+                </div>
+                <div *ngIf="ingredientKeyword" class="absolute mt-2.5 bg-white z-10 shadow border rounded-md w-full py-1.5">
+                    <div *ngIf="relevantIngredients.length > 0">
+                        <button
+                            *ngFor="let ingredient of relevantIngredients"
+                            (click)="addIngredient(ingredient)"
+                            class="block first-letter:capitalize text-sm px-4 py-1.5 w-full text-left hover:bg-slate-100"
+                        >{{ ingredient }}</button>
+                    </div>
+                    <div *ngIf="relevantIngredients.length === 0" class="text-sm text-slate-400 px-4 py-1.5">No ingredients found</div>
+                </div>
+            </div>
+            <div class="w-full text-sm flex gap-1.5 flex-wrap">
+                <button
+                    *ngFor="let ingredient of ingredients"
+                    (click)="removeIngredient(ingredient)"
+                    class="btn-soft first-letter:capitalize rounded-full py-1.5 px-3.5 h-fit"
+                >{{ ingredient }}</button>
+            </div>
+        </div>
+        <div class="space-y-7">
+            <div>
+                <label>Prep time</label>
+                <div class="flex">
+                    <div class="relative w-1/2">
+                        <div class="absolute left-3 flex items-center h-full text-sm text-slate-400">Min:</div>
+                        <input [(ngModel)]="prepMin" type="number" name="prep-min" id="prep-min" class="w-full rounded-l-md !pl-11"/>
+                    </div>
+                    <div class="relative w-1/2">
+                        <div class="absolute left-3 flex items-center h-full text-sm text-slate-400">Max:</div>
+                        <input [(ngModel)]="prepMax" type="number" name="prep-max" id="prep-max" class="w-full rounded-r-md !pl-12"/>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <label>Cook time</label>
+                <div class="flex">
+                    <div class="relative w-1/2">
+                        <div class="absolute left-3 flex items-center h-full text-sm text-slate-400">Min:</div>
+                        <input [(ngModel)]="cookMin" type="number" name="cook-min" id="cook-min" class="w-full rounded-l-md !pl-11"/>
+                    </div>
+                    <div class="relative w-1/2">
+                        <div class="absolute left-3 flex items-center h-full text-sm text-slate-400">Max:</div>
+                        <input [(ngModel)]="cookMax" type="number" name="cook-max" id="cook-max" class="w-full rounded-r-md !pl-12"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="ml-auto w-fit space-x-1.5">
+                <button (click)="getRecipes()" class="inline-block btn-primary py-2 px-3">Apply</button>
+                <button (click)="clearFilters()" class="inline-block btn-secondary py-2 px-3">Clear</button>
+            </div>
+        </div>
+    </div>
+    <div class="lg:ml-10 max-lg:pt-5 max-lg:mt-7 max-lg:border-t">
+        <app-retrieval-wrapper [data]="recipes" [errorMsg]="undefined">
+            <ng-container *ngIf="recipes">
+                <span class="block text-sm">{{ recipes.length }} results found.</span>
+                <div class="divide-y divide-slate-200">
+                    <a *ngFor="let recipe of recipes" [routerLink]="('/recipes/' + recipe._id)" class="block space-y-3 pt-11 pb-12">
+                        <span class="block font-bold text-lg text-slate-900">{{ recipe.title }}</span>
+                        <div class="flex items-center pb-0.5">
+                            <app-rating [rating]="recipe.rating"></app-rating>
+                            <span class="ml-2 text-sm">{{ recipe.rating }} ({{ recipe.reviews.length }} reviews)</span>
+                        </div>
+                        <p class="leading-[1.75] text-[15px]">{{ recipe.desc.length > 165 ? (recipe.desc.slice(0, 165) + '...') : recipe.desc }}</p>
+                        <div class="flex gap-1.5 pt-0.5">
+                            <span *ngFor="let tag of recipe.tags" class="bg-slate-100 rounded-full py-1.5 px-3.5 text-sm text-slate-500 font-medium capitalize">{{ tag }}</span>
+                        </div>
+                    </a>
+                </div>
+            </ng-container>
+        </app-retrieval-wrapper>
+    </div>
+</div>
