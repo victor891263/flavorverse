@@ -1,21 +1,21 @@
 <div *ngIf="recipe" class="grid lg:grid-cols-[auto_280px] py-32 px-6 mx-auto container lg:max-w-screen-lg">
     <div class="main lg:border-r lg:pr-11 lg:mr-11">
-        <div class="space-y-5">
+        <div class="space-y-5 pb-0.5">
             <div class="flex items-center">
                 <app-rating [rating]="recipe.rating"></app-rating>
                 <span class="ml-2 text-sm">{{ recipe.rating }} ({{ recipe.reviews.length }} reviews)</span>
             </div>
             <h1 class="text-3xl font-extrabold tracking-tight text-slate-900">{{ recipe.title }}</h1>
             <div class="flex items-center">
-                <div class="h-9 w-9 bg-slate-300 rounded-full shrink-0"></div>
+                <div class="h-9 w-9 bg-slate-300 rounded-full shrink-0 dark:bg-gray-700"></div>
                 <div class="ml-3 space-y-0.5 text-sm">
-                    <span class="block text-slate-900 font-medium">{{ recipe.user.username }}</span>
+                    <a [routerLink]="'/users/' + recipe.user._id" class="block text-slate-900 font-medium">{{ recipe.user.username }}</a>
                     <span class="block text-slate-400">{{ getTimeLabel(recipe.createdAt) }}</span>
                 </div>
             </div>
             <p class="leading-7">{{ recipe.desc }}</p>
             <div class="flex gap-1.5 pt-0.5">
-                <span *ngFor="let tag of recipe.tags" class="bg-slate-100 rounded-full py-1.5 px-3.5 text-sm text-slate-500 font-medium capitalize">{{ tag }}</span>
+                <span *ngFor="let tag of recipe.tags" class="bg-slate-100 rounded-full py-1.5 px-3.5 text-sm text-slate-500 font-medium capitalize dark:text-gray-500">{{ tag }}</span>
             </div>
         </div>
 
@@ -47,14 +47,14 @@
 
         <div>
             <h2 class="mb-5 text-lg font-bold text-slate-900">Ingredients</h2>
-            <ol class="list-disc ml-4 space-y-2">
+            <ol class="list-disc ml-4 space-y-2 text-[15px]">
                 <li *ngFor="let ingredient of recipe.ingredients">{{ ingredient.quantity }} {{ ingredient.name }}</li>
             </ol>
         </div>
         <div>
             <h2 class="mb-5 text-lg font-bold text-slate-900">Directions</h2>
-            <ol class="list-decimal ml-5 space-y-5">
-                <li *ngFor="let step of recipe.steps; index as i" class="leading-7">{{ step }}</li>
+            <ol class="list-decimal ml-5 space-y-5 text-[15px]">
+                <li *ngFor="let step of recipe.steps; index as i" class="leading-[1.75]">{{ step }}</li>
             </ol>
         </div>
 
@@ -72,15 +72,15 @@
             <h2 class="mb-5 text-lg font-bold text-slate-900">Reviews ({{ recipe.reviews.length }})</h2>
             <div>
                 <app-rating (onRatingChange)="setRating($event)" [isClickable]="true" [rating]="rating"></app-rating>
-                <textarea [(ngModel)]="review" class="mt-4 flex border-0 outline-0 rounded-md w-full h-20 ring-1 ring-slate-300 shadow-sm py-2.5 px-3.5 text-[15px] transition-shadow focus:ring-orange-600 resize-none" placeholder="What do you think about the recipe?" ></textarea>
+                <textarea [(ngModel)]="review" class="mt-4 flex rounded-md w-full h-20 py-2.5 px-3.5 text-[15px] leading-relaxed resize-none" placeholder="What do you think about the recipe?" ></textarea>
                 <button (click)="submitReview()" class="mt-2.5 ml-auto block btn-primary py-2 px-3">Submit</button>
             </div>
             <div class="mt-4 space-y-10">
                 <div *ngFor="let review of recipe.reviews" class="review">
                     <div class="flex items-center">
-                        <div class="bg-slate-300 rounded-full h-9 w-9 shrink-0"></div>
+                        <div class="bg-slate-300 rounded-full h-9 w-9 shrink-0 dark:bg-gray-700"></div>
                         <div class="ml-3 space-y-0.5 text-sm">
-                            <span class="block text-slate-900 font-medium">{{ review.user.username }}</span>
+                            <a [routerLink]="'/users/' + review.user._id" class="block text-slate-900 font-medium">{{ review.user.username }}</a>
                             <span class="block text-slate-400">{{ getTimeLabel(review.createdAt) }}</span>
                         </div>
                     </div>

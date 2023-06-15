@@ -24,22 +24,21 @@ export class RatingComponent {
         }
     }
 
+    setIndices() {
+        const currentElement = this.elementRef.nativeElement.children[0]
+        const stars: HTMLCollection = currentElement.children
+        for (let i = 0; i < stars.length; i++) {
+            stars[i].setAttribute('data-index', `${i + 1}`)
+        }
+    }
+
     constructor(private elementRef: ElementRef) {}
 
     ngAfterViewInit() {
-        const currentElement = this.elementRef.nativeElement.children[0]
-        const stars: HTMLCollection = currentElement.children
-        for (let i = 0; i < stars.length; i++) {
-            stars[i].setAttribute('data-index', `${i + 1}`)
-        }
-        console.log('called!')
+        this.setIndices()
     }
 
     ngAfterViewChecked() {
-        const currentElement = this.elementRef.nativeElement.children[0]
-        const stars: HTMLCollection = currentElement.children
-        for (let i = 0; i < stars.length; i++) {
-            stars[i].setAttribute('data-index', `${i + 1}`)
-        }
+        this.setIndices()
     }
 }

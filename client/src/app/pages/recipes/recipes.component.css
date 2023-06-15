@@ -1,14 +1,14 @@
 #recipes-filters > div:not(:first-of-type) {
-    @apply pt-7 mt-8 border-t
+    @apply pt-7 mt-8 border-t dark:border-gray-700
 }
 
 #recipes-filters label {
-    @apply block text-sm font-medium text-gray-900 mb-2 leading-6
+    @apply block text-sm font-medium text-gray-900 mb-2 leading-6 dark:text-gray-100
 }
 
 #recipes-filters input[type='text'],
 #recipes-filters input[type='number']{
-    @apply border-0 ring-1 ring-slate-300 shadow-sm py-2 px-3 text-sm transition-shadow focus:ring-orange-600
+    @apply py-2 px-3 bg-white dark:bg-gray-800/75
 }
 
 

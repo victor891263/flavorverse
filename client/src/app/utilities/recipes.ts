@@ -7,7 +7,7 @@ export const recipes: Recipe[] = [
         _id: '1',
         user: {
             _id: '1',
-            username: 'bradley8457'
+            username: 'GreasyPancakes'
         },
         title: `Banana bread`,
         desc: `This banana bread recipe creates the most delicious, moist loaf with loads of banana flavor. Why compromise the banana flavor? Friends and family love my recipe and say it's by far the best! It tastes wonderful toasted. Enjoy!`,
@@ -68,7 +68,7 @@ export const recipes: Recipe[] = [
                 _id: '1',
                 user: {
                     _id: '2',
-                    username: 'chinesepanda'
+                    username: 'Banana2168'
                 },
                 body: `This banana bread didnt have any texture at all. it didnt taste like banana bread whatsoever. it was really bad and i'll just stick to other banana bread recipes`,
                 rating: 1,
@@ -83,7 +83,7 @@ export const recipes: Recipe[] = [
                 _id: '2',
                 user: {
                     _id: '3',
-                    username: 'michael2312'
+                    username: 'BestRestaurateur'
                 },
                 body: `I loved this recipe! I made it exactly as posted. Lasagna is one of my specialties and I've tried all kinds of variations but this one is a winner just as published. My new "go to".`,
                 rating: 4,

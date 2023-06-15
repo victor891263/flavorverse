@@ -25,7 +25,7 @@ router.get('/', async (req, res) => {
         }
     }
 
-    const recipes = await Recipe.find({ title, servings, tags, ingredients, duration }).populate('user', '_id username')
+    const recipes = await Recipe.find({ title, servings, tags, ingredients, duration }, '-nutrition -ingredients -steps -reviews').populate('user', '_id username')
     res.send(recipes)
 })
 

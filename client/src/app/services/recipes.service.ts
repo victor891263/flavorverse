@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core'
 import { HttpClient, HttpHeaders } from '@angular/common/http'
 import {GetRecipesQuery, Recipe, ReviewInput} from "../types"
+import getApiUrl from "../utilities/getApiUrl"
 
 const httpOptions = {
     headers: new HttpHeaders({
@@ -12,7 +13,7 @@ const httpOptions = {
     providedIn: 'root'
 })
 export class RecipesService {
-    private url = 'http://localhost:5000'
+    private url = getApiUrl()
 
     constructor(private http: HttpClient) {}
 
