@@ -155,10 +155,10 @@ router.post('/:id/reviews', handleAccess, async (req, res) => {
                 rating: review.rating
             }
         }
-    })
+    }, { new: true })
 
     if (!result) res.status(404).send(`The recipe you're trying to engage with doesn't exist`)
-    else res.sendStatus(200)
+    else res.send(result)
 })
 
 // like a review

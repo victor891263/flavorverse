@@ -72,8 +72,8 @@ export const recipes: Recipe[] = [
                 },
                 body: `This banana bread didnt have any texture at all. it didnt taste like banana bread whatsoever. it was really bad and i'll just stick to other banana bread recipes`,
                 rating: 1,
-                likes: 0,
-                liked: false,
+                likes: 1,
+                liked: true,
                 dislikes: 15,
                 disliked: false
             },

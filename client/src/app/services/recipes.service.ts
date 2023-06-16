@@ -17,6 +17,10 @@ export class RecipesService {
 
     constructor(private http: HttpClient) {}
 
+    getRecipe(id: string | number) {
+        return this.http.get<Recipe>(`${this.url}/recipes/${id}`)
+    }
+
     getRecipes({ title, servings, tags, ingredients, prepMin, prepMax, cookMin, cookMax }: GetRecipesQuery) {
         const query =
             (`${this.url}/recipes?`) +

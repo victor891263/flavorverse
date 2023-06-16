@@ -1,3 +1,4 @@
+
 <div class="grid lg:grid-cols-[20rem_auto] py-24 px-6 mx-auto container lg:max-w-screen-lg">
     <div class="lg:border-r lg:pr-10" id="recipes-filters">
         <div class="space-y-7">
@@ -102,7 +103,7 @@
         </div>
     </div>
     <div class="lg:ml-10 max-lg:pt-5 max-lg:mt-7 max-lg:border-t">
-        <app-retrieval-wrapper [data]="recipes" [errorMsg]="undefined">
+        <app-retrieval-wrapper [data]="recipes" [errorMsg]="errorMsg" [skeleton]="skeleton">
             <ng-container *ngIf="recipes">
                 <span class="block text-sm">{{ recipes.length }} results found.</span>
                 <div class="divide-y divide-slate-200">

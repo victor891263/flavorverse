@@ -1,0 +1,11 @@
+<div class="divide-y divide-slate-200">
+    <div *ngFor="let recipe of recipes" class="block space-y-4 pt-11 pb-12 select-none animate-pulse">
+        <span class="block font-bold text-lg w-fit bg-slate-100 text-slate-100 dark:text-gray-800">{{ recipe.title }}</span>
+        <div class="flex items-center bg-slate-100 w-28 h-6">
+        </div>
+        <p class="leading-[1.75] text-[15px] bg-slate-100 text-slate-100 dark:text-gray-800">{{ recipe.desc.length > 165 ? (recipe.desc.slice(0, 165) + '...') : recipe.desc }}</p>
+        <div class="flex gap-2">
+            <span *ngFor="let tag of recipe.tags" class="rounded-full py-1.5 px-3.5 text-sm font-medium capitalize bg-slate-100 text-slate-100 dark:text-gray-800">{{ tag }}</span>
+        </div>
+    </div>
+</div>

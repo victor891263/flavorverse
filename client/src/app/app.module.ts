@@ -14,6 +14,8 @@ import { AuthComponent } from './pages/auth/auth.component';
 import { PopupComponent } from './components/popup/popup.component';
 import { ThemeButtonComponent } from './components/theme-button/theme-button.component';
 import { ProfileComponent } from './pages/profile/profile.component';
+import { RecipesSkeletonComponent } from './components/recipes-skeleton/recipes-skeleton.component';
+import { RecipeSkeletonComponent } from './components/recipe-skeleton/recipe-skeleton.component';
 
 const routes: Routes = [
     {
@@ -50,6 +52,8 @@ const routes: Routes = [
         PopupComponent,
         ThemeButtonComponent,
         ProfileComponent,
+        RecipesSkeletonComponent,
+        RecipeSkeletonComponent,
 
     ],
     imports: [

@@ -28,6 +28,7 @@ export class AuthComponent implements OnInit {
     submitData(e) {
         if (this.url === '/login') {
             e.target.innerText = 'Signing in...'
+            e.target.disabled = true
             this.authService.login({
                 email: this.email.value,
                 password: this.password.value
@@ -38,10 +39,12 @@ export class AuthComponent implements OnInit {
                 this.errorMsg = error.message
                 setTimeout(() => this.errorMsg = '', 5000)
                 e.target.innerText = 'Sign in'
+                e.target.disabled = false
             })
         }
         if (this.url === '/join') {
             e.target.innerText = 'Creating account...'
+            e.target.disabled = true
             this.authService.createAccount({
                 email: this.email.value,
                 password: this.password.value
@@ -52,6 +55,7 @@ export class AuthComponent implements OnInit {
                 this.errorMsg = error.message
                 setTimeout(() => this.errorMsg = '', 5000)
                 e.target.innerText = 'Create account'
+                e.target.disabled = false
             })
         }
     }

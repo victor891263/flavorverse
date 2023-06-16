@@ -1,7 +1,8 @@
 import {Component, OnInit} from '@angular/core'
 import { Recipe } from "../../types"
-import { recipes } from "../../utilities/recipes"
-import {RecipesService} from "../../services/recipes.service";
+import {RecipesService} from "../../services/recipes.service"
+import {HttpErrorResponse} from "@angular/common/http"
+import { RecipesSkeletonComponent } from '../../components/recipes-skeleton/recipes-skeleton.component'
 
 @Component({
   selector: 'app-recipes',
@@ -11,6 +12,9 @@ import {RecipesService} from "../../services/recipes.service";
 
 export class RecipesComponent implements OnInit {
     // PROPERTIES
+
+    errorMsg: string
+    skeleton = RecipesSkeletonComponent
 
     recipes: Recipe[]
     allTags: string[]
@@ -74,6 +78,8 @@ export class RecipesComponent implements OnInit {
     }
 
     getRecipes() {
+        this.recipes = undefined
+        this.errorMsg = undefined
         this.recipesService.getRecipes({
             title: this.title,
             servings: this.servings,
@@ -85,6 +91,8 @@ export class RecipesComponent implements OnInit {
             cookMax: this.cookMax
         }).subscribe(result => {
             this.recipes = result
+        }, (error: HttpErrorResponse) => {
+            this.errorMsg = error.message
         })
     }
 
@@ -93,10 +101,14 @@ export class RecipesComponent implements OnInit {
     constructor(private recipesService: RecipesService) {}
 
     ngOnInit() {
-        this.recipes = recipes
+        this.getRecipes()
         this.allTags = ['breakfast', 'chinese', 'dessert', 'dinner', 'indian', 'lunch']
         this.allIngredients = ['chili', 'nuts', 'olive oil', 'pepper', 'salt', 'sugar']
         /*
+        this.recipes = recipes
+        this.allTags = ['breakfast', 'chinese', 'dessert', 'dinner', 'indian', 'lunch']
+        this.allIngredients = ['chili', 'nuts', 'olive oil', 'pepper', 'salt', 'sugar']
+
         this.getRecipes()
         this.recipesService.getTags().subscribe(result => this.allTags = result)
         this.recipesService.getIngredients().subscribe(result => this.allIngredients = result)
