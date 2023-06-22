@@ -16,6 +16,9 @@ import { ThemeButtonComponent } from './components/theme-button/theme-button.com
 import { ProfileComponent } from './pages/profile/profile.component';
 import { RecipesSkeletonComponent } from './components/recipes-skeleton/recipes-skeleton.component';
 import { RecipeSkeletonComponent } from './components/recipe-skeleton/recipe-skeleton.component';
+import { ProfileSkeletonComponent } from './components/profile-skeleton/profile-skeleton.component';
+import { EditProfileComponent } from './pages/edit-profile/edit-profile.component';
+import { EditProfileSkeletonComponent } from './components/edit-profile-skeleton/edit-profile-skeleton.component';
 
 const routes: Routes = [
     {
@@ -38,6 +41,10 @@ const routes: Routes = [
         path: 'users/:id',
         component: ProfileComponent
     },
+    {
+        path: 'profile/edit',
+        component: EditProfileComponent
+    },
 ]
 
 @NgModule({
@@ -54,6 +61,9 @@ const routes: Routes = [
         ProfileComponent,
         RecipesSkeletonComponent,
         RecipeSkeletonComponent,
+        ProfileSkeletonComponent,
+        EditProfileComponent,
+        EditProfileSkeletonComponent,
 
     ],
     imports: [

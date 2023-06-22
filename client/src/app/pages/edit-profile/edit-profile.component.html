@@ -1,0 +1,77 @@
+<app-popup *ngIf="successMsg" type="success">{{successMsg}}</app-popup>
+<app-popup *ngIf="errorMsg" type="error">{{errorMsg}}</app-popup>
+<div class="py-32 px-6 mx-auto container lg:max-w-screen-lg">
+    <app-retrieval-wrapper [data]="profile" [errorMsg]="retrievalErrorMsg" [skeleton]="skeleton">
+        <div id="settings" *ngIf="profile">
+            <div>
+                <div class="description">
+                    <h2 class="font-semibold text-slate-900">Profile</h2>
+                    <p class="mt-2 text-sm leading-relaxed">This information will be displayed publicly so be careful with what you share.</p>
+                </div>
+                <div class="space-y-8">
+                    <div>
+                        <label for="username" class="block text-sm font-medium text-slate-900 mb-2 leading-6">Username</label>
+                        <input [(ngModel)]="profile.username" type="text" name="username" id="username" class="rounded-md w-full py-2 px-3"/>
+                    </div>
+                    <div>
+                        <label for="name" class="block text-sm font-medium text-slate-900 mb-2 leading-6">Full name</label>
+                        <input [(ngModel)]="profile.name" type="text" name="name" id="name" class="rounded-md w-full py-2 px-3"/>
+                    </div>
+                    <div>
+                        <label for="about" class="block text-sm font-medium text-slate-900 mb-2 leading-6">About</label>
+                        <textarea [(ngModel)]="profile.about" (input)="handleAutoResize($event)" name="about" id="about" class="flex rounded-md w-full h-24 py-2.5 px-3.5 leading-relaxed resize-none" placeholder="Write a few sentences about yourself" ></textarea>
+                    </div>
+                    <div>
+                        <label for="link" class="block text-sm font-medium text-slate-900 mb-2 leading-6">Link</label>
+                        <input [(ngModel)]="profile.link" type="text" name="link" id="link" class="rounded-md w-full py-2 px-3"/>
+                    </div>
+                    <button (click)="saveProfile()" class="btn-secondary py-2 px-3">Save</button>
+                </div>
+            </div>
+
+            <div>
+                <div class="description">
+                    <h2 class="font-semibold text-slate-900">Contact info</h2>
+                    <p class="mt-2 text-sm leading-relaxed">You'll have to verify the new email address before the change can be saved.</p>
+                </div>
+                <div class="space-y-8">
+                    <div>
+                        <label for="email" class="block text-sm font-medium text-slate-900 mb-2 leading-6">Current email address</label>
+                        <input [(ngModel)]="profile.email" [disabled]="true" type="email" name="email" id="email" class="rounded-md w-full py-2 px-3 text-[15px] text-slate-400 cursor-text bg-slate-100 dark:!bg-gray-900"/>
+                    </div>
+                    <div>
+                        <label for="new-email" class="block text-sm font-medium text-slate-900 mb-2 leading-6">New email address</label>
+                        <input [(ngModel)]="newEmail" type="email" name="new-email" id="new-email" class="rounded-md w-full py-2 px-3 text-[15px]"/>
+                    </div>
+                    <button (click)="saveEmail()" class="btn-secondary py-2 px-3">Save</button>
+                </div>
+            </div>
+
+            <div>
+                <div class="description">
+                    <h2 class="font-semibold text-slate-900">Password</h2>
+                    <p class="mt-2 text-sm leading-relaxed">Update your password associated with your account.</p>
+                </div>
+                <div class="space-y-8">
+                    <div>
+                        <label for="password" class="block text-sm font-medium text-slate-900 mb-2 leading-6">Current password</label>
+                        <input [(ngModel)]="password" type="password" name="password" id="password" class="rounded-md w-full py-2 px-3 text-[15px]"/>
+                    </div>
+                    <div>
+                        <label for="new-password" class="block text-sm font-medium text-slate-900 mb-2 leading-6">New password</label>
+                        <input [(ngModel)]="newPassword" type="password" name="new-password" id="new-password" class="rounded-md w-full py-2 px-3 text-[15px]"/>
+                    </div>
+                    <button (click)="savePassword()" class="btn-secondary py-2 px-3">Save</button>
+                </div>
+            </div>
+
+            <div>
+                <div class="description">
+                    <h2 class="font-semibold text-slate-900">Delete account</h2>
+                    <p class="mt-2 text-sm leading-relaxed">This action is not reversible. All information related to this account will be deleted permanently.</p>
+                </div>
+                <button class="btn-secondary py-2 px-3 h-fit w-fit text-red-600 dark:text-red-500">Delete account</button>
+            </div>
+        </div>
+    </app-retrieval-wrapper>
+</div>

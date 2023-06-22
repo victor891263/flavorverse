@@ -8,6 +8,7 @@ export type Review = {
     user: {
         _id: string
         username: string
+        img: string | undefined
     }
     body: string
     rating: number
@@ -17,10 +18,23 @@ export type Review = {
     disliked: boolean
 } & Metadata
 
+export type RecipeBrief = {
+    user: {
+        _id: string
+        username: string
+        img: string | undefined
+    }
+    title: string
+    desc: string
+    tags: string[]
+    rating: number
+} & Metadata
+
 export type Recipe = {
     user: {
         _id: string
         username: string
+        img: string | undefined
     }
     title: string
     desc: string
@@ -47,24 +61,10 @@ export type Recipe = {
 } & Metadata
 
 export type User = {
+    email: string
     username: string
-    name: string
-    about: string
+    name?: string
+    about?: string
+    img?: string
+    link?: string
 } & Metadata
-
-export type GetRecipesQuery = {
-    title?: string
-    servings?: number
-    tags?: string[]
-    ingredients?: string[]
-    prepMin?: number
-    prepMax?: number
-    cookMin?: number
-    cookMax?: number
-}
-
-export type ReviewInput = {
-    user: string | number
-    body: string
-    rating: number
-}

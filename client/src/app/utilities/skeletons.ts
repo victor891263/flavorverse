@@ -4,7 +4,8 @@ export const recipe = {
     _id: '1',
     user: {
         _id: '1',
-        username: 'GreasyPancakes'
+        username: 'GreasyPancakes',
+        img: undefined
     },
     title: `Italian chicken marinade`,
     desc: `This Italian Chicken Marinade recipe makes me all nostalgic for my childhood. Once a week my mom would marinate chicken breast in store-bought Italian dressing for the family. It is a very simple yet a delicious way to add flavor before grilling.`,
@@ -65,7 +66,8 @@ export const recipe = {
             _id: '1',
             user: {
                 _id: '2',
-                username: 'Banana2168'
+                username: 'Banana2168',
+                img: undefined
             },
             body: `This banana bread didnt have any texture at all. it didnt taste like banana bread whatsoever. it was really bad and i'll just stick to other banana bread recipes`,
             rating: 1,
@@ -80,7 +82,8 @@ export const recipe = {
             _id: '2',
             user: {
                 _id: '3',
-                username: 'BestRestaurateur'
+                username: 'BestRestaurateur',
+                img: undefined
             },
             body: `I loved this recipe! I made it exactly as posted. Lasagna is one of my specialties and I've tried all kinds of variations but this one is a winner just as published. My new "go to".`,
             rating: 4,
@@ -90,4 +93,13 @@ export const recipe = {
             disliked: false
         }
     ]
+}
+
+export const profile = {
+    createdAt: new Date().toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: 'numeric' }),
+    updatedAt: new Date().toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: 'numeric' }),
+    _id: '1',
+    username: 'greasypancakes',
+    name: 'Jack White',
+    about: 'Internationally renowned, multi-Michelin starred chef Gordon Ramsay has opened a string of successful restaurants across the globe, from the UK and France to Singapore and the United States.'
 }

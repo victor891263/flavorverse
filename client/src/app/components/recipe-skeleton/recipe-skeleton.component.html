@@ -1,4 +1,4 @@
-<div *ngIf="recipe" class="grid lg:grid-cols-[auto_280px] select-none animate-pulse text-slate-100 dark:text-gray-800">
+<div class="grid lg:grid-cols-[auto_280px] select-none animate-pulse text-slate-100 dark:text-gray-800">
     <div class="lg:border-r lg:pr-11 lg:mr-11">
         <div class="space-y-5 pb-0.5">
             <div class="flex items-center bg-slate-100 w-28 h-6"></div>
@@ -15,19 +15,19 @@
                 <span *ngFor="let tag of recipe.tags" class="bg-slate-100 rounded-full py-1.5 px-3.5 text-sm font-medium capitalize">{{ tag }}</span>
             </div>
         </div>
-        <div class="mt-12 pt-11 border-t dark:border-gray-700">
+        <div class="mt-12 pt-12 border-t dark:border-gray-700">
             <h2 class="mb-5 text-lg font-bold w-fit bg-slate-100">Ingredients</h2>
             <ul class="list-disc ml-4 space-y-2 text-[15px]">
                 <li *ngFor="let ingredient of recipe.ingredients" class="bg-slate-100">{{ ingredient.quantity }} {{ ingredient.name }}</li>
             </ul>
         </div>
-        <div class="mt-12 pt-11 border-t dark:border-gray-700">
+        <div class="mt-12 pt-12 border-t dark:border-gray-700">
             <h2 class="mb-5 text-lg font-bold w-fit bg-slate-100">Directions</h2>
             <ul class="list-disc ml-4 space-y-5 text-[15px]">
                 <li *ngFor="let step of recipe.steps" class="leading-[1.75] bg-slate-100">{{ step }}</li>
             </ul>
         </div>
-        <div class="mt-12 pt-11 border-t dark:border-gray-700">
+        <div class="mt-12 pt-12 border-t dark:border-gray-700">
             <h2 class="mb-5 text-lg font-bold w-fit bg-slate-100">Reviews ({{ recipe.reviews.length }})</h2>
             <div class="mt-4 space-y-10">
                 <div *ngFor="let review of recipe.reviews" class="review">

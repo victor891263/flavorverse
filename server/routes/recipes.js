@@ -25,7 +25,7 @@ router.get('/', async (req, res) => {
         }
     }
 
-    const recipes = await Recipe.find({ title, servings, tags, ingredients, duration }, '-nutrition -ingredients -steps -reviews').populate('user', '_id username')
+    const recipes = await Recipe.find({ title, servings, tags, ingredients, duration }, '-nutrition -ingredients -steps -reviews').populate('user', '_id username img')
     res.send(recipes)
 })
 
@@ -33,7 +33,7 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
     const currentUserId = req.user.id
 
-    const recipe = await Recipe.findById(req.params.id).populate('user', '_id username').populate('reviews.user', '_id username')
+    const recipe = await Recipe.findById(req.params.id).populate('user', '_id username img').populate('reviews.user', '_id username img')
 
     if (!recipe) {
         res.status(404).send(`The recipe that you're trying to view doesn't exist`)

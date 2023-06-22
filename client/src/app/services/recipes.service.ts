@@ -1,7 +1,24 @@
 import { Injectable } from '@angular/core'
 import { HttpClient, HttpHeaders } from '@angular/common/http'
-import {GetRecipesQuery, Recipe, ReviewInput} from "../types"
+import {Recipe, RecipeBrief} from "../types"
 import getApiUrl from "../utilities/getApiUrl"
+
+type GetRecipesQuery = {
+    title?: string
+    servings?: number
+    tags?: string[]
+    ingredients?: string[]
+    prepMin?: number
+    prepMax?: number
+    cookMin?: number
+    cookMax?: number
+}
+
+type ReviewInput = {
+    user: string | number
+    body: string
+    rating: number
+}
 
 const httpOptions = {
     headers: new HttpHeaders({
@@ -32,7 +49,7 @@ export class RecipesService {
             (prepMax ? `prep=${prepMax}&` : '') +
             (cookMin ? `prep=${cookMin}&` : '') +
             (cookMax ? `prep=${cookMax}&` : '')
-        return this.http.get<Recipe[]>(query)
+        return this.http.get<RecipeBrief[]>(query)
     }
 
     getTags() {

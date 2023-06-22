@@ -2,10 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+/*
+font-feature-settings: "cv02","cv03","cv04","cv11";
+*/
+
 @layer base {
     html {
-        font-feature-settings: "cv02","cv03","cv04","cv11";
         font-weight: 425;
+        font-feature-settings: "cv02","cv03","cv04","cv11";
     }
 
     input, textarea, button {
@@ -19,39 +23,53 @@
     input[type='email'],
     input[type='password'],
     textarea {
-        @apply ring-1 ring-slate-300 shadow-sm text-sm transition-shadow focus:ring-orange-600 dark:ring-gray-700 dark:focus:ring-orange-500 dark:bg-gray-800/75 dark:placeholder:text-gray-600
+        @apply
+        ring-1 ring-slate-300
+        shadow-sm
+        text-sm
+        dark:ring-gray-700
+        focus:ring-orange-600 dark:focus:ring-orange-500
+        dark:bg-gray-800/75
+        dark:placeholder:text-gray-600
     }
 
     button:disabled {
-        @apply opacity-75
+        @apply opacity-75 cursor-not-allowed
     }
 }
 
 @layer components {
-
-
-    .divide-x, .divide-y {
-        @apply dark:divide-gray-700
-    }
-
     .btn-primary {
         @apply
         rounded-md
         bg-orange-600
-        text-sm font-medium text-white transition-colors
+        text-sm font-medium text-white
         enabled:hover:bg-orange-700 dark:enabled:hover:bg-orange-400
     }
 
     .btn-secondary {
-        @apply shadow-sm rounded-md ring-1 ring-slate-300 text-sm font-medium transition-colors hover:bg-slate-100 dark:ring-gray-700
+        @apply
+        shadow-sm
+        rounded-md
+        ring-1 ring-slate-300
+        text-sm font-medium
+        hover:bg-slate-100
+        dark:bg-gray-800/75 dark:ring-gray-700
     }
 
     .btn-soft {
-        @apply bg-orange-50 text-orange-600 font-medium transition-colors hover:bg-orange-100 dark:bg-orange-900/50
+        @apply
+        bg-orange-50
+        text-orange-600 font-medium
+        hover:bg-orange-100 dark:bg-orange-900/50
     }
 }
 
 @layer utilities {
+    .divide-x, .divide-y {
+        @apply dark:divide-gray-700
+    }
+
     .border, .border-b, .border-r, .border-t, .border-l {
         @apply dark:border-gray-700
     }
@@ -78,5 +96,9 @@
 
     .bg-orange-600 {
         @apply dark:bg-orange-500
+    }
+
+    .bg-white {
+        @apply dark:bg-gray-900
     }
 }

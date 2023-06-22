@@ -7,6 +7,7 @@ import { RecipesService } from "../../services/recipes.service"
 import getCurrentUser from '../../utilities/getCurrentUser'
 import {HttpErrorResponse} from "@angular/common/http"
 import {RecipeSkeletonComponent} from '../../components/recipe-skeleton/recipe-skeleton.component'
+import handleAutoResize from "../../utilities/handleAutoResize"
 
 @Component({
     selector: 'app-recipe',
@@ -19,13 +20,15 @@ export class RecipeComponent implements OnInit {
     skeleton = RecipeSkeletonComponent
 
     recipe: Recipe
-    getTimeLabel = getTimeLabel
 
     rating = 0
     review: string
 
     retrievalErrorMsg: string
     errorMsg: string
+
+    getTimeLabel = getTimeLabel
+    handleAutoResize = handleAutoResize
 
     setRating(n: number) {
         this.rating = n
@@ -103,10 +106,20 @@ export class RecipeComponent implements OnInit {
 }
 
 /*
+this.route.params.subscribe(params => {
+    this.recipe = recipes.find(recipe => recipe._id === params['id'])
+})
 
-this.recipe = recipes.find(recipe => recipe._id === params['id'])
+this.route.params.subscribe(params => {
+    this.recipesService.getRecipe(params['id']).subscribe(response => {
+        this.recipe = response
+    }, (error: HttpErrorResponse) => {
+        this.retrievalErrorMsg = error.message
+    })
+})
+*/
 
+/*
 const ratingTotal = recipe.reviews.map(review => review.rating)
 this.rating = ratingTotal.reduce((a, b) => a + b, 0) / ratingTotal.length
-
 */

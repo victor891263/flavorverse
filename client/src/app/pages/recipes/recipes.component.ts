@@ -1,8 +1,10 @@
 import {Component, OnInit} from '@angular/core'
-import { Recipe } from "../../types"
+import {Recipe, RecipeBrief} from "../../types"
 import {RecipesService} from "../../services/recipes.service"
 import {HttpErrorResponse} from "@angular/common/http"
 import { RecipesSkeletonComponent } from '../../components/recipes-skeleton/recipes-skeleton.component'
+import getTimeLabel from '../../utilities/getTimeLabel'
+import {recipes} from "../../utilities/recipes"
 
 @Component({
   selector: 'app-recipes',
@@ -16,7 +18,7 @@ export class RecipesComponent implements OnInit {
     errorMsg: string
     skeleton = RecipesSkeletonComponent
 
-    recipes: Recipe[]
+    recipes: RecipeBrief[]
     allTags: string[]
     allIngredients: string[]
 
@@ -28,17 +30,21 @@ export class RecipesComponent implements OnInit {
     get relevantTags() {
         return this.allTags.filter(tag => tag.includes(this.tagKeyword))
     }
+    tagErrorMsg: string
 
     ingredientKeyword: string
     ingredients = ['salt', 'pepper', 'nuts']
     get relevantIngredients() {
         return this.allIngredients.filter(ingredient => ingredient.includes(this.ingredientKeyword))
     }
+    ingredientErrorMsg: string
 
     prepMin: number
     prepMax: number
     cookMin: number
     cookMax: number
+
+    getTimeLabel = getTimeLabel
 
     // METHODS
 
@@ -102,16 +108,33 @@ export class RecipesComponent implements OnInit {
 
     ngOnInit() {
         this.getRecipes()
-        this.allTags = ['breakfast', 'chinese', 'dessert', 'dinner', 'indian', 'lunch']
-        this.allIngredients = ['chili', 'nuts', 'olive oil', 'pepper', 'salt', 'sugar']
+        this.recipesService.getTags().subscribe(response => {
+            this.allTags = response
+        }, (error: HttpErrorResponse) => {
+            this.tagErrorMsg = error.message
+        })
+        this.recipesService.getIngredients().subscribe(response => {
+            this.allIngredients = response
+        }, (error: HttpErrorResponse) => {
+            this.ingredientErrorMsg = error.message
+        })
+
         /*
         this.recipes = recipes
         this.allTags = ['breakfast', 'chinese', 'dessert', 'dinner', 'indian', 'lunch']
         this.allIngredients = ['chili', 'nuts', 'olive oil', 'pepper', 'salt', 'sugar']
 
         this.getRecipes()
-        this.recipesService.getTags().subscribe(result => this.allTags = result)
-        this.recipesService.getIngredients().subscribe(result => this.allIngredients = result)
+        this.recipesService.getTags().subscribe(response => {
+            this.allTags = response
+        }, (error: HttpErrorResponse) => {
+            this.tagErrorMsg = error.message
+        })
+        this.recipesService.getIngredients().subscribe(response => {
+            this.allIngredients = response
+        }, (error: HttpErrorResponse) => {
+            this.ingredientErrorMsg = error.message
+        })
         */
     }
 }

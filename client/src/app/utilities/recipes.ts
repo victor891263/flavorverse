@@ -7,10 +7,11 @@ export const recipes: Recipe[] = [
         _id: '1',
         user: {
             _id: '1',
-            username: 'GreasyPancakes'
+            username: 'GreasyPancakes',
+            img: undefined
         },
         title: `Banana bread`,
-        desc: `This banana bread recipe creates the most delicious, moist loaf with loads of banana flavor. Why compromise the banana flavor? Friends and family love my recipe and say it's by far the best! It tastes wonderful toasted. Enjoy!`,
+        desc: `This banana bread recipe creates the most delicious, moist loaf with loads of banana flavor. Why compromise the banana flavor? Friends and family love my recipe and say it's by far the best! It tastes wonderful toasted.`,
         tags: ['banana', 'breakfast', 'dessert'],
         rating: 3.5,
         nutrition: [
@@ -68,7 +69,8 @@ export const recipes: Recipe[] = [
                 _id: '1',
                 user: {
                     _id: '2',
-                    username: 'Banana2168'
+                    username: 'Banana2168',
+                    img: undefined
                 },
                 body: `This banana bread didnt have any texture at all. it didnt taste like banana bread whatsoever. it was really bad and i'll just stick to other banana bread recipes`,
                 rating: 1,
@@ -83,7 +85,8 @@ export const recipes: Recipe[] = [
                 _id: '2',
                 user: {
                     _id: '3',
-                    username: 'BestRestaurateur'
+                    username: 'BestRestaurateur',
+                    img: undefined
                 },
                 body: `I loved this recipe! I made it exactly as posted. Lasagna is one of my specialties and I've tried all kinds of variations but this one is a winner just as published. My new "go to".`,
                 rating: 4,
@@ -102,7 +105,8 @@ export const recipes: Recipe[] = [
         _id: '2',
         user: {
             _id: '1',
-            username: 'bradley8457'
+            username: 'bradley8457',
+            img: undefined
         },
         title: `Italian chicken marinade`,
         desc: `This Italian Chicken Marinade recipe makes me all nostalgic for my childhood. Once a week my mom would marinate chicken breast in store-bought Italian dressing for the family. It is a very simple yet a delicious way to add flavor before grilling.`,
@@ -163,7 +167,8 @@ export const recipes: Recipe[] = [
                 _id: '1',
                 user: {
                     _id: '2',
-                    username: 'chinesepanda'
+                    username: 'chinesepanda',
+                    img: undefined
                 },
                 body: `This banana bread didnt have any texture at all. it didnt taste like banana bread whatsoever. it was really bad and i'll just stick to other banana bread recipes`,
                 rating: 1,
@@ -178,7 +183,8 @@ export const recipes: Recipe[] = [
                 _id: '2',
                 user: {
                     _id: '3',
-                    username: 'michael2312'
+                    username: 'michael2312',
+                    img: undefined
                 },
                 body: `I loved this recipe! I made it exactly as posted. Lasagna is one of my specialties and I've tried all kinds of variations but this one is a winner just as published. My new "go to".`,
                 rating: 4,
@@ -198,7 +204,8 @@ export const recipes: Recipe[] = [
         _id: '3',
         user: {
             _id: '1',
-            username: 'bradley8457'
+            username: 'bradley8457',
+            img: undefined
         },
         title: `Grilled asparagus`,
         desc: `Grilled asparagus is simple to make, but it lets you enjoy the natural flavor of your veggies. Fresh asparagus spears are coated with a bit of oil, salt, and pepper and cooked quickly over high heat on the grill. That's it!`,
@@ -261,7 +268,8 @@ export const recipes: Recipe[] = [
                 _id: '1',
                 user: {
                     _id: '2',
-                    username: 'chinesepanda'
+                    username: 'chinesepanda',
+                    img: undefined
                 },
                 body: `This banana bread didnt have any texture at all. it didnt taste like banana bread whatsoever. it was really bad and i'll just stick to other banana bread recipes`,
                 rating: 1,
@@ -276,7 +284,8 @@ export const recipes: Recipe[] = [
                 _id: '2',
                 user: {
                     _id: '3',
-                    username: 'michael2312'
+                    username: 'michael2312',
+                    img: undefined
                 },
                 body: `I loved this recipe! I made it exactly as posted. Lasagna is one of my specialties and I've tried all kinds of variations but this one is a winner just as published. My new "go to".`,
                 rating: 4,
