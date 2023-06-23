@@ -42,7 +42,9 @@ export class RecipeComponent implements OnInit {
             body: this.review,
             rating: this.rating
         }).subscribe((response: Recipe) => {
+            // the response is the updated recipe. Update the state of this component based on the updated recipe
             this.recipe.reviews = response.reviews
+            this.recipe.rating = response.rating
             e.target.innerText = 'Submit'
             e.target.disabled = false
         },(error: HttpErrorResponse) => {

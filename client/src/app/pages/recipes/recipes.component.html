@@ -10,6 +10,19 @@
                 <label for="servings">Servings</label>
                 <input [(ngModel)]="servings" type="number" name="title" id="servings" class="rounded-md w-full"/>
             </div>
+            <div>
+                <label>Rating</label>
+                <div class="flex">
+                    <div class="relative w-1/2">
+                        <div class="absolute left-3 flex items-center h-full text-sm text-slate-400">Min:</div>
+                        <input [(ngModel)]="ratingMin" type="number" name="rating-min" id="rating-min" class="w-full rounded-l-md !pl-11"/>
+                    </div>
+                    <div class="relative w-1/2">
+                        <div class="absolute left-3 flex items-center h-full text-sm text-slate-400">Max:</div>
+                        <input [(ngModel)]="ratingMax" type="number" name="rating-max" id="rating-max" class="w-full rounded-r-md !pl-12"/>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="space-y-3.5">
             <div class="relative">
@@ -124,7 +137,7 @@
                             <span class="text-sm text-slate-400">{{ getTimeLabel(recipe.createdAt) }}</span>
                         </div>
                         <span class="block font-bold text-lg text-slate-900">{{ recipe.title }}</span>
-                        <p class="leading-[1.7]">{{ recipe.desc.length > 160 ? (recipe.desc.slice(0, 160) + '...') : recipe.desc }}</p>
+                        <p class="leading-7 line-clamp-2">{{recipe.desc}}</p>
                         <div *ngIf="recipe.tags.length > 0" class="flex space-x-1 pt-1">
                             <span *ngFor="let tag of recipe.tags" class="bg-slate-100 rounded-full py-1.5 px-3.5 text-sm text-slate-500 font-medium capitalize">{{ tag }}</span>
                         </div>

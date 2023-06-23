@@ -25,6 +25,9 @@ export class RecipesComponent implements OnInit {
     title: string
     servings: number
 
+    ratingMin: number
+    ratingMax: number
+
     tagKeyword: string
     tags = ['lunch', 'indian']
     get relevantTags() {
@@ -89,6 +92,8 @@ export class RecipesComponent implements OnInit {
         this.recipesService.getRecipes({
             title: this.title,
             servings: this.servings,
+            ratingMin: this.ratingMin,
+            ratingMax: this.ratingMax,
             tags: this.tags.length > 0 ? this.tags: undefined,
             ingredients: this.ingredients.length > 0 ? this.ingredients: undefined,
             prepMin: this.prepMin,

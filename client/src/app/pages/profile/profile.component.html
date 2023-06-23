@@ -36,7 +36,7 @@
                         </div>
                         <span class="block font-bold text-lg text-slate-900">{{ recipe.title }}</span>
 
-                        <p class="leading-[1.7]">{{ recipe.desc.length > 145 ? (recipe.desc.slice(0, 145) + '...') : recipe.desc }}</p>
+                        <p class="leading-7 line-clamp-2">{{recipe.desc}}</p>
                         <div *ngIf="recipe.tags.length > 0" class="flex space-x-1 pt-1">
                             <span *ngFor="let tag of recipe.tags" class="bg-slate-100 rounded-full py-1.5 px-3.5 text-sm text-slate-500 font-medium capitalize">{{ tag }}</span>
                         </div>

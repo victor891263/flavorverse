@@ -6,6 +6,8 @@ import getApiUrl from "../utilities/getApiUrl"
 type GetRecipesQuery = {
     title?: string
     servings?: number
+    ratingMin?: number
+    ratingMax?: number
     tags?: string[]
     ingredients?: string[]
     prepMin?: number
@@ -38,17 +40,19 @@ export class RecipesService {
         return this.http.get<Recipe>(`${this.url}/recipes/${id}`)
     }
 
-    getRecipes({ title, servings, tags, ingredients, prepMin, prepMax, cookMin, cookMax }: GetRecipesQuery) {
+    getRecipes({ title, servings, ratingMin, ratingMax, tags, ingredients, prepMin, prepMax, cookMin, cookMax }: GetRecipesQuery) {
         const query =
             (`${this.url}/recipes?`) +
             (title ? `title=${title}&` : '') +
             (servings ? `servings=${servings}&` : '') +
+            (ratingMin ? `ratingMin=${ratingMin}&` : '') +
+            (ratingMax ? `ratingMax=${ratingMax}&` : '') +
             (tags ? `tags=${JSON.stringify(tags)}&` : '') +
             (ingredients ? `ingredients=${JSON.stringify(ingredients)}&` : '') +
-            (prepMin ? `prep=${prepMin}&` : '') +
-            (prepMax ? `prep=${prepMax}&` : '') +
-            (cookMin ? `prep=${cookMin}&` : '') +
-            (cookMax ? `prep=${cookMax}&` : '')
+            (prepMin ? `prepMin=${prepMin}&` : '') +
+            (prepMax ? `prepMax=${prepMax}&` : '') +
+            (cookMin ? `cookMin=${cookMin}&` : '') +
+            (cookMax ? `cookMax=${cookMax}&` : '')
         return this.http.get<RecipeBrief[]>(query)
     }
 

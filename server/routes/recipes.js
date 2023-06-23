@@ -155,10 +155,25 @@ router.post('/:id/reviews', handleAccess, async (req, res) => {
                 rating: review.rating
             }
         }
-    }, { new: true })
+    }, { new: true }) // return the updated recipe
 
-    if (!result) res.status(404).send(`The recipe you're trying to engage with doesn't exist`)
-    else res.send(result)
+    if (!result) {
+        res.status(404).send(`The recipe you're trying to engage with doesn't exist`)
+        return
+    }
+
+    // re-calculate the rating of the recipe every time a new review is added
+    let sumOfAllRatings = 0
+    result.reviews.forEach(review => {
+        sumOfAllRatings += review.rating
+    })
+    const recipeRating = sumOfAllRatings / result.reviews.length
+
+    // assign the calculated rating to the recipe and save it to the database
+    result.rating = recipeRating
+    result.save()
+
+    res.send(result)
 })
 
 // like a review

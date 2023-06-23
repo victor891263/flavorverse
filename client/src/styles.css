@@ -10,6 +10,7 @@ font-feature-settings: "cv02","cv03","cv04","cv11";
     html {
         font-weight: 425;
         font-feature-settings: "cv02","cv03","cv04","cv11";
+        font-size: 15px;
     }
 
     input, textarea, button {
