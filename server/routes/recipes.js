@@ -86,12 +86,12 @@ router.post('/', handleAccess, async (req, res) => {
     const recipe = req.body
     const currentUserId = req.user.id
 
-    await Recipe.create({
+    const createdRecipe = await Recipe.create({
         ...recipe,
         user: new mongoose.Types.ObjectId(currentUserId)
     })
 
-    res.sendStatus(200)
+    res.send(createdRecipe.id)
 })
 
 // update a recipe

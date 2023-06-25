@@ -40,14 +40,14 @@ const Recipe = new mongoose.Schema({
             type: String,
             required: true,
             min: 1,
-            max: 50
+            max: 20
         }
     }],
     servings: {
         type: Number,
         required: true,
         min: 1,
-        max: 1000
+        max: 100
     },
     ingredients: [{
         name: {

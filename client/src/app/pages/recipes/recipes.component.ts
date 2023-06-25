@@ -31,14 +31,14 @@ export class RecipesComponent implements OnInit {
     tagKeyword: string
     tags = ['lunch', 'indian']
     get relevantTags() {
-        return this.allTags.filter(tag => tag.includes(this.tagKeyword))
+        return this.allTags.filter(tag => tag.toLowerCase().includes(this.tagKeyword.toLowerCase()))
     }
     tagErrorMsg: string
 
     ingredientKeyword: string
     ingredients = ['salt', 'pepper', 'nuts']
     get relevantIngredients() {
-        return this.allIngredients.filter(ingredient => ingredient.includes(this.ingredientKeyword))
+        return this.allIngredients.filter(ingredient => ingredient.toLowerCase().includes(this.ingredientKeyword.toLowerCase()))
     }
     ingredientErrorMsg: string
 

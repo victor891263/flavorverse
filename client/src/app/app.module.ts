@@ -19,6 +19,7 @@ import { RecipeSkeletonComponent } from './components/recipe-skeleton/recipe-ske
 import { ProfileSkeletonComponent } from './components/profile-skeleton/profile-skeleton.component';
 import { EditProfileComponent } from './pages/edit-profile/edit-profile.component';
 import { EditProfileSkeletonComponent } from './components/edit-profile-skeleton/edit-profile-skeleton.component';
+import { AddRecipeComponent } from './pages/add-recipe/add-recipe.component';
 
 const routes: Routes = [
     {
@@ -40,6 +41,10 @@ const routes: Routes = [
     {
         path: 'users/:id',
         component: ProfileComponent
+    },
+    {
+        path: 'addrecipe',
+        component: AddRecipeComponent
     },
     {
         path: 'profile/edit',
@@ -64,6 +69,7 @@ const routes: Routes = [
         ProfileSkeletonComponent,
         EditProfileComponent,
         EditProfileSkeletonComponent,
+        AddRecipeComponent,
 
     ],
     imports: [

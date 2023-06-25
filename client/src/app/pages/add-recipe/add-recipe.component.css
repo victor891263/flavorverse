@@ -1,0 +1,15 @@
+#add-recipe > div:not(:first-of-type) {
+    @apply border-t pt-12 mt-12 dark:border-gray-700
+}
+
+#add-recipe .description {
+    @apply mb-10
+}
+
+#add-recipe label {
+    @apply block text-sm mb-2.5
+}
+
+#add-recipe sup {
+    @apply font-semibold text-red-600
+}

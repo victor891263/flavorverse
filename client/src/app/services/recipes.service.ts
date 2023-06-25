@@ -3,6 +3,27 @@ import { HttpClient, HttpHeaders } from '@angular/common/http'
 import {Recipe, RecipeBrief} from "../types"
 import getApiUrl from "../utilities/getApiUrl"
 
+type InputRecipe = {
+    title: string
+    desc: string
+    tags: string[]
+    nutrition: {
+        label: string
+        value: string
+    }[]
+    servings: number
+    ingredients: {
+        name: string
+        quantity: string
+    }[]
+    duration: {
+        prep?: number
+        cook?: number
+        extra?: number
+    }
+    steps: string[]
+}
+
 type GetRecipesQuery = {
     title?: string
     servings?: number
@@ -74,5 +95,9 @@ export class RecipesService {
 
     dislikeReview(recipeId: string | number, reviewId: string | number) {
         return this.http.post(`${this.url}/recipes/${recipeId}/reviews/${reviewId}/dislikes`, undefined, httpOptions)
+    }
+
+    addRecipe(recipe: InputRecipe) {
+        return this.http.post<string>(`${this.url}/recipes`, recipe, httpOptions)
     }
 }

@@ -9,7 +9,7 @@
         <form [formGroup]="form" class="mt-10 space-y-6">
             <div>
                 <label for="email" class="block text-sm font-medium text-slate-900 mb-2 leading-6">Email address</label>
-                <input formControlName="email" type="email" name="email" id="email" class="rounded-md w-full py-2 px-3 text-[15px]"/>
+                <input formControlName="email" type="email" name="email" id="email" class="rounded-md w-full py-2 px-3"/>
                 <div *ngIf="email.invalid && (email.dirty || email.touched)" class="mt-2 text-sm text-red-600 leading-6">
                     <span *ngIf="email.errors?.['required']">Email is required</span>
                     <span *ngIf="email.errors?.['email']">Email must be in a valid format</span>
@@ -18,7 +18,7 @@
             </div>
             <div>
                 <label for="password" class="block text-sm font-medium text-slate-900 mb-2 leading-6">Password</label>
-                <input formControlName="password" type="password" name="password" id="password" class="rounded-md w-full py-2 px-3 text-[15px]"/>
+                <input formControlName="password" type="password" name="password" id="password" class="rounded-md w-full py-2 px-3"/>
                 <div *ngIf="password.invalid && (password.dirty || password.touched)" class="mt-2 text-sm text-red-600 leading-6">
                     <span *ngIf="password.errors?.['required']">Password is required</span>
                     <span *ngIf="password.errors?.['maxlength']">Password must be no more than 20 characters long</span>
