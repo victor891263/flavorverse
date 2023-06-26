@@ -1,4 +1,4 @@
-#settings > div:not(:first-of-type) {
+#settings > form:not(:first-of-type) {
     @apply border-t pt-12 mt-12 dark:border-gray-700
 }
 

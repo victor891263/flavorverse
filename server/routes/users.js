@@ -2,11 +2,16 @@ const express = require('express')
 const router = express.Router()
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
+const fs = require('fs')
+const multer = require('multer')
+const cloudinary = require('cloudinary').v2
 const User = require('../models/user')
 const Recipe = require('../models/recipe')
 const handleAccess = require('../middleware/handleAccess')
 
+const upload = multer({ dest: "uploads/" }) // where uploaded images will be temporarily stored
 
+// get a profile/user
 router.get('/:id', async (req, res) => {
     const user = await User.findById(req.params.id).select('-password')
 
@@ -24,6 +29,7 @@ router.get('/:id', async (req, res) => {
 })
 
 
+// create a new account
 router.post('/', async (req, res) => {
     const userData = req.body
 
@@ -52,8 +58,10 @@ router.post('/', async (req, res) => {
 })
 
 
-router.put('/', handleAccess, async (req, res) => {
+// update profile (except email and password)
+router.put('/', [handleAccess, upload.single('newImg')], async (req, res) => {
     const newUserData = req.body
+    const newImg = req.file
     const currentUserId = req.user.id
 
     // check if the new username is already present in the database
@@ -67,13 +75,28 @@ router.put('/', handleAccess, async (req, res) => {
         return
     }
 
+    // if the user submitted a new profile image, upload it to cloudinary
+    let newImgUrl
+    if (newImg) {
+        // upload to cloudinary
+        const response = await cloudinary.uploader.upload(newImg.path)
+        newImgUrl = response.secure_url
+
+        // once the image has been uploaded to cloudinary, delete the image from the file system
+        fs.unlink(newImg.path, error => {
+            if (error) throw error
+        })
+    }
+
     await User.findByIdAndUpdate(currentUserId, {
         username: newUserData.username,
         name: newUserData.name,
-        about: newUserData.about
+        about: newUserData.about,
+        link: newUserData.link,
+        ...(newImgUrl && { img: newImgUrl }) // if the user submitted a new profile image and it is uploaded to cloudinary, update the url in the database too
     })
 
-    res.sendStatus(200)
+    res.send(newImgUrl)
 })
 
 
@@ -116,6 +139,7 @@ router.put('/password', handleAccess, async (req, res) => {
 })
 
 
+// delete an account
 router.delete('/', handleAccess, async (req, res) => {
     const currentUserId = req.user.id
 

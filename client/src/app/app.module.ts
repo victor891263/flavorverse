@@ -43,11 +43,11 @@ const routes: Routes = [
         component: ProfileComponent
     },
     {
-        path: 'addrecipe',
+        path: 'new',
         component: AddRecipeComponent
     },
     {
-        path: 'profile/edit',
+        path: 'settings',
         component: EditProfileComponent
     },
 ]

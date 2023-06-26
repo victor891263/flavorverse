@@ -3,6 +3,7 @@ const express = require('express')
 require('express-async-errors')
 const mongoose = require('mongoose')
 const cors = require('cors')
+const cloudinary = require('cloudinary').v2
 
 const app = express()
 app.use(cors({
@@ -27,6 +28,13 @@ process.on('SIGINT', () => {
         .then(() => console.log('Connection to database closed'))
         .catch(error => console.log('Error closing connection to database', error))
         .finally(() => process.exit(0))
+})
+
+// setup cloudinary
+cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET
 })
 
 // connect to database

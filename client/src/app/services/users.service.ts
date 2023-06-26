@@ -24,22 +24,22 @@ export class UsersService {
     constructor(private http: HttpClient) { }
 
     getUser(id: string | number) {
-        return this.http.get<GetUserResponse>(`${this.url}/users/${id}`)
+        return this.http.get<GetUserResponse>(`${this.url}/users/${id}`, { responseType: 'json' })
     }
 
-    updateProfile(data: { username: string, name: string, about: string, link: string }) {
-        return this.http.put(`${this.url}/users`, data, httpOptions)
+    updateProfile(formData: FormData) {
+        return this.http.put(`${this.url}/users`, formData, { responseType: 'json' })
     }
 
     updateEmail(email: string) {
-        return this.http.put(`${this.url}/users/email`, email, httpOptions)
+        return this.http.put(`${this.url}/users/email`, email, { responseType: 'text', ...httpOptions })
     }
 
     updatePassword(oldPassword: string, newPassword: string) {
-        return this.http.put(`${this.url}/users/password`, { oldPassword, newPassword }, httpOptions)
+        return this.http.put(`${this.url}/users/password`, { oldPassword, newPassword }, { responseType: 'text', ...httpOptions })
     }
 
     deleteProfile() {
-        return this.http.delete(`${this.url}/users`, httpOptions)
+        return this.http.delete(`${this.url}/users`, { responseType: 'text', ...httpOptions })
     }
 }

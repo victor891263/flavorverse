@@ -50,8 +50,8 @@ font-feature-settings: "cv02","cv03","cv04","cv11";
         bg-slate-100
         rounded
         font-semibold text-[15px]
-        enabled:hover:bg-slate-200
-        dark:bg-gray-800/75 dark:border-gray-700
+        enabled:hover:bg-slate-200 dark:enabled:hover:bg-gray-700/75
+        dark:bg-gray-800 dark:border-gray-700
     }
 
     .btn-soft {
@@ -59,7 +59,7 @@ font-feature-settings: "cv02","cv03","cv04","cv11";
         bg-orange-50
         rounded
         text-orange-600 font-semibold text-[15px]
-        enabled:hover:bg-orange-100
+        enabled:hover:bg-orange-100 dark:enabled:hover:bg-orange-900/75
         dark:bg-orange-900/50
     }
 }
