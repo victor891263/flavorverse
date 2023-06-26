@@ -1,11 +1,7 @@
-#settings > div {
-    @apply grid lg:grid-cols-[400px_auto]
-}
-
 #settings > div:not(:first-of-type) {
     @apply border-t pt-12 mt-12 dark:border-gray-700
 }
 
 #settings .description {
-    @apply max-lg:mb-10 lg:pr-10
+    @apply mb-10
 }

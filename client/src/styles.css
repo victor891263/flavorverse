@@ -7,34 +7,9 @@ font-weight: 425;
 font-feature-settings: "cv02","cv03","cv04","cv11";
 */
 
-@font-face {
-    font-family: 'Chirp';
-    font-style: normal;
-    font-weight: 400;
-    src: url("./assets/Chirp-Regular.woff2");
-}
-@font-face {
-    font-family: 'Chirp';
-    font-style: normal;
-    font-weight: 500;
-    src: url("./assets/Chirp-Medium.woff2");
-}
-@font-face {
-    font-family: 'Chirp';
-    font-style: normal;
-    font-weight: 600;
-    src: url("./assets/Chirp-Bold.woff2");
-}
-@font-face {
-    font-family: 'Chirp';
-    font-style: normal;
-    font-weight: 700;
-    src: url("./assets/Chirp-Heavy.woff2");
-}
-
 @layer base {
     html {
-
+        letter-spacing: 0.005em;
     }
 
     input, textarea, button {
@@ -50,7 +25,7 @@ font-feature-settings: "cv02","cv03","cv04","cv11";
     textarea {
         @apply
         appearance-none
-        border
+        border rounded
         dark:border-gray-700
         focus:border-orange-600 dark:focus:border-orange-500
         dark:placeholder:text-gray-600
@@ -65,14 +40,16 @@ font-feature-settings: "cv02","cv03","cv04","cv11";
     .btn-primary {
         @apply
         bg-orange-600
-        font-medium text-white text-sm
+        rounded
+        font-semibold text-white text-[15px]
         enabled:hover:bg-orange-700 dark:enabled:hover:bg-orange-400
     }
 
     .btn-secondary {
         @apply
         bg-slate-100
-        font-medium text-sm
+        rounded
+        font-semibold text-[15px]
         enabled:hover:bg-slate-200
         dark:bg-gray-800/75 dark:border-gray-700
     }
@@ -80,7 +57,8 @@ font-feature-settings: "cv02","cv03","cv04","cv11";
     .btn-soft {
         @apply
         bg-orange-50
-        text-orange-600 font-medium text-sm
+        rounded
+        text-orange-600 font-semibold text-[15px]
         enabled:hover:bg-orange-100
         dark:bg-orange-900/50
     }

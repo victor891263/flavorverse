@@ -3,7 +3,7 @@
     <form [formGroup]="form" id="add-recipe" class="mt-10 space-y-6">
         <div>
             <div class="description">
-                <h2 class="font-bold text-slate-900">Details</h2>
+                <h2>Details</h2>
                 <p class="mt-2">A description of your recipe. You can explain the inspiration, health benefits, etc.</p>
             </div>
             <div class="space-y-8">
@@ -38,7 +38,7 @@
         </div>
         <div>
             <div class="description">
-                <h2 class="font-bold text-slate-900">Duration</h2>
+                <h2>Duration</h2>
                 <p class="mt-2">At least either of the preparation time or the cook time must be included. Each duration is expressed in minutes.</p>
             </div>
             <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
@@ -70,7 +70,7 @@
         </div>
         <div>
             <div class="description">
-                <h2 class="font-bold text-slate-900">Tags</h2>
+                <h2>Tags</h2>
                 <p class="mt-2">Use tags to easily associate your recipe to topics. You can use an already existing tag or create your own. This is optional.</p>
             </div>
             <div class="space-y-8">
@@ -113,7 +113,7 @@
         </div>
         <div>
             <div class="description">
-                <h2 class="font-bold text-slate-900">Ingredients</h2>
+                <h2>Ingredients</h2>
                 <p class="mt-2">Add the name and amount of each ingredient. Don't forget to include the unit of measurement.</p>
             </div>
             <div class="space-y-8">
@@ -136,7 +136,7 @@
                     <div>
                         <div *ngIf="ingredients.length > 0" class="space-y-2">
                             <div *ngFor="let ingredient of ingredients" class="flex items-center space-x-2">
-                                <button (click)="removeIngredient(ingredient.name)" class="btn-secondary block pt-0.5 pb-1 px-2 font-bold text-lg leading-none">-</button>
+                                <button (click)="removeIngredient(ingredient.name)" class="btn-secondary block py-0.5 px-2 font-bold text-lg leading-none">-</button>
                                 <span class="block">{{ ingredient.quantity }} {{ ingredient.name }}</span>
                             </div>
                         </div>
@@ -147,7 +147,7 @@
         </div>
         <div>
             <div class="description">
-                <h2 class="font-bold text-slate-900">Directions</h2>
+                <h2>Directions</h2>
                 <p class="mt-2">Explain every step of the recipe in details.</p>
             </div>
             <div class="space-y-8">
@@ -164,7 +164,7 @@
                         <li *ngFor="let s of steps">
                             <div class="flex items-start justify-between space-x-3">
                                 <span>{{s}}</span>
-                                <button (click)="removeStep(s)" class="btn-secondary block pt-0.5 pb-1 px-2 font-bold text-lg leading-none">-</button>
+                                <button (click)="removeStep(s)" class="btn-secondary block py-0.5 px-2 font-bold text-lg leading-none">-</button>
                             </div>
                         </li>
                     </ol>
@@ -174,7 +174,7 @@
         </div>
         <div>
             <div class="description">
-                <h2 class="font-bold text-slate-900">Nutrition</h2>
+                <h2>Nutrition</h2>
                 <p class="mt-2">If you know, list the nutritional facts of your recipe. This is optional.</p>
             </div>
             <div class="space-y-8">
@@ -197,7 +197,7 @@
                     <div>
                         <div *ngIf="nutrition.length > 0" class="space-y-2">
                             <div *ngFor="let n of nutrition" class="flex items-center space-x-2">
-                                <button (click)="removeNutrition(n.label)" class="btn-secondary block pt-0.5 pb-1 px-2 font-bold text-lg leading-none">-</button>
+                                <button (click)="removeNutrition(n.label)" class="btn-secondary block py-0.5 px-2 font-bold text-lg leading-none">-</button>
                                 <span class="block">{{ n.value }} {{ n.label }}</span>
                             </div>
                         </div>

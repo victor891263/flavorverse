@@ -15,31 +15,33 @@
                 <span *ngFor="let tag of recipe.tags" class="bg-slate-100 rounded-full py-1.5 px-3.5 text-sm font-medium capitalize">{{ tag }}</span>
             </div>
         </div>
+
         <div class="mt-12 pt-12 border-t dark:border-gray-700">
-            <h2 class="mb-5 text-lg font-bold w-fit bg-slate-100">Details</h2>
-            <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                <div class="bg-slate-100 py-5 px-6 rounded-lg">
-                    <span class="block font-semibold">{{ recipe.duration.prep }}min</span>
-                    <span class="mt-0.5 block text-sm">Prep time</span>
+            <h2 class="mb-4 font-extrabold w-fit bg-slate-100">Details</h2>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-5">
+                <div *ngIf="recipe.duration.prep" class="">
+                    <span class="mb-1 block text-sm w-fit bg-slate-100">Prep time</span>
+                    <span class="block font-semibold w-fit bg-slate-100">{{ recipe.duration.prep }}min</span>
                 </div>
-                <div class="bg-slate-100 py-5 px-6 rounded-lg">
-                    <span class="block font-semibold">{{ recipe.duration.prep }}min</span>
-                    <span class="mt-0.5 block text-sm">Prep time</span>
+                <div *ngIf="recipe.duration.cook" class="">
+                    <span class="mb-1 block text-sm w-fit bg-slate-100">Cook time</span>
+                    <span class="block font-semibold w-fit bg-slate-100">{{ recipe.duration.cook }}min</span>
                 </div>
-                <div class="bg-slate-100 py-5 px-6 rounded-lg">
-                    <span class="block font-semibold">{{ recipe.duration.prep }}min</span>
-                    <span class="mt-0.5 block text-sm">Prep time</span>
+                <div *ngIf="recipe.duration.extra" class="">
+                    <span class="mb-1 block text-sm w-fit bg-slate-100">Extra time</span>
+                    <span class="block font-semibold w-fit bg-slate-100">{{ recipe.duration.extra }}min</span>
                 </div>
-                <div class="bg-slate-100 py-5 px-6 rounded-lg">
-                    <span class="block font-semibold">{{ recipe.duration.prep }}min</span>
-                    <span class="mt-0.5 block text-sm">Prep time</span>
+                <div class="">
+                    <span class="mb-1 block text-sm w-fit bg-slate-100">Total time</span>
+                    <span class="block font-semibold w-fit bg-slate-100">{{ recipe.duration.prep + recipe.duration.cook }}min</span>
                 </div>
-                <div class="bg-slate-100 py-5 px-6 rounded-lg">
-                    <span class="block font-semibold">{{ recipe.duration.prep }}min</span>
-                    <span class="mt-0.5 block text-sm">Prep time</span>
+                <div class="">
+                    <span class="mb-1 block text-sm w-fit bg-slate-100">Servings</span>
+                    <span class="block font-semibold w-fit bg-slate-100">{{ recipe.servings }}</span>
                 </div>
             </div>
         </div>
+
         <div class="mt-12 pt-12 border-t dark:border-gray-700">
             <h2 class="mb-5 text-lg font-bold w-fit bg-slate-100">Ingredients</h2>
             <ul class="list-disc ml-4 space-y-2 text-[15px]">

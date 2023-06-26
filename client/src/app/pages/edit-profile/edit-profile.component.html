@@ -1,76 +1,102 @@
 <app-popup *ngIf="successMsg" type="success">{{successMsg}}</app-popup>
 <app-popup *ngIf="errorMsg" type="error">{{errorMsg}}</app-popup>
-<div class="py-32 px-6 mx-auto container lg:max-w-screen-lg">
-    <app-retrieval-wrapper [data]="profile" [errorMsg]="retrievalErrorMsg" [skeleton]="skeleton">
-        <div id="settings" *ngIf="profile">
-            <div>
+<div class="py-32 px-6 mx-auto container sm:max-w-screen-sm">
+    <app-retrieval-wrapper [data]="isDataLoaded" [errorMsg]="retrievalErrorMsg" [skeleton]="skeleton">
+        <div id="settings" *ngIf="isDataLoaded">
+            <form [formGroup]="detailsForm">
                 <div class="description">
-                    <h2 class="font-semibold text-slate-900">Profile</h2>
-                    <p class="mt-2 text-sm leading-relaxed">This information will be displayed publicly so be careful with what you share.</p>
+                    <h2>Profile</h2>
+                    <p class="mt-2">This information will be displayed publicly so be careful with what you share.</p>
                 </div>
                 <div class="space-y-8">
                     <div>
-                        <label for="username" class="block text-sm font-medium text-slate-900 mb-2 leading-6">Username</label>
-                        <input [(ngModel)]="profile.username" type="text" name="username" id="username" class="rounded-md w-full py-2 px-3"/>
+                        <label for="username">Username</label>
+                        <input formControlName="username" type="text" name="username" id="username" class="rounded-md w-full py-2 px-3"/>
+                        <div *ngIf="username.invalid && (username.dirty || username.touched)" class="mt-2 text-sm text-red-600 leading-6">
+                            <span *ngIf="username.errors?.['required']">Username is required</span>
+                            <span *ngIf="username.errors?.['maxlength']">Username must be no more than 30 characters long</span>
+                        </div>
                     </div>
                     <div>
-                        <label for="name" class="block text-sm font-medium text-slate-900 mb-2 leading-6">Full name</label>
-                        <input [(ngModel)]="profile.name" type="text" name="name" id="name" class="rounded-md w-full py-2 px-3"/>
+                        <label for="name">Full name</label>
+                        <input formControlName="name" type="text" name="name" id="name" class="rounded-md w-full py-2 px-3"/>
+                        <div *ngIf="name.invalid && (name.dirty || name.touched)" class="mt-2 text-sm text-red-600 leading-6">
+                            <span *ngIf="name.errors?.['maxlength']">Your full name must be no more than 50 characters long</span>
+                        </div>
                     </div>
                     <div>
-                        <label for="about" class="block text-sm font-medium text-slate-900 mb-2 leading-6">About</label>
-                        <textarea [(ngModel)]="profile.about" (input)="handleAutoResize($event)" name="about" id="about" class="flex rounded-md w-full h-24 py-2.5 px-3.5 leading-relaxed resize-none" placeholder="Write a few sentences about yourself" ></textarea>
+                        <label for="about">About</label>
+                        <textarea formControlName="about" (input)="handleAutoResize($event)" name="about" id="about" class="flex rounded-md w-full h-24 py-2 px-3 resize-none" placeholder="Write a few sentences about yourself" ></textarea>
+                        <div *ngIf="about.invalid && (about.dirty || about.touched)" class="mt-2 text-sm text-red-600 leading-6">
+                            <span *ngIf="about.errors?.['maxlength']">Your introduction must be no more than 1000 characters long</span>
+                        </div>
                     </div>
                     <div>
-                        <label for="link" class="block text-sm font-medium text-slate-900 mb-2 leading-6">Link</label>
-                        <input [(ngModel)]="profile.link" type="text" name="link" id="link" class="rounded-md w-full py-2 px-3"/>
+                        <label for="link">Link</label>
+                        <input formControlName="link" type="text" name="link" id="link" class="rounded-md w-full py-2 px-3"/>
+                        <div *ngIf="link.invalid && (link.dirty || link.touched)" class="mt-2 text-sm text-red-600 leading-6">
+                            <span *ngIf="link.errors?.['maxlength']">The link must be no more than 100 characters long</span>
+                        </div>
                     </div>
-                    <button (click)="saveProfile()" class="btn-secondary py-2 px-3">Save</button>
+                    <button (click)="saveProfile($event)" [disabled]="!detailsForm.valid" class="btn-secondary py-2 px-3">Save</button>
                 </div>
-            </div>
+            </form>
 
-            <div>
+            <form [formGroup]="emailForm">
                 <div class="description">
-                    <h2 class="font-semibold text-slate-900">Contact info</h2>
-                    <p class="mt-2 text-sm leading-relaxed">You'll have to verify the new email address before the change can be saved.</p>
+                    <h2>Contact info</h2>
+                    <p class="mt-2">You'll have to verify the new email address before the change can be saved.</p>
                 </div>
                 <div class="space-y-8">
                     <div>
-                        <label for="email" class="block text-sm font-medium text-slate-900 mb-2 leading-6">Current email address</label>
-                        <input [(ngModel)]="profile.email" [disabled]="true" type="email" name="email" id="email" class="rounded-md w-full py-2 px-3 text-[15px] text-slate-400 cursor-text bg-slate-100 dark:!bg-gray-900"/>
+                        <label for="email">Current email address</label>
+                        <input formControlName="email" [disabled]="true" type="email" name="email" id="email" class="rounded-md w-full py-2 px-3 text-[15px] text-slate-400 cursor-text bg-slate-50 dark:bg-gray-800/50"/>
                     </div>
                     <div>
-                        <label for="new-email" class="block text-sm font-medium text-slate-900 mb-2 leading-6">New email address</label>
-                        <input [(ngModel)]="newEmail" type="email" name="new-email" id="new-email" class="rounded-md w-full py-2 px-3 text-[15px]"/>
+                        <label for="new-email">New email address</label>
+                        <input formControlName="newEmail" type="email" name="new-email" id="new-email" class="rounded-md w-full py-2 px-3 text-[15px]"/>
+                        <div *ngIf="newEmail.invalid && (newEmail.dirty || newEmail.touched)" class="mt-2 text-sm text-red-600 leading-6">
+                            <span *ngIf="newEmail.errors?.['required']">Email cannot be empty</span>
+                            <span *ngIf="newEmail.errors?.['email']">Email must be in a valid format</span>
+                            <span *ngIf="newEmail.errors?.['maxlength']">Email must be no more than 30 characters long</span>
+                        </div>
                     </div>
-                    <button (click)="saveEmail()" class="btn-secondary py-2 px-3">Save</button>
+                    <button (click)="saveEmail($event)" [disabled]="!emailForm.valid" class="btn-secondary py-2 px-3">Save</button>
                 </div>
-            </div>
+            </form>
 
-            <div>
+            <form [formGroup]="passwordForm">
                 <div class="description">
-                    <h2 class="font-semibold text-slate-900">Password</h2>
-                    <p class="mt-2 text-sm leading-relaxed">Update your password associated with your account.</p>
+                    <h2>Password</h2>
+                    <p class="mt-2">Update your password associated with your account.</p>
                 </div>
                 <div class="space-y-8">
                     <div>
-                        <label for="password" class="block text-sm font-medium text-slate-900 mb-2 leading-6">Current password</label>
-                        <input [(ngModel)]="password" type="password" name="password" id="password" class="rounded-md w-full py-2 px-3 text-[15px]"/>
+                        <label for="password">Current password</label>
+                        <input formControlName="password" type="password" name="password" id="password" class="rounded-md w-full py-2 px-3 text-[15px]"/>
+                        <div *ngIf="password.invalid && (password.dirty || password.touched)" class="mt-2 text-sm text-red-600 leading-6">
+                            <span *ngIf="password.errors?.['required']">Password cannot be empty</span>
+                            <span *ngIf="password.errors?.['maxlength']">Password is no more than 20 characters long</span>
+                        </div>
                     </div>
                     <div>
-                        <label for="new-password" class="block text-sm font-medium text-slate-900 mb-2 leading-6">New password</label>
-                        <input [(ngModel)]="newPassword" type="password" name="new-password" id="new-password" class="rounded-md w-full py-2 px-3 text-[15px]"/>
+                        <label for="new-password">New password</label>
+                        <input formControlName="newPassword" type="password" name="new-password" id="new-password" class="rounded-md w-full py-2 px-3 text-[15px]"/>
+                        <div *ngIf="newPassword.invalid && (newPassword.dirty || newPassword.touched)" class="mt-2 text-sm text-red-600 leading-6">
+                            <span *ngIf="newPassword.errors?.['required']">The new password cannot be empty</span>
+                            <span *ngIf="newPassword.errors?.['maxlength']">The new password must be no more than 20 characters long</span>
+                        </div>
                     </div>
-                    <button (click)="savePassword()" class="btn-secondary py-2 px-3">Save</button>
+                    <button (click)="savePassword($event)" [disabled]="!passwordForm.valid" class="btn-secondary py-2 px-3">Save</button>
                 </div>
-            </div>
+            </form>
 
             <div>
                 <div class="description">
-                    <h2 class="font-semibold text-slate-900">Delete account</h2>
-                    <p class="mt-2 text-sm leading-relaxed">This action is not reversible. All information related to this account will be deleted permanently.</p>
+                    <h2>Delete account</h2>
+                    <p class="mt-2">This action is not reversible. All information related to this account will be deleted permanently.</p>
                 </div>
-                <button class="btn-secondary py-2 px-3 h-fit w-fit text-red-600 dark:text-red-500">Delete account</button>
+                <button (click)="deleteProfile($event)" class="btn-secondary py-2 px-3 h-fit w-fit text-red-600 dark:text-red-500">Delete account</button>
             </div>
         </div>
     </app-retrieval-wrapper>

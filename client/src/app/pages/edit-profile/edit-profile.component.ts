@@ -6,6 +6,7 @@ import {User} from "../../types"
 import handleAutoResize from "../../utilities/handleAutoResize"
 import {HttpErrorResponse} from "@angular/common/http"
 import { Router } from '@angular/router'
+import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms'
 import {EditProfileSkeletonComponent} from '../../components/edit-profile-skeleton/edit-profile-skeleton.component'
 
 @Component({
@@ -16,12 +17,37 @@ import {EditProfileSkeletonComponent} from '../../components/edit-profile-skelet
 
 export class EditProfileComponent implements OnInit {
     currentUser = getCurrentUser()
-    profile: User
 
-    newEmail: string
+    detailsForm: FormGroup
+    emailForm: FormGroup
+    passwordForm: FormGroup
 
-    password: string
-    newPassword: string
+    isDataLoaded = false
+
+    get username() {
+        return this.detailsForm.get('username')
+    }
+    get name() {
+        return this.detailsForm.get('name')
+    }
+    get about() {
+        return this.detailsForm.get('about')
+    }
+    get link() {
+        return this.detailsForm.get('link')
+    }
+    get email() {
+        return this.detailsForm.get('email')
+    }
+    get newEmail() {
+        return this.detailsForm.get('newEmail')
+    }
+    get password() {
+        return this.detailsForm.get('password')
+    }
+    get newPassword() {
+        return this.detailsForm.get('newPassword')
+    }
 
     retrievalErrorMsg: string
     errorMsg: string
@@ -31,43 +57,56 @@ export class EditProfileComponent implements OnInit {
 
     handleAutoResize = handleAutoResize
 
-    saveProfile() {
+    saveProfile(e) {
+        e.target.innerText = 'Saving...'
+        e.target.disabled = true
         this.usersService.updateProfile({
-            username: this.profile.username,
-            name: this.profile.name,
-            about: this.profile.about,
-            link: this.profile.link
+            username: this.username.value,
+            name: this.name.value,
+            about: this.about.value,
+            link: this.link.value
         }).subscribe(() => {
             this.successMsg = 'Your profile has been updated successfully'
             setTimeout(() => this.successMsg = '', 5000) // make the success popup disappear after 5 seconds
         }, (error: HttpErrorResponse) => {
             this.errorMsg = error.message
             setTimeout(() => this.errorMsg = '', 5000) // make the error popup disappear after 5 seconds
+            e.target.innerText = 'Save'
+            e.target.disabled = false
         })
     }
 
-    saveEmail() {
-        this.usersService.updateEmail(this.newEmail).subscribe(() => {
+    saveEmail(e) {
+        e.target.innerText = 'Saving...'
+        e.target.disabled = true
+        this.usersService.updateEmail(this.newEmail.value).subscribe(() => {
             this.successMsg = 'Your email has been updated successfully'
             setTimeout(() => this.successMsg = '', 5000) // make the success popup disappear after 5 seconds
-            this.profile.email = this.newEmail
         }, (error: HttpErrorResponse) => {
             this.errorMsg = error.message
             setTimeout(() => this.errorMsg = '', 5000) // make the error popup disappear after 5 seconds
+            e.target.innerText = 'Save'
+            e.target.disabled = false
         })
     }
 
-    savePassword() {
-        this.usersService.updatePassword(this.password, this.newPassword).subscribe(() => {
+    savePassword(e) {
+        e.target.innerText = 'Saving...'
+        e.target.disabled = true
+        this.usersService.updatePassword(this.password.value, this.newPassword.value).subscribe(() => {
             this.successMsg = 'Your password has been updated successfully'
             setTimeout(() => this.successMsg = '', 5000) // make the success popup disappear after 5 seconds
         }, (error: HttpErrorResponse) => {
             this.errorMsg = error.message
             setTimeout(() => this.errorMsg = '', 5000) // make the error popup disappear after 5 seconds
+            e.target.innerText = 'Save'
+            e.target.disabled = false
         })
     }
 
-    deleteProfile() {
+    deleteProfile(e) {
+        e.target.innerText = 'Deleting...'
+        e.target.disabled = true
         this.usersService.deleteProfile().subscribe(() => {
             // if profile is deleted successfully, log out the user and redirect to home page
             localStorage.removeItem('token')
@@ -76,14 +115,54 @@ export class EditProfileComponent implements OnInit {
         }, (error: HttpErrorResponse) => {
             this.errorMsg = error.message
             setTimeout(() => this.errorMsg = '', 5000) // make the error popup disappear after 5 seconds
+            e.target.innerText = 'Delete account'
+            e.target.disabled = false
         })
     }
 
-    constructor(private usersService: UsersService, private router: Router) {}
+    constructor(private usersService: UsersService, private router: Router, private formBuilder: FormBuilder) {}
 
     ngOnInit() {
         this.usersService.getUser(this.currentUser._id).subscribe(response => {
-            this.profile = response.user
+            this.isDataLoaded = true
+            const profile = response.user
+            this.detailsForm = this.formBuilder.group({
+                username: new FormControl(profile.username, [
+                    Validators.required,
+                    Validators.maxLength(30)
+                ]),
+                name: new FormControl(profile.name, [
+                    Validators.maxLength(50)
+                ]),
+                about: new FormControl(profile.about, [
+                    Validators.maxLength(1000)
+                ]),
+                link: new FormControl(profile.link, [
+                    Validators.maxLength(100)
+                ]),
+            })
+            this.emailForm = this.formBuilder.group({
+                email: new FormControl(profile.email, [
+                    Validators.required,
+                    Validators.email,
+                    Validators.maxLength(30)
+                ]),
+                newEmail: new FormControl(profile.email, [
+                    Validators.required,
+                    Validators.email,
+                    Validators.maxLength(30)
+                ]),
+            })
+            this.passwordForm = this.formBuilder.group({
+                password: new FormControl('', [
+                    Validators.required,
+                    Validators.maxLength(20)
+                ]),
+                newPassword: new FormControl('', [
+                    Validators.required,
+                    Validators.maxLength(20)
+                ]),
+            })
         }, (error: HttpErrorResponse) => {
             this.retrievalErrorMsg = error.message
         })
@@ -91,17 +170,11 @@ export class EditProfileComponent implements OnInit {
 }
 
 /*
-this.route.params.subscribe(params => {
-    this.usersService.getUser(params['id']).subscribe(response => {
+this.usersService.getUser(this.currentUser._id).subscribe(response => {
         this.profile = response.user
-        this.recipes = response.recipes
     }, (error: HttpErrorResponse) => {
-        this.errorMsg = error.message
+        this.retrievalErrorMsg = error.message
     })
-})
 
-this.route.params.subscribe(params => {
-    this.profile = users.find(user => user._id === params['id'])
-})
-this.recipes = recipes
+this.profile = users.find(user => user._id === this.currentUser._id)
 */

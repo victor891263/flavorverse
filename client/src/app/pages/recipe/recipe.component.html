@@ -1,7 +1,7 @@
 <app-popup *ngIf="errorMsg" type="error">{{ errorMsg }}</app-popup>
-<div class="py-32 px-6 mx-auto container md:max-w-screen-md">
+<div class="py-32 px-6 mx-auto container sm:max-w-screen-sm">
     <app-retrieval-wrapper [data]="recipe" [errorMsg]="retrievalErrorMsg" [skeleton]="skeleton">
-        <div *ngIf="recipe" class="">
+        <div *ngIf="recipe">
             <div class="main">
                 <div class="space-y-5">
                     <div class="flex items-center">
@@ -17,72 +17,126 @@
                             <span class="block text-slate-400">{{ getTimeLabel(recipe.createdAt) }}</span>
                         </div>
                     </div>
-                    <p class="leading-7">{{ recipe.desc }}</p>
+                    <p>{{ recipe.desc }}</p>
                     <div *ngIf="recipe.tags.length > 0" class="flex gap-1">
                         <span *ngFor="let tag of recipe.tags" class="bg-slate-100 rounded-full py-1.5 px-3.5 text-sm text-slate-500 font-medium capitalize dark:text-gray-500">{{ tag }}</span>
                     </div>
                 </div>
 
                 <div>
-                    <h2 class="mb-5 text-lg font-bold text-slate-900">Details</h2>
-                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                        <div *ngIf="recipe.duration.prep" class="bg-slate-100 py-5 px-6 rounded-lg">
+                    <h2 class="mb-4 font-extrabold text-slate-900">Details</h2>
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-5">
+                        <div *ngIf="recipe.duration.prep" class="">
+                            <span class="mb-0.5 block text-sm">Prep time</span>
                             <span class="block font-semibold text-slate-900">{{ recipe.duration.prep }}min</span>
-                            <span class="mt-0.5 block text-sm">Prep time</span>
                         </div>
-                        <div *ngIf="recipe.duration.cook" class="bg-slate-100 py-5 px-6 rounded-lg">
+                        <div *ngIf="recipe.duration.cook" class="">
+                            <span class="mb-0.5 block text-sm">Cook time</span>
                             <span class="block font-semibold text-slate-900">{{ recipe.duration.cook }}min</span>
-                            <span class="mt-0.5 block text-sm">Cook time</span>
                         </div>
-                        <div *ngIf="recipe.duration.extra" class="bg-slate-100 py-5 px-6 rounded-lg">
+                        <div *ngIf="recipe.duration.extra" class="">
+                            <span class="mb-0.5 block text-sm">Extra time</span>
                             <span class="block font-semibold text-slate-900">{{ recipe.duration.extra }}min</span>
-                            <span class="mt-0.5 block text-sm">Additional time</span>
                         </div>
-                        <div class="bg-slate-100 py-5 px-6 rounded-lg">
+                        <div class="">
+                            <span class="mb-0.5 block text-sm">Total time</span>
                             <span class="block font-semibold text-slate-900">{{ recipe.duration.prep + recipe.duration.cook }}min</span>
-                            <span class="mt-0.5 block text-sm">Total time</span>
                         </div>
-                        <div class="bg-slate-100 py-5 px-6 rounded-lg">
+                        <div class="">
+                            <span class="mb-0.5 block text-sm">Servings</span>
                             <span class="block font-semibold text-slate-900">{{ recipe.servings }}</span>
-                            <span class="mt-0.5 block text-sm">Servings</span>
                         </div>
                     </div>
                 </div>
 
                 <div>
-                    <h2 class="mb-5 text-lg font-bold text-slate-900">Ingredients</h2>
-                    <ul class="list-disc ml-4 space-y-2">
+                    <h2 class="mb-4 font-extrabold text-slate-900">Ingredients</h2>
+                    <ul class="list-disc ml-4 space-y-1">
                         <li *ngFor="let ingredient of recipe.ingredients">{{ ingredient.quantity }} {{ ingredient.name }}</li>
                     </ul>
                 </div>
                 <div>
-                    <h2 class="mb-5 text-lg font-bold text-slate-900">Directions</h2>
-                    <ol class="list-decimal ml-5 space-y-5">
-                        <li *ngFor="let step of recipe.steps" class="leading-7">{{ step }}</li>
+                    <h2 class="mb-5 font-extrabold text-slate-900">Directions</h2>
+                    <ol class="list-decimal ml-4 space-y-5">
+                        <li *ngFor="let step of recipe.steps">{{ step }}</li>
                     </ol>
                 </div>
 
                 <div *ngIf="recipe.nutrition.length > 0" >
-                    <h2 class="mb-3 text-[17px] font-bold text-slate-900">Nutrition</h2>
-                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                        <div *ngFor="let n of recipe.nutrition" class="bg-slate-100 py-5 px-6 rounded-lg">
+                    <h2 class="mb-4 font-extrabold text-slate-900">Nutrition</h2>
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-5">
+                        <div *ngFor="let n of recipe.nutrition" class="">
+                            <span class="mb.5 block text-sm">{{ n.label }}</span>
                             <span class="block font-semibold text-slate-900">{{ n.value }}</span>
-                            <span class="mt-0.5 block text-sm">{{ n.label }}</span>
+
                         </div>
                     </div>
                 </div>
 
                 <div>
-                    <h2 class="mb-5 text-lg font-bold text-slate-900">Reviews ({{ recipe.reviews.length }})</h2>
+                    <h2 class="mb-4 font-extrabold text-slate-900">Reviews</h2>
+
                     <div *ngIf="currentUser" class="mb-1">
                         <app-rating (onRatingChange)="setRating($event)" [isClickable]="true" [rating]="rating"></app-rating>
-                        <textarea [(ngModel)]="review" (input)="handleAutoResize($event)" class="mt-4 flex rounded-md w-full h-20 py-2.5 px-3.5 text-base leading-relaxed resize-none" placeholder="What do you think about the recipe?" ></textarea>
+                        <textarea [(ngModel)]="review" (input)="handleAutoResize($event)" class="mt-4 flex rounded w-full h-20 py-2.5 px-3.5 text-base leading-relaxed resize-none" placeholder="What do you think about the recipe?" ></textarea>
                         <button (click)="submitReview($event)" [disabled]="!((rating > 0) && review && (review.length < 1000))" class="mt-2 ml-auto block btn-primary py-2 px-3">Submit</button>
                     </div>
+
                     <div *ngIf="!currentUser" class="mb-10 flex space-x-2 p-4 rounded-md bg-slate-100">
                         <svg class="w-5 h-5 text-slate-400 shrink-0" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
                         <span class="text-sm">You must be logged in to submit a review or react to reviews</span>
                     </div>
+
+                    <div class="space-y-1 pt-8 mt-10 pb-10 mb-10 border-t border-b">
+                        <div class="mb-6 mx-auto w-fit text-center">
+                            <span class="block font-bold text-slate-900 text-2xl mb-1.5">{{ recipe.rating }}<span class="text-sm font-normal">/5</span></span>
+                            <app-rating [rating]="recipe.rating"></app-rating>
+                            <span class="block text-sm mt-2">{{ recipe.reviews.length }} reviews</span>
+                        </div>
+                        <div class="max-w-xs mx-auto space-y-1">
+                            <div class="flex items-center space-x-2">
+                                <span>5</span>
+                                <svg class="w-5 h-5 text-yellow-400 shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z" clip-rule="evenodd"></path></svg>
+                                <div class="bg-slate-100 rounded-full w-full h-3">
+                                    <div class="bg-yellow-400 rounded-full h-full" [style.width]="countReview(5, 'percentage')"></div>
+                                </div>
+                                <span class="shrink-0 w-16 text-right">{{countReview(5, 'raw')}} ({{countReview(5, 'percentage')}})</span>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <span>4</span>
+                                <svg class="w-5 h-5 text-yellow-400 shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z" clip-rule="evenodd"></path></svg>
+                                <div class="bg-slate-100 rounded-full w-full h-3">
+                                    <div class="bg-yellow-400 rounded-full h-full" [style.width]="countReview(4, 'percentage')"></div>
+                                </div>
+                                <span class="shrink-0 w-16 text-right">{{countReview(4, 'raw')}} ({{countReview(4, 'percentage')}})</span>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <span>3</span>
+                                <svg class="w-5 h-5 text-yellow-400 shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z" clip-rule="evenodd"></path></svg>
+                                <div class="bg-slate-100 rounded-full w-full h-3">
+                                    <div class="bg-yellow-400 rounded-full h-full" [style.width]="countReview(3, 'percentage')"></div>
+                                </div>
+                                <span class="shrink-0 w-16 text-right">{{countReview(3, 'raw')}} ({{countReview(3, 'percentage')}})</span>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <span>2</span>
+                                <svg class="w-5 h-5 text-yellow-400 shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z" clip-rule="evenodd"></path></svg>
+                                <div class="bg-slate-100 rounded-full w-full h-3">
+                                    <div class="bg-yellow-400 rounded-full h-full" [style.width]="countReview(2, 'percentage')"></div>
+                                </div>
+                                <span class="shrink-0 w-16 text-right">{{countReview(4, 'raw')}} ({{countReview(2, 'percentage')}})</span>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <span>1</span>
+                                <svg class="w-5 h-5 text-yellow-400 shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z" clip-rule="evenodd"></path></svg>
+                                <div class="bg-slate-100 rounded-full w-full h-3">
+                                    <div class="bg-yellow-400 rounded-full h-full" [style.width]="countReview(1, 'percentage')"></div>
+                                </div>
+                                <span class="shrink-0 w-16 text-right">{{countReview(1, 'raw')}} ({{countReview(1, 'percentage')}})</span>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="space-y-10">
                         <div *ngFor="let review of recipe.reviews" class="review">
                             <div class="flex items-center">
@@ -95,7 +149,7 @@
                             </div>
                             <div class="body mt-3 ml-12 pb-10 border-b">
                                 <app-rating [rating]="review.rating"></app-rating>
-                                <p class="mt-3 leading-7">{{ review.body }}</p>
+                                <p class="mt-3">{{ review.body }}</p>
                                 <div class="mt-3 text-orange-600 text-sm font-medium flex space-x-4">
                                     <button (click)="likeReview(review._id)" [disabled]="review.disliked || !currentUser" class="flex items-center">
                                         <svg *ngIf="!review.liked" class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6.633 10.5c.806 0 1.533-.446 2.031-1.08a9.041 9.041 0 012.861-2.4c.723-.384 1.35-.956 1.653-1.715a4.498 4.498 0 00.322-1.672V3a.75.75 0 01.75-.75A2.25 2.25 0 0116.5 4.5c0 1.152-.26 2.243-.723 3.218-.266.558.107 1.282.725 1.282h3.126c1.026 0 1.945.694 2.054 1.715.045.422.068.85.068 1.285a11.95 11.95 0 01-2.649 7.521c-.388.482-.987.729-1.605.729H13.48c-.483 0-.964-.078-1.423-.23l-3.114-1.04a4.501 4.501 0 00-1.423-.23H5.904M14.25 9h2.25M5.904 18.75c.083.205.173.405.27.602.197.4-.078.898-.523.898h-.908c-.889 0-1.713-.518-1.972-1.368a12 12 0 01-.521-3.507c0-1.553.295-3.036.831-4.398C3.387 10.203 4.167 9.75 5 9.75h1.053c.472 0 .745.556.5.96a8.958 8.958 0 00-1.302 4.665c0 1.194.232 2.333.654 3.375z" /></svg>

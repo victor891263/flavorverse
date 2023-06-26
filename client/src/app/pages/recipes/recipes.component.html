@@ -1,6 +1,6 @@
 
-<div class="grid lg:grid-cols-[280px_auto] py-24 px-6 mx-auto container lg:max-w-screen-lg">
-    <div class="lg:border-r lg:pr-10" id="recipes-filters">
+<div class="grid lg:grid-cols-[320px_auto] py-24 px-6 mx-auto container xl:max-w-screen-xl">
+    <div class="" id="recipes-filters">
         <div class="space-y-7">
             <div>
                 <label for="title">Title</label>
@@ -12,13 +12,13 @@
             </div>
             <div>
                 <label>Rating</label>
-                <div class="flex">
+                <div class="flex space-x-2">
                     <div class="relative w-1/2">
-                        <div class="absolute left-3 flex items-center h-full text-sm text-slate-400">Min:</div>
+                        <div class="absolute left-3 flex items-center h-full text-slate-400">Min:</div>
                         <input [(ngModel)]="ratingMin" type="number" name="rating-min" id="rating-min" class="w-full rounded-l-md !pl-11"/>
                     </div>
                     <div class="relative w-1/2">
-                        <div class="absolute left-3 flex items-center h-full text-sm text-slate-400">Max:</div>
+                        <div class="absolute left-3 flex items-center h-full text-slate-400">Max:</div>
                         <input [(ngModel)]="ratingMax" type="number" name="rating-max" id="rating-max" class="w-full rounded-r-md !pl-12"/>
                     </div>
                 </div>
@@ -55,6 +55,7 @@
                     class="btn-soft first-letter:capitalize rounded-full py-1.5 px-3.5 h-fit"
                 >{{ tag }}</button>
             </div>
+            <span *ngIf="!(tags.length > 0)" class="block text-sm text-slate-400 leading-none">No tags selected</span>
         </div>
         <div class="space-y-3.5">
             <div class="relative">
@@ -87,30 +88,31 @@
                     class="btn-soft first-letter:capitalize rounded-full py-1.5 px-3.5 h-fit"
                 >{{ ingredient }}</button>
             </div>
+            <span *ngIf="!(ingredients.length > 0)" class="block text-sm text-slate-400 leading-none">No ingredients selected</span>
         </div>
         <div class="space-y-7">
             <div>
                 <label>Prep time</label>
-                <div class="flex">
+                <div class="flex space-x-2">
                     <div class="relative w-1/2">
-                        <div class="absolute left-3 flex items-center h-full text-sm text-slate-400">Min:</div>
+                        <div class="absolute left-3 flex items-center h-full text-slate-400">Min:</div>
                         <input [(ngModel)]="prepMin" type="number" name="prep-min" id="prep-min" class="w-full rounded-l-md !pl-11"/>
                     </div>
                     <div class="relative w-1/2">
-                        <div class="absolute left-3 flex items-center h-full text-sm text-slate-400">Max:</div>
+                        <div class="absolute left-3 flex items-center h-full text-slate-400">Max:</div>
                         <input [(ngModel)]="prepMax" type="number" name="prep-max" id="prep-max" class="w-full rounded-r-md !pl-12"/>
                     </div>
                 </div>
             </div>
             <div>
                 <label>Cook time</label>
-                <div class="flex">
+                <div class="flex space-x-2">
                     <div class="relative w-1/2">
-                        <div class="absolute left-3 flex items-center h-full text-sm text-slate-400">Min:</div>
+                        <div class="absolute left-3 flex items-center h-full text-slate-400">Min:</div>
                         <input [(ngModel)]="cookMin" type="number" name="cook-min" id="cook-min" class="w-full rounded-l-md !pl-11"/>
                     </div>
                     <div class="relative w-1/2">
-                        <div class="absolute left-3 flex items-center h-full text-sm text-slate-400">Max:</div>
+                        <div class="absolute left-3 flex items-center h-full text-slate-400">Max:</div>
                         <input [(ngModel)]="cookMax" type="number" name="cook-max" id="cook-max" class="w-full rounded-r-md !pl-12"/>
                     </div>
                 </div>
@@ -123,7 +125,7 @@
             </div>
         </div>
     </div>
-    <div class="lg:ml-10 max-lg:pt-5 max-lg:mt-7 max-lg:border-t">
+    <div class="lg:ml-12 max-lg:mt-6">
         <app-retrieval-wrapper [data]="recipes" [errorMsg]="errorMsg" [skeleton]="skeleton">
             <ng-container *ngIf="recipes">
                 <span class="block text-sm">{{ recipes.length }} results found.</span>
@@ -137,7 +139,7 @@
                             <span class="text-sm text-slate-400">{{ getTimeLabel(recipe.createdAt) }}</span>
                         </div>
                         <span class="block font-bold text-lg text-slate-900">{{ recipe.title }}</span>
-                        <p class="leading-7 line-clamp-2">{{recipe.desc}}</p>
+                        <p class="line-clamp-2 !mt-2">{{recipe.desc}}</p>
                         <div *ngIf="recipe.tags.length > 0" class="flex space-x-1 pt-1">
                             <span *ngFor="let tag of recipe.tags" class="bg-slate-100 rounded-full py-1.5 px-3.5 text-sm text-slate-500 font-medium capitalize">{{ tag }}</span>
                         </div>

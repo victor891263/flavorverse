@@ -94,6 +94,13 @@ export class RecipeComponent implements OnInit {
         }
     }
 
+    countReview(rating: number, type: 'raw' | 'percentage') {
+        const filtered = this.recipe.reviews.filter(review => review.rating === rating)
+        if (type === 'raw') return filtered.length
+        if (type === 'percentage') return `${((filtered.length / this.recipe.reviews.length) * 100)}%`
+        return null
+    }
+
     constructor(private route: ActivatedRoute, private recipesService: RecipesService) {}
 
     ngOnInit() {

@@ -1,5 +1,9 @@
+#recipes-filters {
+    @apply border rounded-md p-6 sm:p-8
+}
+
 #recipes-filters > div:not(:first-of-type) {
-    @apply pt-7 mt-8 border-t dark:border-gray-700
+    @apply pt-8 mt-8 border-t dark:border-gray-700
 }
 
 #recipes-filters label {
