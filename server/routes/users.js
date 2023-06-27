@@ -78,6 +78,12 @@ router.put('/', [handleAccess, upload.single('newImg')], async (req, res) => {
     // if the user submitted a new profile image, upload it to cloudinary
     let newImgUrl
     if (newImg) {
+        // if the user has an old profile image, remove it from cloudinary
+        if (newUserData.img) {
+            const publicId = newUserData.img.match(/\/([^/]+)\.[a-zA-Z0-9]+$/)[1] // extract the public id from the image url
+            await cloudinary.uploader.destroy(publicId)
+        }
+
         // upload to cloudinary
         const response = await cloudinary.uploader.upload(newImg.path)
         newImgUrl = response.secure_url

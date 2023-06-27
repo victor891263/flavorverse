@@ -73,16 +73,17 @@ export class EditProfileComponent implements OnInit {
         e.target.innerText = 'Saving...'
         e.target.disabled = true
 
-        // convert the image into a send-able format
+        // convert the data into the form/multipart format, to successfully send files to the api
         const formData = new FormData()
         formData.append('username', this.username.value)
         formData.append('name', this.name.value)
         formData.append('about', this.about.value)
         formData.append('link', this.link.value)
+        formData.append('img', this.img)
         formData.append('newImg', this.newImg)
 
         this.usersService.updateProfile(formData).subscribe((response: string | null) => {
-            if (response) this.img = response // if upload succeeded, set the image url sent back by the api to the src of the profile image
+            if (response) this.img = response // if the response is not empty, which means that the new profile image has been uploaded successfully, set the image url sent back by the api to the src of the profile image
             this.newImg = undefined
             this.successMsg = 'Your profile has been updated successfully'
             setTimeout(() => this.successMsg = '', 5000) // make the success popup disappear after 5 seconds
