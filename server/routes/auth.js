@@ -7,19 +7,21 @@ const jwt = require('jsonwebtoken')
 router.post('/', async (req, res) => {
     const authData = req.body // username and password that the guest gave
 
-    // check if the given username exists in the database. If it doesn't, don't proceed
+    // check if the given email exists in the database. If it doesn't, don't proceed
     const user = await User.findOne({
-        username: authData.username
+        email: {
+            address: authData.email
+        }
     })
     if (!user) {
-        res.status(400).send('Invalid username or password')
+        res.status(400).send('Invalid email or password')
         return
     }
 
     // check if the given password matches with the one in the database. If it doesn't, don't proceed
     const isPasswordValid = await bcrypt.compare(authData.password, user.password)
     if (!isPasswordValid) {
-        res.status(400).send('Invalid username or password')
+        res.status(400).send('Invalid email or password')
         return
     }
 

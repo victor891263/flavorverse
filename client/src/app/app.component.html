@@ -1,3 +1,3 @@
-<app-header></app-header>
+<app-header *ngIf="url !== '/unverified'"></app-header> <!-- navigating via <a></a> inside the app doesn't trigger the verification check. Not rendering the navigation bar prevents the user from doing so -->
 <router-outlet></router-outlet>
 

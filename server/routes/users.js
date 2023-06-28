@@ -3,11 +3,13 @@ const router = express.Router()
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const fs = require('fs')
+const crypto = require('crypto')
 const multer = require('multer')
 const cloudinary = require('cloudinary').v2
 const User = require('../models/user')
 const Recipe = require('../models/recipe')
 const handleAccess = require('../middleware/handleAccess')
+const sendEmail = require('../utilities/sendEmail')
 
 const upload = multer({ dest: "uploads/" }) // where uploaded images will be temporarily stored
 
@@ -33,13 +35,15 @@ router.get('/:id', async (req, res) => {
 router.post('/', async (req, res) => {
     const userData = req.body
 
-    // check if the username given by the guest is already present in the database. If it is, don't proceed
+    // check if the email provided by the guest is already present in the database. If it is, don't proceed
     const user = await User.findOne({
-        username: userData.username
+        email: {
+            address: userData.email
+        }
     })
 
     if (user) {
-        res.status(400).send('The username you provided is already taken')
+        res.status(400).send('An account with a given email already exists')
         return
     }
 
@@ -47,10 +51,18 @@ router.post('/', async (req, res) => {
     const salt = await bcrypt.genSalt(10)
     const hashedPassword = await bcrypt.hash(userData.password, salt)
 
+    const verificationId = crypto.randomBytes(32).toString('hex') // generate a 64-character long random string
+
     const result = await User.create({
-        username: userData.username,
+        email: {
+            address: userData.email,
+            verificationId
+        },
         password: hashedPassword
     })
+
+    // send an email to the email address provided by the user
+    await sendEmail(userData.email, verificationId)
 
     // create the json web token and send it to the client
     const token = jwt.sign({ id: result.id }, process.env.JWT_SECRET)

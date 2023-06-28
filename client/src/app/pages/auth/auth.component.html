@@ -2,9 +2,9 @@
 <div class="flex min-h-screen px-6">
     <div class="m-auto container max-w-sm py-20">
         <div>
-            <h1 class="text-2xl leading-9 font-bold tracking-tight text-slate-900">{{ url === '/login' ? 'Welcome back!': 'Join flavorverse' }}</h1>
-            <span *ngIf="url === '/login'" class="block mt-2.5 leading-6 text-sm">Not a member? <a routerLink="/join" class="text-orange-600 font-medium">Join flavorverse</a></span>
-            <span *ngIf="url === '/join'" class="block mt-2 leading-6 text-sm">Already have an account? <a routerLink="/login" class="text-orange-600 font-medium">Sign in</a></span>
+            <h1 class="text-2xl leading-9 font-extrabold tracking-[-.01em] text-slate-900">{{ url === '/login' ? 'Welcome back!': 'Join Flavorverse' }}</h1>
+            <span *ngIf="url === '/login'" class="block mt-2.5 leading-6">Not a member? <a routerLink="/join" class="text-orange-600 font-medium">Join flavorverse</a></span>
+            <span *ngIf="url === '/join'" class="block mt-2 leading-6">Already have an account? <a routerLink="/login" class="text-orange-600 font-medium">Sign in</a></span>
         </div>
         <form [formGroup]="form" class="mt-10 space-y-6">
             <div>

@@ -12,10 +12,10 @@ export class AuthService {
     constructor(private http: HttpClient) { }
 
     createAccount(data: { email: string, password: string }) {
-        return this.http.post(`${this.url}/users`, data)
+        return this.http.post(`${this.url}/users`, data, { responseType: 'json' })
     }
 
     login(data: { email: string, password: string }) {
-        return this.http.post(`${this.url}/auth`, data)
+        return this.http.post(`${this.url}/auth`, data, { responseType: 'json' })
     }
 }

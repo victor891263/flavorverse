@@ -47,6 +47,7 @@ mongoose.connect(process.env.DATABASE_URL, {
 
 // routes
 app.use('/auth', require('./routes/auth'))
+app.use('/verify', require('./routes/verify'))
 app.use(require('./middleware/auth')) // authentication middleware
 app.use('/recipes', require('./routes/recipes'))
 app.use(require('./middleware/handleError'))

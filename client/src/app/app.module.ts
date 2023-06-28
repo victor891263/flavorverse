@@ -5,6 +5,7 @@ import { HttpClientModule } from '@angular/common/http'
 import { RouterModule, Routes } from '@angular/router'
 
 import { AppComponent } from './app.component';
+import { AppRoutingModule } from './app-routing.module';
 import { RecipeComponent } from './pages/recipe/recipe.component';
 import { RecipesComponent } from './pages/recipes/recipes.component';
 import { RatingComponent } from './components/rating/rating.component';
@@ -20,37 +21,8 @@ import { ProfileSkeletonComponent } from './components/profile-skeleton/profile-
 import { EditProfileComponent } from './pages/edit-profile/edit-profile.component';
 import { EditProfileSkeletonComponent } from './components/edit-profile-skeleton/edit-profile-skeleton.component';
 import { AddRecipeComponent } from './pages/add-recipe/add-recipe.component';
-
-const routes: Routes = [
-    {
-        path: '',
-        component: RecipesComponent
-    },
-    {
-        path: 'login',
-        component: AuthComponent
-    },
-    {
-        path: 'join',
-        component: AuthComponent
-    },
-    {
-        path: 'recipes/:id',
-        component: RecipeComponent
-    },
-    {
-        path: 'users/:id',
-        component: ProfileComponent
-    },
-    {
-        path: 'new',
-        component: AddRecipeComponent
-    },
-    {
-        path: 'settings',
-        component: EditProfileComponent
-    },
-]
+import { VerifyComponent } from './pages/verify/verify.component';
+import { UnverifiedComponent } from './pages/unverified/unverified.component';
 
 @NgModule({
     declarations: [
@@ -70,6 +42,8 @@ const routes: Routes = [
         EditProfileComponent,
         EditProfileSkeletonComponent,
         AddRecipeComponent,
+        VerifyComponent,
+        UnverifiedComponent,
 
     ],
     imports: [
@@ -77,9 +51,7 @@ const routes: Routes = [
         FormsModule,
         ReactiveFormsModule,
         HttpClientModule,
-        RouterModule.forRoot(routes, {
-            scrollPositionRestoration: 'enabled'
-        })
+        AppRoutingModule
     ],
     providers: [],
     bootstrap: [AppComponent]
