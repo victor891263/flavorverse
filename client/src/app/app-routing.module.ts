@@ -10,6 +10,7 @@ import {EditProfileComponent} from "./pages/edit-profile/edit-profile.component"
 import {UnverifiedComponent} from "./pages/unverified/unverified.component";
 import {CheckVerificationGuard} from "./guards/check-verification.guard";
 import {EditRecipeComponent} from "./pages/edit-recipe/edit-recipe.component";
+import {EditReviewComponent} from "./pages/edit-review/edit-review.component";
 
 const routes: Routes = [
     {
@@ -40,6 +41,10 @@ const routes: Routes = [
     {
         path: 'recipes/:id/edit',
         component: EditRecipeComponent
+    },
+    {
+        path: 'recipes/:recipeId/reviews/:reviewId/edit',
+        component: EditReviewComponent
     },
     {
         path: 'users/:id',

@@ -25,6 +25,7 @@ import { VerifyComponent } from './pages/verify/verify.component';
 import { UnverifiedComponent } from './pages/unverified/unverified.component';
 import { RecipeFormComponent } from './components/recipe-form/recipe-form.component';
 import { EditRecipeComponent } from './pages/edit-recipe/edit-recipe.component';
+import { EditReviewComponent } from './pages/edit-review/edit-review.component';
 
 @NgModule({
     declarations: [
@@ -48,6 +49,7 @@ import { EditRecipeComponent } from './pages/edit-recipe/edit-recipe.component';
         UnverifiedComponent,
         RecipeFormComponent,
         EditRecipeComponent,
+        EditReviewComponent,
 
     ],
     imports: [

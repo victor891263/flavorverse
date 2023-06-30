@@ -8,6 +8,8 @@ const addRecipe = require('../handlers/addRecipe')
 const updateRecipe = require('../handlers/updateRecipe')
 const deleteRecipe = require('../handlers/deleteRecipe')
 const addReview = require('../handlers/addReview')
+const updateReview = require('../handlers/updateReview')
+const deleteReview = require('../handlers/deleteReview')
 const likeReview = require('../handlers/likeReview')
 const dislikeReview = require('../handlers/dislikeReview')
 const handleAccess = require('../middleware/handleAccess')
@@ -41,5 +43,11 @@ router.post('/:recipeId/reviews/:reviewId/likes', handleAccess, likeReview)
 
 // dislike a review
 router.post('/:recipeId/reviews/:reviewId/dislikes', handleAccess, dislikeReview)
+
+// edit a review
+router.put('/:recipeId/reviews/:reviewId', handleAccess, updateReview)
+
+// delete a review
+router.delete('/:recipeId/reviews/:reviewId', handleAccess, deleteReview)
 
 module.exports = router

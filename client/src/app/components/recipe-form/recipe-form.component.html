@@ -1,5 +1,6 @@
 <app-popup *ngIf="submitErrorMsg" type="error" >Operation failed. {{ submitErrorMsg }}</app-popup>
 <form [formGroup]="form" class="mt-10 space-y-6 recipe-form">
+    <h1 class="mb-8 text-2xl font-extrabold tracking-[-.01em] text-slate-900">{{new ? 'Add recipe' : 'Edit recipe'}}</h1>
     <div>
         <div class="description">
             <h2>Details</h2>
@@ -213,7 +214,7 @@
         <button *ngIf="new" (click)="submitRecipe($event)" [disabled]="!isFormValid" class="btn-primary py-2 px-3">Submit recipe</button>
         <button *ngIf="!new" (click)="updateRecipe($event)" [disabled]="!isFormValid" class="btn-primary py-2 px-3">Save changes</button>
     </div>
-    <div class="border rounded-md p-6 !pt-5">
+    <div *ngIf="!new" class="border rounded-md p-6 !pt-5">
         <h2 class="mb-2 font-extrabold text-slate-900">Delete recipe</h2>
         <p>If you choose to delete the recipe, all the reactions and reviews will be gone as well. This action is not reversible.</p>
         <button (click)="deleteRecipe($event)" class="mt-5 btn-secondary py-2 px-3 text-red-600 dark:text-red-500">Delete recipe</button>

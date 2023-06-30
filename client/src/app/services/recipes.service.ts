@@ -85,18 +85,6 @@ export class RecipesService {
         return this.http.get<string[]>(`${this.url}/recipes/ingredients`, { responseType: 'json' })
     }
 
-    submitReview(id: string | number, data: ReviewInput) {
-        return this.http.post(`${this.url}/recipes/${id}/reviews`, data, { responseType: 'json', ...httpOptions })
-    }
-
-    likeReview(recipeId: string | number, reviewId: string | number) {
-        return this.http.post(`${this.url}/recipes/${recipeId}/reviews/${reviewId}/likes`, undefined, { responseType: 'text', ...httpOptions })
-    }
-
-    dislikeReview(recipeId: string | number, reviewId: string | number) {
-        return this.http.post(`${this.url}/recipes/${recipeId}/reviews/${reviewId}/dislikes`, undefined, { responseType: 'text', ...httpOptions })
-    }
-
     addRecipe(recipe: InputRecipe) {
         return this.http.post<string>(`${this.url}/recipes`, recipe, { responseType: 'json', ...httpOptions })
     }
@@ -107,5 +95,29 @@ export class RecipesService {
 
     deleteRecipe(id: string) {
         return this.http.delete(`${this.url}/recipes/${id}`, { responseType: 'text', ...httpOptions })
+    }
+
+    getReview(recipeId: string | number, reviewId: string | number) {
+        return this.http.get(`${this.url}/recipes/${recipeId}/reviews/${reviewId}`, { responseType: 'json', ...httpOptions })
+    }
+
+    submitReview(id: string | number, data: ReviewInput) {
+        return this.http.post(`${this.url}/recipes/${id}/reviews`, data, { responseType: 'json', ...httpOptions })
+    }
+
+    editReview(recipeId: string | number, reviewId: string | number, data) {
+        return this.http.put(`${this.url}/recipes/${recipeId}/reviews/${reviewId}`, data, { responseType: 'text', ...httpOptions })
+    }
+
+    deleteReview(recipeId: string | number, reviewId: string | number) {
+        return this.http.delete(`${this.url}/recipes/${recipeId}/reviews/${reviewId}`, { responseType: 'text', ...httpOptions })
+    }
+
+    likeReview(recipeId: string | number, reviewId: string | number) {
+        return this.http.post(`${this.url}/recipes/${recipeId}/reviews/${reviewId}/likes`, undefined, { responseType: 'text', ...httpOptions })
+    }
+
+    dislikeReview(recipeId: string | number, reviewId: string | number) {
+        return this.http.post(`${this.url}/recipes/${recipeId}/reviews/${reviewId}/dislikes`, undefined, { responseType: 'text', ...httpOptions })
     }
 }

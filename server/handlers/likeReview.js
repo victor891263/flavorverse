@@ -4,7 +4,7 @@ const mongoose = require("mongoose")
 module.exports = async (req, res) => {
     const currentUserId = req.user.id
 
-    const recipe = await Recipe.findById(req.params.recipeId)
+    const recipe = await Recipe.findById(req.params.recipeId, 'reviews')
     if (!recipe) {
         res.status(404).send(`The recipe you're trying to engage with doesn't exist`)
         return

@@ -68,7 +68,7 @@ export const recipes: Recipe[] = [
                 updatedAt: new Date().toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: 'numeric' }),
                 _id: '1',
                 user: {
-                    _id: '2',
+                    _id: '1',
                     username: 'Banana2168',
                     img: undefined
                 },

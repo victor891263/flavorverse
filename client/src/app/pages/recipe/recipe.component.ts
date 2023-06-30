@@ -105,11 +105,7 @@ export class RecipeComponent implements OnInit {
 
     ngOnInit() {
         this.route.params.subscribe(params => {
-            this.recipesService.getRecipe(params['id']).subscribe(response => {
-                this.recipe = response
-            }, (error: HttpErrorResponse) => {
-                this.retrievalErrorMsg = error.message
-            })
+            this.recipe = recipes.find(recipe => recipe._id === params['id'])
         })
     }
 }

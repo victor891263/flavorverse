@@ -1,17 +1,14 @@
 <app-popup *ngIf="errorMsg" type="error">{{ errorMsg }}</app-popup>
 <div class="py-32 px-6 mx-auto container sm:max-w-screen-sm">
     <app-retrieval-wrapper [data]="recipe" [errorMsg]="retrievalErrorMsg" [skeleton]="skeleton">
-        <div *ngIf="recipe">
+        <ng-container *ngIf="recipe">
             <div class="main">
                 <div class="space-y-5">
-                    <div class="flex items-center justify-between">
-                        <div class="flex items-center">
-                            <app-rating [rating]="recipe.rating"></app-rating>
-                            <span class="ml-2 text-sm">{{ recipe.rating }} ({{ recipe.reviews.length }} reviews)</span>
-                        </div>
-                        <a *ngIf="currentUser._id === recipe.user._id" routerLink="edit" class="btn-secondary py-2 px-3">Edit</a>
+                    <div class="flex items-center">
+                        <app-rating [rating]="recipe.rating"></app-rating>
+                        <span class="ml-2 text-sm">{{ recipe.rating }} ({{ recipe.reviews.length }} reviews)</span>
                     </div>
-                    <h1 class="!mt-2.5 text-3xl font-extrabold tracking-tight text-slate-900">{{ recipe.title }}</h1>
+                    <h1 class="!mt-4 text-3xl font-extrabold tracking-tight text-slate-900">{{ recipe.title }}</h1>
                     <div class="flex items-center">
                         <img *ngIf="recipe.user.img" class="h-9 w-9 shrink-0 rounded-full" [src]="recipe.user.img" />
                         <svg *ngIf="!recipe.user.img" class="h-9 w-9 shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64.16 64.16"><path class="text-slate-200 dark:text-gray-700/75" fill="currentColor" d="M95.66,63.85a32,32,0,0,1-9.39,22.68,31.28,31.28,0,0,1-5.19,4.2A32.08,32.08,0,1,1,95.66,63.85Z" transform="translate(-31.5 -31.77)"/><circle class="text-slate-400 dark:text-gray-500" fill="currentColor" cx="63.58" cy="55.1" r="11.67" transform="translate(-32.49 77.26) rotate(-80.78)"/><path class="text-slate-400 dark:text-gray-500" fill="currentColor" d="M81.08,90.1v.63a32,32,0,0,1-35,0V90.1a17.5,17.5,0,0,1,35,0Z" transform="translate(-31.5 -31.77)"/></svg>
@@ -22,7 +19,7 @@
                     </div>
                     <p>{{ recipe.desc }}</p>
                     <div *ngIf="recipe.tags.length > 0" class="flex gap-1">
-                        <span *ngFor="let tag of recipe.tags" class="bg-slate-100 rounded-full py-1.5 px-3.5 text-sm text-slate-500 font-medium capitalize dark:text-gray-500">{{ tag }}</span>
+                        <span *ngFor="let tag of recipe.tags" class="bg-slate-100 rounded-full py-1.5 px-3.5 text-sm text-slate-500 font-medium capitalize dark:text-gray-400">{{ tag }}</span>
                     </div>
                 </div>
 
@@ -77,11 +74,16 @@
                 </div>
 
                 <div>
+                    <h2 class="mb-4">Modify</h2>
+                    <a *ngIf="currentUser._id === recipe.user._id" routerLink="edit" class="block w-fit btn-secondary py-2 px-3">Edit recipe</a>
+                </div>
+
+                <div>
                     <h2 class="mb-4">Reviews</h2>
 
                     <div *ngIf="currentUser" class="mb-1">
                         <app-rating (onRatingChange)="setRating($event)" [isClickable]="true" [rating]="rating"></app-rating>
-                        <textarea [(ngModel)]="review" (input)="handleAutoResize($event)" class="mt-4 flex rounded w-full h-20 py-2.5 px-3.5 text-base leading-relaxed resize-none" placeholder="What do you think about the recipe?" ></textarea>
+                        <textarea [(ngModel)]="review" (input)="handleAutoResize($event)" class="mt-4 flex rounded w-full h-20 py-2.5 px-3.5 text-base leading-[1.6] overflow-hidden resize-none" placeholder="What do you think about the recipe?" ></textarea>
                         <button (click)="submitReview($event)" [disabled]="!((rating > 0) && review && (review.length < 1000))" class="mt-2 ml-auto block btn-primary py-2 px-3">Submit</button>
                     </div>
 
@@ -164,6 +166,7 @@
                                         <svg *ngIf="review.disliked" class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M15.73 5.25h1.035A7.465 7.465 0 0118 9.375a7.465 7.465 0 01-1.235 4.125h-.148c-.806 0-1.534.446-2.031 1.08a9.04 9.04 0 01-2.861 2.4c-.723.384-1.35.956-1.653 1.715a4.498 4.498 0 00-.322 1.672V21a.75.75 0 01-.75.75 2.25 2.25 0 01-2.25-2.25c0-1.152.26-2.243.723-3.218C7.74 15.724 7.366 15 6.748 15H3.622c-1.026 0-1.945-.694-2.054-1.715A12.134 12.134 0 011.5 12c0-2.848.992-5.464 2.649-7.521.388-.482.987-.729 1.605-.729H9.77a4.5 4.5 0 011.423.23l3.114 1.04a4.5 4.5 0 001.423.23zM21.669 13.773c.536-1.362.831-2.845.831-4.398 0-1.22-.182-2.398-.52-3.507-.26-.85-1.084-1.368-1.973-1.368H19.1c-.445 0-.72.498-.523.898.591 1.2.924 2.55.924 3.977a8.959 8.959 0 01-1.302 4.666c-.245.403.028.959.5.959h1.053c.832 0 1.612-.453 1.918-1.227z" /></svg>
                                         <span class="ml-1">{{ review.dislikes }}</span>
                                     </button>
+                                    <a [routerLink]="'reviews/' + review._id + '/edit'" *ngIf="review.user._id === currentUser._id" class="block">Edit</a>
                                 </div>
                             </div>
 
@@ -171,43 +174,7 @@
                     </div>
                 </div>
             </div>
-            <div class="hidden space-y-11">
-                <div>
-                    <h2 class="mb-3 text-[17px] font-bold text-slate-900">Details</h2>
-                    <div class="details">
-                        <div *ngIf="recipe.duration.prep">
-                            <span>Prep time</span>
-                            <span>{{ recipe.duration.prep }} mins</span>
-                        </div>
-                        <div *ngIf="recipe.duration.cook">
-                            <span>Cook time</span>
-                            <span>{{ recipe.duration.cook }} mins</span>
-                        </div>
-                        <div *ngIf="recipe.duration.extra">
-                            <span class="block font-semibold text-slate-900">Extra time</span>
-                            <span>{{ recipe.duration.extra }} mins</span>
-                        </div>
-                        <div>
-                            <span>Total time</span>
-                            <span>{{ recipe.duration.prep + recipe.duration.cook + (recipe.duration.extra || 0) }} mins</span>
-                        </div>
-                        <div>
-                            <span>Servings</span>
-                            <span>{{ recipe.servings }}</span>
-                        </div>
-                    </div>
-                </div>
-                <div *ngIf="recipe.nutrition.length > 0">
-                    <h2 class="mb-3 text-[17px] font-bold text-slate-900">Nutrition</h2>
-                    <div class="details">
-                        <div *ngFor="let n of recipe.nutrition">
-                            <span class="first-letter:capitalize">{{ n.label }}</span>
-                            <span>{{ n.value }}</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        </ng-container>
     </app-retrieval-wrapper>
 </div>
 

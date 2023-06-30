@@ -3,6 +3,7 @@
 <div class="py-32 px-6 mx-auto container sm:max-w-screen-sm">
     <app-retrieval-wrapper [data]="isDataLoaded" [errorMsg]="retrievalErrorMsg" [skeleton]="skeleton">
         <div id="settings" *ngIf="isDataLoaded">
+            <h1 class="mb-8 text-2xl font-extrabold tracking-[-.01em] text-slate-900">Edit profile</h1>
             <form [formGroup]="detailsForm">
                 <div class="description">
                     <h2>Profile</h2>
