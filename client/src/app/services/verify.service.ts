@@ -2,6 +2,12 @@ import { Injectable } from '@angular/core'
 import { HttpClient, HttpHeaders } from '@angular/common/http'
 import getApiUrl from "../utilities/getApiUrl"
 
+const httpHeaders = {
+    headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+    })
+}
+
 @Injectable({
     providedIn: 'root'
 })
@@ -11,11 +17,10 @@ export class VerifyService {
     constructor(private http: HttpClient) {}
 
     verify(id: string) {
-        return this.http.get(`${this.url}/verify/${id}`, {
-            responseType: 'text',
-            headers: new HttpHeaders({
-                'Content-Type': 'application/json'
-            })
-        })
+        return this.http.get(`${this.url}/verify/${id}`, { responseType: 'text', ...httpHeaders })
+    }
+
+    verifyEmail(id: string) {
+        return this.http.get(`${this.url}/mail/${id}`, { responseType: 'text', ...httpHeaders })
     }
 }

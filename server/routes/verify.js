@@ -4,7 +4,6 @@ const jwt = require('jsonwebtoken')
 const handleAccess = require('../middleware/handleAccess')
 const User = require('../models/user')
 
-
 router.get('/:id', handleAccess, async (req, res) => {
     const verificationId = req.params.id
     const token = req.headers.authorization // get jwt sent by client
@@ -29,8 +28,8 @@ router.get('/:id', handleAccess, async (req, res) => {
         return
     }
 
-    // set user status to verified
-    user.email.isVerified = true
+    // remove the verification id
+    user.email.verificationId = null
     user.save()
 
     res.sendStatus(200)

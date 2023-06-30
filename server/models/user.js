@@ -16,19 +16,31 @@ const User = new mongoose.Schema({
                 message: props => `${props.value} is not a valid email address`
             }
         },
-        isVerified: {
-            type: Boolean,
-            default: false
+        verificationId: {
+            type: String,
+            min: 1,
+            max: 100
+        }
+    },
+    newEmail: {
+        address: {
+            type: String,
+            unique: true,
+            min: 1,
+            max: 30,
+            validate: {
+                validator: function(value) {
+                    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+                    return regex.test(value)
+                },
+                message: props => `${props.value} is not a valid email address`
+            }
         },
         verificationId: {
             type: String,
             min: 1,
-            max: 100,
-            required: true
+            max: 100
         }
-    },
-    newEmail: {
-
     },
     username: {
         type: String,

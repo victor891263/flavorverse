@@ -85,10 +85,6 @@ const Recipe = new mongoose.Schema({
         min: 1,
         max: 300
     }],
-    triedBy: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
-    }],
     reviews: [Review]
 }, { timestamps: true })
 

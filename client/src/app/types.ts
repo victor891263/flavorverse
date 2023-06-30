@@ -61,7 +61,12 @@ export type Recipe = {
 } & Metadata
 
 export type User = {
-    email: string
+    email: {
+        address: string
+    }
+    newEmail: {
+        address?: string
+    }
     username: string
     name?: string
     about?: string

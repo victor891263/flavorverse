@@ -1,13 +1,6 @@
 export default function GetCurrentUser() {
     return {
         _id: '1',
-        isVerified: false
+        isVerified: true
     }
 }
-
-/*
-{
-    _id: '10',
-    username: 'AutheticBurmese'
-}
-*/

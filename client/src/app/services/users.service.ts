@@ -35,6 +35,10 @@ export class UsersService {
         return this.http.put(`${this.url}/users/email`, email, { responseType: 'text', ...httpOptions })
     }
 
+    stopUpdateEmail() {
+        return this.http.delete(`${this.url}/users/email`, { responseType: 'text', ...httpOptions })
+    }
+
     updatePassword(oldPassword: string, newPassword: string) {
         return this.http.put(`${this.url}/users/password`, { oldPassword, newPassword }, { responseType: 'text', ...httpOptions })
     }

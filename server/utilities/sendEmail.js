@@ -1,6 +1,6 @@
 const nodemailer = require('nodemailer')
 
-module.exports = async (emailAddress, id) => {
+module.exports = async (emailAddress, id, isNewEmail) => {
     const transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
@@ -9,10 +9,17 @@ module.exports = async (emailAddress, id) => {
         }
     })
 
-    await transporter.sendMail({
-        from: '1w3r4f51hh3k@gmail.com',
-        to: emailAddress,
+    const data = isNewEmail ? {
+        subject: '[Flavorverse] Verify your new email',
+        test: `To finish updating your email to this address, you must complete the verification by visiting this link: ${process.env.CLIENT_URL}/verify/${id}?email=true`
+    }:{
         subject: '[Flavorverse] Verify your email',
-        text: `Thank you for creating a Flavorverse account. Visit this link to verify your email and complete the account creation process: ${process.env.API_URL}/verify/${id}`
+        text: `Thank you for creating a Flavorverse account. Visit this link to verify your email and complete the account creation process: ${process.env.CLIENT_URL}/verify/${id}`
+    }
+
+    await transporter.sendMail({
+        from: 'autoreply978@gmail.com',
+        to: emailAddress,
+        ...data
     })
 }

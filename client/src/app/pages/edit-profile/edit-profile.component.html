@@ -13,7 +13,7 @@
                         <img *ngIf="img" class="h-20 w-20 shrink-0 rounded-full" [src]="img" />
                         <svg *ngIf="!img" class="h-20 w-20 shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64.16 64.16"><path class="text-slate-200 dark:text-gray-700/75" fill="currentColor" d="M95.66,63.85a32,32,0,0,1-9.39,22.68,31.28,31.28,0,0,1-5.19,4.2A32.08,32.08,0,1,1,95.66,63.85Z" transform="translate(-31.5 -31.77)"/><circle class="text-slate-400 dark:text-gray-500" fill="currentColor" cx="63.58" cy="55.1" r="11.67" transform="translate(-32.49 77.26) rotate(-80.78)"/><path class="text-slate-400 dark:text-gray-500" fill="currentColor" d="M81.08,90.1v.63a32,32,0,0,1-35,0V90.1a17.5,17.5,0,0,1,35,0Z" transform="translate(-31.5 -31.77)"/></svg>
                         <div class="space-y-2">
-                            <label for="profile-img" class="btn-secondary py-2 px-3 cursor-pointer w-fit !text-[15px] !mb-0">Upload image</label>
+                            <label for="profile-img" class="btn-secondary py-2 px-3 cursor-pointer w-fit !text-[15px] !mb-0 hover:bg-slate-200 dark:hover:bg-gray-700/75">Upload image</label>
                             <input type="file" id="profile-img" (change)="uploadImage($event)" accept="image/*" class="hidden" />
                             <span class="block text-sm break-all">{{newImg ? newImg.name : 'No file selected'}}</span>
                         </div>
@@ -61,16 +61,23 @@
                         <label for="email">Current email address</label>
                         <input formControlName="email" type="email" name="email" id="email" class="rounded-md w-full py-2 px-3 text-[15px] text-slate-400 cursor-text bg-slate-50 dark:bg-gray-800/50"/>
                     </div>
-                    <div>
-                        <label for="new-email">New email address</label>
-                        <input formControlName="newEmail" type="email" name="new-email" id="new-email" class="rounded-md w-full py-2 px-3 text-[15px]"/>
-                        <div *ngIf="newEmail.invalid && (newEmail.dirty || newEmail.touched)" class="mt-2 text-sm text-red-600 leading-6">
-                            <span *ngIf="newEmail.errors?.['required']">Email cannot be empty</span>
-                            <span *ngIf="newEmail.errors?.['email']">Email must be in a valid format</span>
-                            <span *ngIf="newEmail.errors?.['maxlength']">Email must be no more than 30 characters long</span>
-                        </div>
+                    <div *ngIf="emailToVerify" class="p-5 pb-6 border rounded-md text-center">
+                        <svg class="mb-3 h-8 w-8 text-slate-300 mx-auto dark:text-gray-700" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.25" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" /></svg>
+                        <p>Follow the instructions sent to your new email address to finish updating. You can also revert the change. Doing so will make the verification null.</p>
+                        <button class="mt-4 btn-secondary py-2 px-3">I don't want to update anymore</button>
                     </div>
-                    <button (click)="saveEmail($event)" [disabled]="!emailForm.valid" class="btn-secondary py-2 px-3">Save</button>
+                    <ng-container *ngIf="!emailToVerify">
+                        <div>
+                            <label for="new-email">New email address</label>
+                            <input formControlName="newEmail" type="email" name="new-email" id="new-email" class="rounded-md w-full py-2 px-3 text-[15px]"/>
+                            <div *ngIf="newEmail.invalid && (newEmail.dirty || newEmail.touched)" class="mt-2 text-sm text-red-600 leading-6">
+                                <span *ngIf="newEmail.errors?.['required']">Email cannot be empty</span>
+                                <span *ngIf="newEmail.errors?.['email']">Email must be in a valid format</span>
+                                <span *ngIf="newEmail.errors?.['maxlength']">Email must be no more than 30 characters long</span>
+                            </div>
+                        </div>
+                        <button (click)="saveEmail($event)" [disabled]="!emailForm.valid" class="btn-secondary py-2 px-3">Save</button>
+                    </ng-container>
                 </div>
             </form>
 

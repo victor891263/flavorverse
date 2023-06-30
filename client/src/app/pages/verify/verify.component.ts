@@ -11,6 +11,7 @@ import getCurrentUser from '../../utilities/getCurrentUser'
 })
 
 export class VerifyComponent implements OnInit {
+    isEmail: boolean
     isLoading = true
     errorMsg: string
     currentUser = getCurrentUser()
@@ -20,11 +21,23 @@ export class VerifyComponent implements OnInit {
     ngOnInit() {
         if (this.currentUser) {
             this.route.params.subscribe(params => {
-                this.verifyService.verify(params['id']).subscribe(() => {
-                    this.isLoading = false
-                }, (error: HttpErrorResponse) => {
-                    this.errorMsg = error.message
-                    this.isLoading = false
+                this.route.queryParams.subscribe(queryParams => {
+                    this.isEmail = queryParams['email']
+                    if (queryParams['email']) {
+                        this.verifyService.verifyEmail(params['id']).subscribe(() => {
+                            this.isLoading = false
+                        }, (error: HttpErrorResponse) => {
+                            this.errorMsg = error.message
+                            this.isLoading = false
+                        })
+                    } else {
+                        this.verifyService.verify(params['id']).subscribe(() => {
+                            this.isLoading = false
+                        }, (error: HttpErrorResponse) => {
+                            this.errorMsg = error.message
+                            this.isLoading = false
+                        })
+                    }
                 })
             })
         } else {

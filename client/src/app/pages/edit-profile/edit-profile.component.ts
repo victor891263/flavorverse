@@ -21,6 +21,8 @@ export class EditProfileComponent implements OnInit {
     img: string
     newImg: File
 
+    emailToVerify: string
+
     detailsForm: FormGroup
     emailForm: FormGroup
     passwordForm: FormGroup
@@ -101,7 +103,20 @@ export class EditProfileComponent implements OnInit {
         e.target.innerText = 'Saving...'
         e.target.disabled = true
         this.usersService.updateEmail(this.newEmail.value).subscribe(() => {
-            this.successMsg = 'Your email has been updated successfully'
+            this.emailToVerify = this.newEmail.value
+        }, (error: HttpErrorResponse) => {
+            this.errorMsg = error.message
+            setTimeout(() => this.errorMsg = '', 5000) // make the error popup disappear after 5 seconds
+            e.target.innerText = 'Save'
+            e.target.disabled = false
+        })
+    }
+
+    stopUpdateEmail(e) {
+        e.target.innerText = 'Reverting changes...'
+        e.target.disabled = true
+        this.usersService.stopUpdateEmail().subscribe(() => {
+            this.successMsg = 'Your email is successfully reverted back to original'
             setTimeout(() => this.successMsg = '', 5000) // make the success popup disappear after 5 seconds
         }, (error: HttpErrorResponse) => {
             this.errorMsg = error.message
@@ -148,6 +163,7 @@ export class EditProfileComponent implements OnInit {
             this.isDataLoaded = true
             const profile = response.user
             this.img = profile.img
+            this.emailToVerify = profile.newEmail.address
             this.detailsForm = this.formBuilder.group({
                 username: new FormControl(profile.username, [
                     Validators.required,
@@ -164,8 +180,8 @@ export class EditProfileComponent implements OnInit {
                 ]),
             })
             this.emailForm = this.formBuilder.group({
-                email: new FormControl({ value: profile.email, disabled: true }),
-                newEmail: new FormControl(profile.email, [
+                email: new FormControl({ value: profile.email.address, disabled: true }),
+                newEmail: new FormControl('', [
                     Validators.required,
                     Validators.email,
                     Validators.maxLength(30)
@@ -192,6 +208,7 @@ this.usersService.getUser(this.currentUser._id).subscribe(response => {
     this.isDataLoaded = true
     const profile = response.user
     this.img = profile.img
+    this.emailToVerify = profile.newEmail.address
     this.detailsForm = this.formBuilder.group({
         username: new FormControl(profile.username, [
             Validators.required,
@@ -208,8 +225,8 @@ this.usersService.getUser(this.currentUser._id).subscribe(response => {
         ]),
     })
     this.emailForm = this.formBuilder.group({
-        email: new FormControl({ value: profile.email, disabled: true }),
-        newEmail: new FormControl(profile.email, [
+        email: new FormControl({ value: profile.email.address, disabled: true }),
+        newEmail: new FormControl('', [
             Validators.required,
             Validators.email,
             Validators.maxLength(30)
