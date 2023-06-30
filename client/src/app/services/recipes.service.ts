@@ -100,4 +100,12 @@ export class RecipesService {
     addRecipe(recipe: InputRecipe) {
         return this.http.post<string>(`${this.url}/recipes`, recipe, { responseType: 'json', ...httpOptions })
     }
+
+    updateRecipe(recipe: InputRecipe, id: string) {
+        return this.http.put(`${this.url}/recipes/${id}`, { responseType: 'text', ...httpOptions })
+    }
+
+    deleteRecipe(id: string) {
+        return this.http.delete(`${this.url}/recipes/${id}`, { responseType: 'text', ...httpOptions })
+    }
 }

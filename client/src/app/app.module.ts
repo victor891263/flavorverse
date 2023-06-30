@@ -23,6 +23,8 @@ import { EditProfileSkeletonComponent } from './components/edit-profile-skeleton
 import { AddRecipeComponent } from './pages/add-recipe/add-recipe.component';
 import { VerifyComponent } from './pages/verify/verify.component';
 import { UnverifiedComponent } from './pages/unverified/unverified.component';
+import { RecipeFormComponent } from './components/recipe-form/recipe-form.component';
+import { EditRecipeComponent } from './pages/edit-recipe/edit-recipe.component';
 
 @NgModule({
     declarations: [
@@ -44,6 +46,8 @@ import { UnverifiedComponent } from './pages/unverified/unverified.component';
         AddRecipeComponent,
         VerifyComponent,
         UnverifiedComponent,
+        RecipeFormComponent,
+        EditRecipeComponent,
 
     ],
     imports: [

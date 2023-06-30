@@ -9,6 +9,7 @@ import {AddRecipeComponent} from "./pages/add-recipe/add-recipe.component"
 import {EditProfileComponent} from "./pages/edit-profile/edit-profile.component"
 import {UnverifiedComponent} from "./pages/unverified/unverified.component";
 import {CheckVerificationGuard} from "./guards/check-verification.guard";
+import {EditRecipeComponent} from "./pages/edit-recipe/edit-recipe.component";
 
 const routes: Routes = [
     {
@@ -35,6 +36,10 @@ const routes: Routes = [
     {
         path: 'recipes/:id',
         component: RecipeComponent
+    },
+    {
+        path: 'recipes/:id/edit',
+        component: EditRecipeComponent
     },
     {
         path: 'users/:id',

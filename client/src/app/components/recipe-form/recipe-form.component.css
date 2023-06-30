@@ -1,0 +1,19 @@
+.recipe-form > div:not(:first-of-type) {
+    @apply border-t pt-12 mt-12 dark:border-gray-700
+}
+
+.recipe-form .description {
+    @apply mb-10
+}
+
+.recipe-form .description h2 {
+    @apply font-extrabold text-slate-900 dark:text-gray-100
+}
+
+.recipe-form label {
+    @apply block text-sm mb-2.5
+}
+
+.recipe-form sup {
+    @apply font-semibold text-red-600
+}

@@ -1,0 +1,7 @@
+<div class="py-32 px-6 mx-auto container sm:max-w-screen-sm">
+    <app-retrieval-wrapper [data]="recipe" [errorMsg]="retrievalErrorMsg" [skeleton]="skeleton">
+        <ng-container *ngIf="recipe">
+            <app-recipe-form [new]="false" [recipe]="recipe"></app-recipe-form>
+        </ng-container>
+    </app-retrieval-wrapper>
+</div>
