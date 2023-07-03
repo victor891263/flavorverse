@@ -1,6 +1,6 @@
 <app-popup *ngIf="submitErrorMsg" type="error" >Operation failed. {{ submitErrorMsg }}</app-popup>
 <form [formGroup]="form" class="mt-10 space-y-6 recipe-form">
-    <h1 class="mb-8 text-2xl font-extrabold tracking-[-.01em] text-slate-900">{{new ? 'Add recipe' : 'Edit recipe'}}</h1>
+    <h1 class="mb-12 text-2xl font-extrabold tracking-[-.01em] text-slate-900">{{new ? 'Add recipe' : 'Edit recipe'}}</h1>
     <div>
         <div class="description">
             <h2>Details</h2>
@@ -33,6 +33,24 @@
                         <span *ngIf="servings.errors?.['max']">Servings must be no more than 100</span>
                     </div>
                 </div>
+            </div>
+            <div>
+                <label class="!mb-3">Food photo</label>
+                <ng-container *ngIf="newImg">
+                    <button (click)="removeUploadedImage()" class="block border-2 border-dashed p-6 w-full rounded-md text-center cursor-pointer hover:bg-slate-50 dark:border-gray-700 dark:hover:bg-gray-800/50">
+                        <svg class="w-12 h-12 mx-auto text-slate-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" /></svg>
+                        <span class="mt-2 block font-bold break-words text-slate-900">{{newImg.name}}</span>
+                        <span class="mt-1 block text-sm text-slate-400">Click again to remove selected file</span>
+                    </button>
+                </ng-container>
+                <ng-container *ngIf="!newImg">
+                    <label for="food-img" class="!mb-0 border-2 border-dashed p-6 w-full rounded-md text-center cursor-pointer hover:bg-slate-50 dark:border-gray-700 dark:hover:bg-gray-800/50">
+                        <svg class="w-12 h-12 mx-auto text-slate-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" /></svg>
+                        <span class="mt-2 block text-base font-bold text-slate-900">Select an image to upload</span>
+                        <span class="mt-1 block text-slate-400">No larger than 1MB</span>
+                    </label>
+                    <input type="file" id="food-img" (change)="uploadImage($event)" accept="image/*" class="hidden" />
+                </ng-container>
             </div>
         </div>
     </div>

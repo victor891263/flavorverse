@@ -18,6 +18,11 @@ const Recipe = new mongoose.Schema({
         min: 1,
         max: 1000
     },
+    img: {
+        type: String,
+        min: 1,
+        max: 300
+    },
     rating: {
         type: Number,
         min: 0,

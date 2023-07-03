@@ -37,6 +37,9 @@ export class RecipeFormComponent implements OnInit {
         return this.form.get('extraTime')
     }
 
+    img: string
+    newImg: File
+
     tags: string[] = []
 
     allTags: string[]
@@ -83,6 +86,19 @@ export class RecipeFormComponent implements OnInit {
             (this.ingredients.length > 0) &&
             (this.steps.length > 0)
         )
+    }
+
+    uploadImage(e) {
+        const file = e.target.files[0]
+        if (file.size > 1048576) {
+            this.submitErrorMsg = 'File must not be bigger than 1MB'
+            setTimeout(() => this.submitErrorMsg = '', 5000)
+        }
+        else this.newImg = file
+    }
+
+    removeUploadedImage() {
+        this.newImg = undefined
     }
 
     addTag(tag: string) {
@@ -133,7 +149,10 @@ export class RecipeFormComponent implements OnInit {
     submitRecipe(e) {
         e.target.innerText = 'Submitting...'
         e.target.disabled = true
-        this.recipesService.addRecipe({
+
+        // convert the data into the form/multipart format, to successfully send files to the api
+        const formData = new FormData()
+        formData.append('data', JSON.stringify({
             title: this.title.value,
             desc: this.desc.value,
             tags: this.tags,
@@ -146,7 +165,10 @@ export class RecipeFormComponent implements OnInit {
                 extra: this.extraTime.value
             },
             steps: this.steps
-        }).subscribe(response => {
+        }))
+        formData.append('img', this.newImg)
+
+        this.recipesService.addRecipe(formData).subscribe(response => {
             this.router.navigate(['/recipes/' + response]) // if recipe is added successfully, redirect to the newly added recipe page
         }, (error: HttpErrorResponse) => {
             this.submitErrorMsg = error.message
@@ -159,7 +181,10 @@ export class RecipeFormComponent implements OnInit {
     updateRecipe(e) {
         e.target.innerText = 'Submitting...'
         e.target.disabled = true
-        this.recipesService.updateRecipe({
+
+        // convert the data into the form/multipart format, to successfully send files to the api
+        const formData = new FormData()
+        formData.append('data', JSON.stringify({
             title: this.title.value,
             desc: this.desc.value,
             tags: this.tags,
@@ -171,8 +196,12 @@ export class RecipeFormComponent implements OnInit {
                 cook: this.cookTime.value,
                 extra: this.extraTime.value
             },
-            steps: this.steps
-        }, this.recipe._id).subscribe(() => {
+            steps: this.steps,
+            img: this.img
+        }))
+        formData.append('newImg', this.newImg)
+
+        this.recipesService.updateRecipe(formData, this.recipe._id).subscribe(() => {
             this.router.navigate(['/recipes/' + this.recipe._id]) // if recipe is updated successfully, redirect to the recipe page
         }, (error: HttpErrorResponse) => {
             this.submitErrorMsg = error.message

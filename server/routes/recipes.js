@@ -1,5 +1,6 @@
 const express = require('express')
 const router = express.Router()
+const multer = require('multer')
 const getRecipes = require('../handlers/getRecipes')
 const getRecipe = require('../handlers/getRecipe')
 const getTags = require('../handlers/getTags')
@@ -14,11 +15,13 @@ const likeReview = require('../handlers/likeReview')
 const dislikeReview = require('../handlers/dislikeReview')
 const handleAccess = require('../middleware/handleAccess')
 
+const upload = multer({ dest: "uploads/" }) // where uploaded images will be temporarily stored
+
 // get all recipes and filter them
 router.get('/', getRecipes)
 
 // add a recipe
-router.post('/', handleAccess, addRecipe)
+router.post('/', [handleAccess, upload.single('img')], addRecipe)
 
 // get all tags
 router.get('/tags', getTags)

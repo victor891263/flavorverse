@@ -85,11 +85,11 @@ export class RecipesService {
         return this.http.get<string[]>(`${this.url}/recipes/ingredients`, { responseType: 'json' })
     }
 
-    addRecipe(recipe: InputRecipe) {
+    addRecipe(recipe: FormData) {
         return this.http.post<string>(`${this.url}/recipes`, recipe, { responseType: 'json', ...httpOptions })
     }
 
-    updateRecipe(recipe: InputRecipe, id: string) {
+    updateRecipe(recipe: FormData, id: string) {
         return this.http.put(`${this.url}/recipes/${id}`, { responseType: 'text', ...httpOptions })
     }
 
