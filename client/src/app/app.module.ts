@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { HttpClientModule } from '@angular/common/http'
-import { RouterModule, Routes } from '@angular/router'
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -19,13 +18,14 @@ import { RecipesSkeletonComponent } from './components/recipes-skeleton/recipes-
 import { RecipeSkeletonComponent } from './components/recipe-skeleton/recipe-skeleton.component';
 import { ProfileSkeletonComponent } from './components/profile-skeleton/profile-skeleton.component';
 import { EditProfileComponent } from './pages/edit-profile/edit-profile.component';
-import { EditProfileSkeletonComponent } from './components/edit-profile-skeleton/edit-profile-skeleton.component';
-import { AddRecipeComponent } from './pages/add-recipe/add-recipe.component';
 import { VerifyComponent } from './pages/verify/verify.component';
 import { UnverifiedComponent } from './pages/unverified/unverified.component';
 import { RecipeFormComponent } from './components/recipe-form/recipe-form.component';
-import { EditRecipeComponent } from './pages/edit-recipe/edit-recipe.component';
-import { EditReviewComponent } from './pages/edit-review/edit-review.component';
+import { ButtonComponent } from './components/button/button.component';
+import { RatingsComponent } from './components/ratings/ratings.component';
+import { RecipeSmallComponent } from './components/recipe-small/recipe-small.component';
+import { FullScreenComponent } from './components/full-screen/full-screen.component';
+import { MultiSelectComponent } from './components/multi-select/multi-select.component';
 
 @NgModule({
     declarations: [
@@ -43,13 +43,14 @@ import { EditReviewComponent } from './pages/edit-review/edit-review.component';
         RecipeSkeletonComponent,
         ProfileSkeletonComponent,
         EditProfileComponent,
-        EditProfileSkeletonComponent,
-        AddRecipeComponent,
         VerifyComponent,
         UnverifiedComponent,
         RecipeFormComponent,
-        EditRecipeComponent,
-        EditReviewComponent,
+        ButtonComponent,
+        RatingsComponent,
+        RecipeSmallComponent,
+        FullScreenComponent,
+        MultiSelectComponent,
 
     ],
     imports: [

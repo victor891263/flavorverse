@@ -26,6 +26,7 @@ module.exports = async (req, res) => {
     const verificationId = crypto.randomBytes(32).toString('hex') // generate a 64-character long random string
 
     const result = await User.create({
+        username: userData.email,
         email: {
             address: userData.email,
             verificationId
@@ -38,7 +39,7 @@ module.exports = async (req, res) => {
 
     // create the json web token and send it to the client
     const token = jwt.sign({
-        id: result.id,
+        _id: result.id,
         isVerified: false // new users are always unverified
     }, process.env.JWT_SECRET)
     res.send(token)

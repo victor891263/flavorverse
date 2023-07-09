@@ -9,25 +9,23 @@ router.post('/', async (req, res) => {
 
     // check if the given email exists in the database. If it doesn't, don't proceed
     const user = await User.findOne({
-        email: {
-            address: authData.email
-        }
+        'email.address': authData.email
     })
     if (!user) {
-        res.status(400).send('Invalid email or password')
+        res.status(400).send('Invalid email')
         return
     }
 
     // check if the given password matches with the one in the database. If it doesn't, don't proceed
     const isPasswordValid = await bcrypt.compare(authData.password, user.password)
     if (!isPasswordValid) {
-        res.status(400).send('Invalid email or password')
+        res.status(400).send('Invalid password')
         return
     }
 
     // create the json web token
     const token = jwt.sign({
-        id: user.id,
+        _id: user.id,
         isVerified: !user.email.verificationId // if verification id still exists, that means the user is unverified
     }, process.env.JWT_SECRET)
 

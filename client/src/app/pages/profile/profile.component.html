@@ -1,46 +1,35 @@
-<div class=" py-32 px-6 mx-auto container sm:max-w-screen-sm">
+<app-full-screen [isVisible]="isBoxOpen">
+    <app-edit-profile *ngIf="profile && currentUser" [user]="profile" (close)="toggleBox(false)" (onDetailsUpdate)="handleDetailsUpdate($event)"></app-edit-profile>
+</app-full-screen>
+<div class=" py-32 px-6 mx-auto container max-w-3xl">
     <app-retrieval-wrapper [data]="profile" [errorMsg]="errorMsg" [skeleton]="skeleton">
         <ng-container *ngIf="profile">
             <div class="space-y-5">
                 <div class="flex justify-between">
                     <img *ngIf="profile.img" class="h-28 w-28 shrink-0 rounded-full" [src]="profile.img" />
                     <svg *ngIf="!profile.img" class="h-28 w-28 shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64.16 64.16"><path class="text-slate-200 dark:text-gray-700/75" fill="currentColor" d="M95.66,63.85a32,32,0,0,1-9.39,22.68,31.28,31.28,0,0,1-5.19,4.2A32.08,32.08,0,1,1,95.66,63.85Z" transform="translate(-31.5 -31.77)"/><circle class="text-slate-400 dark:text-gray-500" fill="currentColor" cx="63.58" cy="55.1" r="11.67" transform="translate(-32.49 77.26) rotate(-80.78)"/><path class="text-slate-400 dark:text-gray-500" fill="currentColor" d="M81.08,90.1v.63a32,32,0,0,1-35,0V90.1a17.5,17.5,0,0,1,35,0Z" transform="translate(-31.5 -31.77)"/></svg>
-                    <a *ngIf="profile._id === currentUser._id" routerLink="/profile/edit" class="btn-secondary py-2 px-3 h-fit">Edit profile</a>
+                    <button *ngIf="currentUser && (profile._id === currentUser._id)" (click)="toggleBox(true)" class="btn-secondary py-2 px-3 h-fit">Edit profile</button>
                 </div>
                 <div>
                     <h2 class="text-lg font-extrabold text-slate-900">{{ profile.name || profile.username }}</h2>
-                    <span class="block text-slate-400 font-medium">@{{ profile.username }}</span>
+                    <span class="mt-0.5 block text-slate-400 font-medium">@{{ profile.username }}</span>
                 </div>
                 <p>{{ profile.about || "This user hasn't added an introduction yet." }}</p>
                 <div class="flex max-md:flex-col max-md:space-y-2 md:space-x-6 text-slate-400">
-                    <div class="flex items-center space-x-1">
+                    <div class="flex items-center space-x-1.5">
                         <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" /></svg>
                         <span>Joined {{ getTimeLabel(profile.createdAt) }}</span>
                     </div>
-                    <div *ngIf="profile.link" class="flex items-center space-x-1">
+                    <div *ngIf="profile.link" class="flex items-center space-x-1.5">
                         <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244" /></svg>
                         <span>{{profile.link}}</span>
                     </div>
                 </div>
             </div>
-            <div class="border-t mt-12">
-                <span class="block text-sm mt-4">{{ recipes.length }} recipes found</span>
-                <div class="divide-y divide-slate-200">
-                    <a *ngFor="let recipe of recipes" [routerLink]="('/recipes/' + recipe._id)" class="block space-y-3 py-12">
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center">
-                                <app-rating [rating]="recipe.rating"></app-rating>
-                                <span class="ml-2 text-sm">{{ recipe.rating }}</span>
-                            </div>
-                            <span class="text-sm text-slate-400">{{ getTimeLabel(recipe.createdAt) }}</span>
-                        </div>
-                        <span class="block font-bold text-lg text-slate-900">{{ recipe.title }}</span>
-
-                        <p class="line-clamp-2 !mt-2">{{recipe.desc}}</p>
-                        <div *ngIf="recipe.tags.length > 0" class="flex space-x-1 pt-1">
-                            <span *ngFor="let tag of recipe.tags" class="bg-slate-100 rounded-full py-1.5 px-3.5 text-sm text-slate-500 font-medium capitalize">{{ tag }}</span>
-                        </div>
-                    </a>
+            <div class="border-t mt-12 pt-10">
+                <span class="block text-sm">{{ recipes.length }} recipes found</span>
+                <div class="mt-4 grid gap-6 lg:grid-cols-2">
+                    <app-recipe-small *ngFor="let recipe of recipes" [recipe]="recipe"></app-recipe-small>
                 </div>
             </div>
         </ng-container>

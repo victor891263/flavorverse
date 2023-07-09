@@ -71,9 +71,9 @@ export const recipe = {
             },
             body: `This banana bread didnt have any texture at all. it didnt taste like banana bread whatsoever. it was really bad and i'll just stick to other banana bread recipes`,
             rating: 1,
-            likes: 1,
+            likes: 55,
             liked: true,
-            dislikes: 15,
+            dislikes: 55,
             disliked: false
         },
         {
@@ -87,9 +87,9 @@ export const recipe = {
             },
             body: `I loved this recipe! I made it exactly as posted. Lasagna is one of my specialties and I've tried all kinds of variations but this one is a winner just as published. My new "go to".`,
             rating: 4,
-            likes: 0,
+            likes: 55,
             liked: false,
-            dislikes: 15,
+            dislikes: 55,
             disliked: false
         }
     ]

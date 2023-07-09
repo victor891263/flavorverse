@@ -18,7 +18,7 @@ module.exports = async (req, res) => {
     }
 
     // delete the review
-    recipe.reviews = recipe.reviews.filter(r => r._id !== req.params.reviewId)
+    recipe.reviews = recipe.reviews.filter(r => r._id.toString() !== req.params.reviewId)
     await recipe.save()
 
     res.sendStatus(200)

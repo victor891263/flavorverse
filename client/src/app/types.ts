@@ -28,6 +28,13 @@ export type RecipeBrief = {
     desc: string
     tags: string[]
     rating: number
+    img?: string
+    servings: number
+    duration: {
+        prep?: number
+        cook?: number
+        extra?: number
+    }
 } & Metadata
 
 export type Recipe = {
@@ -38,6 +45,7 @@ export type Recipe = {
     }
     title: string
     desc: string
+    img?: string
     tags: string[]
     rating: number
     nutrition: {

@@ -2,8 +2,6 @@ import {Component, OnInit} from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
 import {Recipe, RecipeBrief, User} from "../../types"
 import getTimeLabel from '../../utilities/getTimeLabel'
-import {users} from "../../utilities/users"
-import {recipes} from "../../utilities/recipes"
 import {UsersService} from "../../services/users.service"
 import {HttpErrorResponse} from "@angular/common/http"
 import {ProfileSkeletonComponent} from '../../components/profile-skeleton/profile-skeleton.component'
@@ -22,9 +20,28 @@ export class ProfileComponent implements OnInit {
     errorMsg: string
     skeleton = ProfileSkeletonComponent
 
-    currentUser = getCurrentUser()
+    isBoxOpen = false
+
+    get currentUser() {
+        return getCurrentUser()
+    }
 
     getTimeLabel = getTimeLabel
+
+    toggleBox(isOpen: boolean) {
+        if (isOpen) {
+            document.documentElement.style.overflow = 'hidden'
+            this.isBoxOpen = true
+        } else {
+            document.documentElement.style.overflow = 'auto'
+            this.isBoxOpen = false
+        }
+    }
+
+    handleDetailsUpdate(response: User) {
+        console.log(response)
+        this.profile = response
+    }
 
     constructor(private route: ActivatedRoute, private usersService: UsersService) {}
 
@@ -39,19 +56,3 @@ export class ProfileComponent implements OnInit {
         })
     }
 }
-
-/*
-this.route.params.subscribe(params => {
-    this.usersService.getUser(params['id']).subscribe(response => {
-        this.profile = response.user
-        this.recipes = response.recipes
-    }, (error: HttpErrorResponse) => {
-        this.errorMsg = error.message
-    })
-})
-
-this.route.params.subscribe(params => {
-    this.profile = users.find(user => user._id === params['id'])
-})
-this.recipes = recipes
-*/

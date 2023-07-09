@@ -28,6 +28,7 @@ const User = new mongoose.Schema({
             unique: true,
             min: 1,
             max: 30,
+            default: null,
             validate: {
                 validator: function(value) {
                     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -39,7 +40,8 @@ const User = new mongoose.Schema({
         verificationId: {
             type: String,
             min: 1,
-            max: 100
+            max: 100,
+            default: null
         }
     },
     username: {

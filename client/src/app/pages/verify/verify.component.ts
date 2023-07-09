@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
 import {VerifyService} from "../../services/verify.service"
-import {HttpErrorResponse} from "@angular/common/http"
 import getCurrentUser from '../../utilities/getCurrentUser'
+import createObserverObject from "../../utilities/createObserverObject"
 
 @Component({
     selector: 'app-verify',
@@ -14,7 +14,14 @@ export class VerifyComponent implements OnInit {
     isEmail: boolean
     isLoading = true
     errorMsg: string
-    currentUser = getCurrentUser()
+    get currentUser() {
+        return getCurrentUser()
+    }
+
+    handleVerify(isEmail: any, id: string) {
+        if (isEmail) return this.verifyService.verifyEmail(id)
+        return this.verifyService.verify(id)
+    }
 
     constructor(private verifyService: VerifyService, private route: ActivatedRoute) {}
 
@@ -23,25 +30,17 @@ export class VerifyComponent implements OnInit {
             this.route.params.subscribe(params => {
                 this.route.queryParams.subscribe(queryParams => {
                     this.isEmail = queryParams['email']
-                    if (queryParams['email']) {
-                        this.verifyService.verifyEmail(params['id']).subscribe(() => {
-                            this.isLoading = false
-                        }, (error: HttpErrorResponse) => {
-                            this.errorMsg = error.message
-                            this.isLoading = false
-                        })
-                    } else {
-                        this.verifyService.verify(params['id']).subscribe(() => {
-                            this.isLoading = false
-                        }, (error: HttpErrorResponse) => {
-                            this.errorMsg = error.message
-                            this.isLoading = false
-                        })
-                    }
+                    this.handleVerify(queryParams['email'], params['id']).subscribe(createObserverObject(() => {
+                    }, (msg: string) => {
+                        console.log(msg)
+                        this.errorMsg = msg
+                    }, () => {
+                        this.isLoading = false
+                    }))
                 })
             })
         } else {
-            this.errorMsg = `You don't have permission to access this page. Only logged in users do.`
+            this.errorMsg = `You must be logged in to access this page.`
             this.isLoading = false
         }
     }

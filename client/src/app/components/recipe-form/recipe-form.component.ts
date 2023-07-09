@@ -1,9 +1,11 @@
-import {Component, Input, OnInit} from '@angular/core'
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core'
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms"
 import {HttpErrorResponse} from "@angular/common/http"
 import {RecipesService} from "../../services/recipes.service"
 import {Router} from "@angular/router"
-import {Recipe} from "../../types";
+import {Recipe} from "../../types"
+import createObserverObject from "../../utilities/createObserverObject"
+import handleAutoResize from "../../utilities/handleAutoResize"
 
 @Component({
   selector: 'app-recipe-form',
@@ -12,10 +14,17 @@ import {Recipe} from "../../types";
 })
 
 export class RecipeFormComponent implements OnInit {
+    handleAutoResize = handleAutoResize
+
     @Input() new: boolean
     @Input() recipe?: Recipe
+    @Output() close = new EventEmitter()
 
-    submitErrorMsg: string
+    handleClose() {
+        this.close.emit()
+    }
+
+    operationErrorMsg: string
 
     form: FormGroup
     get title() {
@@ -91,8 +100,8 @@ export class RecipeFormComponent implements OnInit {
     uploadImage(e) {
         const file = e.target.files[0]
         if (file.size > 1048576) {
-            this.submitErrorMsg = 'File must not be bigger than 1MB'
-            setTimeout(() => this.submitErrorMsg = '', 5000)
+            this.operationErrorMsg = 'File must not be bigger than 1MB'
+            setTimeout(() => this.operationErrorMsg = '', 5000)
         }
         else this.newImg = file
     }
@@ -146,10 +155,7 @@ export class RecipeFormComponent implements OnInit {
         this.nutrition = this.nutrition.filter(n => n.label !== label)
     }
 
-    submitRecipe(e) {
-        e.target.innerText = 'Submitting...'
-        e.target.disabled = true
-
+    submitRecipe() {
         // convert the data into the form/multipart format, to successfully send files to the api
         const formData = new FormData()
         formData.append('data', JSON.stringify({
@@ -168,20 +174,14 @@ export class RecipeFormComponent implements OnInit {
         }))
         formData.append('img', this.newImg)
 
-        this.recipesService.addRecipe(formData).subscribe(response => {
+        this.recipesService.addRecipe(formData).subscribe(createObserverObject(response => {
             this.router.navigate(['/recipes/' + response]) // if recipe is added successfully, redirect to the newly added recipe page
-        }, (error: HttpErrorResponse) => {
-            this.submitErrorMsg = error.message
-            setTimeout(() => this.submitErrorMsg = '', 5000)
-            e.target.innerText = 'Submit recipe'
-            e.target.disabled = false
-        })
+        }, msg => {
+            this.operationErrorMsg = msg
+        }, undefined, true))
     }
 
-    updateRecipe(e) {
-        e.target.innerText = 'Submitting...'
-        e.target.disabled = true
-
+    updateRecipe() {
         // convert the data into the form/multipart format, to successfully send files to the api
         const formData = new FormData()
         formData.append('data', JSON.stringify({
@@ -197,31 +197,23 @@ export class RecipeFormComponent implements OnInit {
                 extra: this.extraTime.value
             },
             steps: this.steps,
-            img: this.img
+            img: this.recipe.img
         }))
         formData.append('newImg', this.newImg)
 
-        this.recipesService.updateRecipe(formData, this.recipe._id).subscribe(() => {
+        this.recipesService.updateRecipe(formData, this.recipe._id).subscribe(createObserverObject(response => {
             this.router.navigate(['/recipes/' + this.recipe._id]) // if recipe is updated successfully, redirect to the recipe page
-        }, (error: HttpErrorResponse) => {
-            this.submitErrorMsg = error.message
-            setTimeout(() => this.submitErrorMsg = '', 5000)
-            e.target.innerText = 'Submit recipe'
-            e.target.disabled = false
-        })
+        }, msg => {
+            this.operationErrorMsg = msg
+        }, undefined, true))
     }
 
-    deleteRecipe(e) {
-        e.target.innerText = 'Deleting recipe...'
-        e.target.disabled = true
-        this.recipesService.deleteRecipe(this.recipe._id).subscribe(() => {
+    deleteRecipe() {
+        this.recipesService.deleteRecipe(this.recipe._id).subscribe(createObserverObject(() => {
             this.router.navigate(['/'])
-        }, (error: HttpErrorResponse) => {
-            this.submitErrorMsg = error.message
-            setTimeout(() => this.submitErrorMsg = '', 5000)
-            e.target.innerText = 'Delete recipe'
-            e.target.disabled = false
-        })
+        }, msg => {
+            this.operationErrorMsg = msg
+        }, undefined, true))
     }
 
     constructor(private formBuilder: FormBuilder, private recipesService: RecipesService, private router: Router) {}

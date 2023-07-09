@@ -4,7 +4,7 @@ import getApiUrl from "../utilities/getApiUrl"
 
 const httpHeaders = {
     headers: new HttpHeaders({
-        'Content-Type': 'application/json'
+        'Authorization': localStorage.getItem('token') || ''
     })
 }
 

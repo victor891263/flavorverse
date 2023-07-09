@@ -13,6 +13,7 @@ const updateReview = require('../handlers/updateReview')
 const deleteReview = require('../handlers/deleteReview')
 const likeReview = require('../handlers/likeReview')
 const dislikeReview = require('../handlers/dislikeReview')
+const getReview = require('../handlers/getReview')
 const handleAccess = require('../middleware/handleAccess')
 
 const upload = multer({ dest: "uploads/" }) // where uploaded images will be temporarily stored
@@ -33,7 +34,7 @@ router.get('/ingredients', getIngredients)
 router.get('/:id', getRecipe)
 
 // update a recipe
-router.put('/:id', handleAccess, updateRecipe)
+router.put('/:id', [handleAccess, upload.single('newImg')], updateRecipe)
 
 // delete a recipe
 router.delete('/:id', handleAccess, deleteRecipe)
@@ -52,5 +53,8 @@ router.put('/:recipeId/reviews/:reviewId', handleAccess, updateReview)
 
 // delete a review
 router.delete('/:recipeId/reviews/:reviewId', handleAccess, deleteReview)
+
+// get a review
+router.get('/:recipeId/reviews/:reviewId', handleAccess, getReview)
 
 module.exports = router

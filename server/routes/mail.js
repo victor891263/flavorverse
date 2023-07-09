@@ -10,9 +10,7 @@ router.get('/:id', handleAccess, async (req, res) => {
     // find the user with the currently logged in info and the verification id
     const user = await User.findOne({
         _id: currentUserId,
-        newEmail: {
-            verificationId
-        }
+        'newEmail.verificationId': verificationId
     }, 'newEmail')
 
     if (!user) {
@@ -24,11 +22,13 @@ router.get('/:id', handleAccess, async (req, res) => {
     user.email.address = user.newEmail.address
 
     // after updating email, empty the new email property
-    user.newEmail.address = null
-    user.newEmail.verificationId = null
+    user.newEmail.address = undefined
+    user.newEmail.verificationId = undefined
 
     // save the changes
-    user.save()
+    await user.save()
+
+    res.sendStatus(200)
 })
 
 module.exports = router

@@ -31,7 +31,9 @@
                 </div>
                 <a routerLink="/join" class="text-orange-600 font-medium">Forgot password?</a>
             </div>
-            <button (click)="submitData($event)" [disabled]="!form.valid" class="btn-primary block py-2 w-full">{{ url === '/login' ? 'Sign in': 'Create account' }}</button>
+            <div class="w-full">
+                <app-button (btnClick)="submitData()" [isClickable]="form.valid" [isOperationEnded]="!!errorMsg">{{ url === '/login' ? 'Sign in': 'Create account' }}</app-button>
+            </div>
         </form>
     </div>
 </div>

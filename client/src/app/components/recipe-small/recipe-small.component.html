@@ -1,0 +1,31 @@
+<a [routerLink]="('/recipes/' + recipe._id)" class="block border rounded-lg hover:shadow">
+    <img *ngIf="recipe.img" [src]="recipe.img" class="rounded-t-lg h-48 w-full object-cover"/>
+    <div *ngIf="!recipe.img" class="rounded-t-lg h-48 w-full bg-slate-100 flex">
+        <svg class="w-20 h-20 text-slate-300 m-auto dark:text-gray-700" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" d="M1.5 6a2.25 2.25 0 012.25-2.25h16.5A2.25 2.25 0 0122.5 6v12a2.25 2.25 0 01-2.25 2.25H3.75A2.25 2.25 0 011.5 18V6zM3 16.06V18c0 .414.336.75.75.75h16.5A.75.75 0 0021 18v-1.94l-2.69-2.689a1.5 1.5 0 00-2.12 0l-.88.879.97.97a.75.75 0 11-1.06 1.06l-5.16-5.159a1.5 1.5 0 00-2.12 0L3 16.061zm10.125-7.81a1.125 1.125 0 112.25 0 1.125 1.125 0 01-2.25 0z" clip-rule="evenodd" /></svg>
+    </div>
+    <div class="space-y-3 p-5 sm:p-6">
+        <div class="flex items-center justify-between">
+            <div class="flex items-center">
+                <app-rating [rating]="recipe.rating"></app-rating>
+                <span class="ml-2 text-sm">{{ recipe.rating }}</span>
+            </div>
+            <span class="text-sm text-slate-400">{{ getTimeLabel(recipe.createdAt) }}</span>
+        </div>
+        <span class="block font-bold text-lg text-slate-900">{{ recipe.title }}</span>
+        <p class="line-clamp-2">{{recipe.desc}}</p>
+        <div *ngIf="recipe.tags.length > 0" class="flex gap-1 py-1.5">
+            <span *ngFor="let tag of recipe.tags" class="bg-slate-100 rounded-full py-1.5 px-3.5 text-sm text-slate-500 font-medium capitalize dark:text-gray-400/80">{{ tag }}</span>
+        </div>
+        <div class="flex gap-2 text-[15px] text-slate-500 dark:text-gray-400/80">
+            <span *ngIf="recipe.duration.prep"><span class="font-semibold">{{recipe.duration.prep}}min</span> prep</span>
+            <ng-container *ngIf="recipe.duration.cook">
+                <span class="font-extrabold">·</span>
+                <span><span class="font-semibold">{{recipe.duration.cook}}min</span> cook</span>
+            </ng-container>
+            <ng-container>
+                <span class="font-extrabold">·</span>
+                <span><span class="font-semibold">{{recipe.servings}}</span> servings</span>
+            </ng-container>
+        </div>
+    </div>
+</a>

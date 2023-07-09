@@ -8,6 +8,7 @@ module.exports = async (req, res, next) => {
     // if a logged in user is present, decode the user's jwt and pass the decoded value onto the next middlewares
     if (token) {
         const user = jwt.verify(token, process.env.JWT_SECRET) // extract user info
+        user.id = user._id
 
         // check if the user with the provided id exists in the database. If it doesn't, don't proceed
         const isExist = await User.exists({
@@ -19,8 +20,8 @@ module.exports = async (req, res, next) => {
         }
 
         // check if user is verified. If they are, pass the user info onto the next middleware
-        const response = await User.findById(user.id)
-        if (response.email.isVerified) req.user = user
+        const response = await User.findById(user.id, 'email')
+        if (!response.email.verificationId) req.user = user
     }
 
     next()

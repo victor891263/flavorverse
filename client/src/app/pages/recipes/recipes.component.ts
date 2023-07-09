@@ -4,7 +4,7 @@ import {RecipesService} from "../../services/recipes.service"
 import {HttpErrorResponse} from "@angular/common/http"
 import { RecipesSkeletonComponent } from '../../components/recipes-skeleton/recipes-skeleton.component'
 import getTimeLabel from '../../utilities/getTimeLabel'
-import {recipes} from "../../utilities/recipes"
+import getCurrentUser from "../../utilities/getCurrentUser"
 
 @Component({
   selector: 'app-recipes',
@@ -13,30 +13,58 @@ import {recipes} from "../../utilities/recipes"
 })
 
 export class RecipesComponent implements OnInit {
+    get currentUser() {
+        return getCurrentUser()
+    }
+
+    isBoxOpen = false
+    isFilterOpen = false
+
+    toggleBox(isOpen: boolean) {
+        if (isOpen) {
+            document.documentElement.style.overflow = 'hidden'
+            this.isBoxOpen = true
+        } else {
+            document.documentElement.style.overflow = 'auto'
+            this.isBoxOpen = false
+        }
+    }
+
+    toggleFilter(isOpen: boolean) {
+        if (isOpen) {
+            document.documentElement.style.overflow = 'hidden'
+            this.isFilterOpen = true
+        } else {
+            document.documentElement.style.overflow = 'auto'
+            this.isFilterOpen = false
+        }
+    }
+
     // PROPERTIES
 
     errorMsg: string
     skeleton = RecipesSkeletonComponent
 
     recipes: RecipeBrief[]
-    allTags: string[]
-    allIngredients: string[]
+    allTags: string[] = []
+    allIngredients: string[] = []
 
     title: string
-    servings: number
+    servingsMin: number
+    servingsMax: number
 
     ratingMin: number
     ratingMax: number
 
-    tagKeyword: string
-    tags = ['lunch', 'indian']
+    tagKeyword: string = ''
+    tags = []
     get relevantTags() {
         return this.allTags.filter(tag => tag.toLowerCase().includes(this.tagKeyword.toLowerCase()))
     }
     tagErrorMsg: string
 
-    ingredientKeyword: string
-    ingredients = ['salt', 'pepper', 'nuts']
+    ingredientKeyword: string = ''
+    ingredients = []
     get relevantIngredients() {
         return this.allIngredients.filter(ingredient => ingredient.toLowerCase().includes(this.ingredientKeyword.toLowerCase()))
     }
@@ -75,11 +103,14 @@ export class RecipesComponent implements OnInit {
 
     clearFilters() {
         this.title = undefined
-        this.servings = undefined
+        this.servingsMin = undefined
+        this.servingsMax = undefined
         this.tagKeyword = undefined
         this.tags = []
         this.ingredientKeyword = undefined
         this.ingredients = []
+        this.ratingMin = undefined
+        this.ratingMax = undefined
         this.prepMin = undefined
         this.prepMax = undefined
         this.cookMin = undefined
@@ -91,7 +122,8 @@ export class RecipesComponent implements OnInit {
         this.errorMsg = undefined
         this.recipesService.getRecipes({
             title: this.title,
-            servings: this.servings,
+            servingsMin: this.servingsMin,
+            servingsMax: this.servingsMax,
             ratingMin: this.ratingMin,
             ratingMax: this.ratingMax,
             tags: this.tags.length > 0 ? this.tags: undefined,
@@ -100,10 +132,10 @@ export class RecipesComponent implements OnInit {
             prepMax: this.prepMax,
             cookMin: this.cookMin,
             cookMax: this.cookMax
-        }).subscribe(result => {
-            this.recipes = result
+        }).subscribe(response => {
+            this.recipes = response
         }, (error: HttpErrorResponse) => {
-            this.errorMsg = error.message
+            this.errorMsg = error.error || error.message
         })
     }
 
@@ -123,23 +155,5 @@ export class RecipesComponent implements OnInit {
         }, (error: HttpErrorResponse) => {
             this.ingredientErrorMsg = error.message
         })
-
-        /*
-        this.recipes = recipes
-        this.allTags = ['breakfast', 'chinese', 'dessert', 'dinner', 'indian', 'lunch']
-        this.allIngredients = ['chili', 'nuts', 'olive oil', 'pepper', 'salt', 'sugar']
-
-        this.getRecipes()
-        this.recipesService.getTags().subscribe(response => {
-            this.allTags = response
-        }, (error: HttpErrorResponse) => {
-            this.tagErrorMsg = error.message
-        })
-        this.recipesService.getIngredients().subscribe(response => {
-            this.allIngredients = response
-        }, (error: HttpErrorResponse) => {
-            this.ingredientErrorMsg = error.message
-        })
-        */
     }
 }

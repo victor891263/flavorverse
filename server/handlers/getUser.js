@@ -2,7 +2,7 @@ const User = require("../models/user")
 const Recipe = require("../models/recipe")
 
 module.exports = async (req, res) => {
-    const user = await User.findById(req.params.id).select('-password')
+    const user = await User.findById(req.params.id).select('-password -email.verificationId -newEmail.verificationId')
 
     // check if the user exists in the database. If they don't, don't proceed
     if (!user) {

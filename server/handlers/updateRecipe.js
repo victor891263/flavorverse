@@ -16,8 +16,10 @@ module.exports = async (req, res) => {
     if (img) {
         // if the user has an old image, remove it from cloudinary
         if (newRecipe.img) {
+            console.log(newRecipe.img)
             const publicId = newRecipe.img.match(/\/([^/]+)\.[a-zA-Z0-9]+$/)[1] // extract the public id from the image url
-            await cloudinary.uploader.destroy(publicId)
+            const r = await cloudinary.uploader.destroy(publicId)
+            console.log(r)
         }
 
         // upload to cloudinary

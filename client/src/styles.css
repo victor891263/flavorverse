@@ -2,36 +2,27 @@
 @tailwind components;
 @tailwind utilities;
 
-/*
-font-weight: 425;
-font-feature-settings: "cv02","cv03","cv04","cv11";
-*/
-
 @layer base {
-    html {
-        letter-spacing: 0.005em;
-    }
-
-    p {
-        @apply leading-[1.6]
-    }
-
     input, textarea, button {
         background: none;
         font-feature-settings: inherit;
         outline: none;
     }
 
-    input[type='text'],
-    input[type='number'],
-    input[type='email'],
-    input[type='password'],
-    textarea {
+    p {
+        line-height: 1.6;
+    }
+
+    input[type='text']:not(.no-styles),
+    input[type='number']:not(.no-styles),
+    input[type='email']:not(.no-styles),
+    input[type='password']:not(.no-styles),
+    textarea:not(.no-styles) {
         @apply
         appearance-none
-        border rounded
-        dark:border-gray-700
-        focus:border-orange-600 dark:focus:border-orange-500
+        ring-1 ring-gray-300 rounded-md
+        dark:ring-gray-700
+        focus:ring-orange-600 dark:focus:ring-orange-500
         dark:placeholder:text-gray-600
     }
 
@@ -44,25 +35,25 @@ font-feature-settings: "cv02","cv03","cv04","cv11";
     .btn-primary {
         @apply
         bg-orange-600
-        rounded
-        font-semibold text-white text-[15px]
+        rounded-md text-sm
+        font-medium text-white
         enabled:hover:bg-orange-700 dark:enabled:hover:bg-orange-400
     }
 
     .btn-secondary {
         @apply
-        bg-slate-100
-        rounded
-        font-semibold text-[15px]
-        enabled:hover:bg-slate-200 dark:enabled:hover:bg-gray-700/75
-        dark:bg-gray-800 dark:border-gray-700
+        ring-1 ring-gray-300
+        rounded-md text-sm
+        font-semibold text-sm
+        enabled:hover:bg-slate-100 dark:enabled:hover:bg-gray-800
+        dark:ring-gray-700
     }
 
     .btn-soft {
         @apply
         bg-orange-50
-        rounded
-        text-orange-600 font-semibold text-[15px]
+        rounded-md text-sm
+        text-orange-600 font-semibold text-sm
         enabled:hover:bg-orange-100 dark:enabled:hover:bg-orange-900/75
         dark:bg-orange-900/50
     }

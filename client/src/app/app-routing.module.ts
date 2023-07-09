@@ -5,12 +5,8 @@ import {AuthComponent} from "./pages/auth/auth.component"
 import {VerifyComponent} from "./pages/verify/verify.component"
 import {RecipeComponent} from "./pages/recipe/recipe.component"
 import {ProfileComponent} from "./pages/profile/profile.component"
-import {AddRecipeComponent} from "./pages/add-recipe/add-recipe.component"
-import {EditProfileComponent} from "./pages/edit-profile/edit-profile.component"
-import {UnverifiedComponent} from "./pages/unverified/unverified.component";
-import {CheckVerificationGuard} from "./guards/check-verification.guard";
-import {EditRecipeComponent} from "./pages/edit-recipe/edit-recipe.component";
-import {EditReviewComponent} from "./pages/edit-review/edit-review.component";
+import {UnverifiedComponent} from "./pages/unverified/unverified.component"
+import {CheckVerificationGuard} from "./guards/check-verification.guard"
 
 const routes: Routes = [
     {
@@ -39,25 +35,13 @@ const routes: Routes = [
         component: RecipeComponent
     },
     {
-        path: 'recipes/:id/edit',
-        component: EditRecipeComponent
-    },
-    {
-        path: 'recipes/:recipeId/reviews/:reviewId/edit',
-        component: EditReviewComponent
-    },
-    {
         path: 'users/:id',
         component: ProfileComponent
     },
     {
-        path: 'new',
-        component: AddRecipeComponent
-    },
-    {
-        path: 'settings',
-        component: EditProfileComponent
-    },
+        path: '**',
+        redirectTo: ''
+    }
 ]
 
 @NgModule({

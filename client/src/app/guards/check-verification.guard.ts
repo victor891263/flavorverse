@@ -4,16 +4,16 @@ import getCurrentUser from '../utilities/getCurrentUser'
 
 @Injectable()
 export class CheckVerificationGuard implements CanActivate {
-    currentUser = getCurrentUser()
+    get currentUser() {
+        return getCurrentUser()
+    }
 
     constructor(private router: Router) {}
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-        if (this.currentUser.isVerified) {
-            this.router.navigate(['/'])
-            return false
-        }
-        return true
+        if (this.currentUser && (!this.currentUser.isVerified)) return true
+        this.router.navigate(['/'])
+        return false
     }
 }
 

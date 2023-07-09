@@ -2,8 +2,8 @@ import {Component, OnInit} from '@angular/core'
 import { Location } from '@angular/common'
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms'
 import {AuthService} from "../../services/auth.service"
-import {HttpErrorResponse} from "@angular/common/http"
 import { Router } from '@angular/router'
+import createObserverObject from "../../utilities/createObserverObject"
 
 @Component({
     selector: 'app-auth',
@@ -26,25 +26,24 @@ export class AuthComponent implements OnInit {
         return this.location.path()
     }
 
-    submitData(e) {
-        // disable button
-        e.target.innerText = ((this.url === '/login') && 'Signing in...') || ((this.url === '/join') && 'Creating account...')
-        e.target.disabled = true
-        this.authService[((this.url === '/login') && 'login') || ((this.url === '/join') && 'createAccount')]({ // select method depending on if the user is signing in or creating new account
+    handleSubmitData(data) {
+        // select method depending on if the user is signing in or creating new account
+        if (this.url === '/login') return this.authService.login(data)
+        if (this.url === '/join') return this.authService.createAccount(data)
+        return null
+    }
+
+    submitData() {
+        this.handleSubmitData({
             email: this.email.value,
             password: this.password.value
-        }).subscribe((token: string) => {
-            // session storage is cleared when all windows are closed while local storage remains until token expires or it is removed
-            if (this.remember) localStorage.setItem('token', token)
-            else sessionStorage.setItem('token', token)
+        }).subscribe(createObserverObject((token: string) => {
+            if (this.remember) localStorage.setItem('rememberMe', 'yes')
+            localStorage.setItem('token', token)
             this.router.navigate(['/']) // redirect user to home page if succeeded
-        }, (error: HttpErrorResponse) => {
-            this.errorMsg = error.message
-            setTimeout(() => this.errorMsg = '', 5000) // make the error popup disappear after 5 seconds
-            // restore the button's functionality
-            e.target.innerText = ((this.url === '/login') && 'Sign in') || ((this.url === '/join') && 'Create account')
-            e.target.disabled = false
-        })
+        }, (msg: string) => {
+            this.errorMsg = msg
+        }, undefined, true))
     }
 
     constructor(private authService: AuthService, private location: Location, private formBuilder: FormBuilder, private router: Router) {}

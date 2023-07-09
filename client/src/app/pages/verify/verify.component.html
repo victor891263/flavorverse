@@ -1,17 +1,17 @@
 <div class="flex min-h-screen px-6">
-    <div class="m-auto container max-w-sm py-20">
+    <div class="m-auto max-w-sm py-20">
         <span *ngIf="isLoading && (!errorMsg)" class="block text-center">{{isEmail ? 'Verifying your email...' : 'Verifying your account...'}}</span>
         <div *ngIf="(!isLoading) && errorMsg" class="text-center">
             <svg class="h-10 w-10 text-slate-300 mx-auto dark:text-gray-700" viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="m13 13 6 6m0-6-6 6m15-3c0 6.627-5.373 12-12 12S4 22.627 4 16 9.373 4 16 4s12 5.373 12 12Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
-            <h3 class="font-extrabold text-lg text-slate-900 mt-4 mb-2">Failed to verify</h3>
+            <h3 class="font-bold text-lg text-slate-900 mt-4 mb-2">Failed to verify</h3>
             <p class="break-words">{{ errorMsg }}</p>
         </div>
         <div *ngIf="(!isLoading) && (!errorMsg)" class="text-center">
             <svg class="h-10 w-10 text-slate-300 mx-auto dark:text-gray-700" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.25" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
             <h3 class="font-extrabold text-lg text-slate-900 mt-4 mb-2">Verification succeeded</h3>
             <p>{{isEmail ? 'Your new email is now verified and your old email has been replaced with the new one.' : "Your account is now verified, which means you're now free to use Flavorverse as a registered user."}}</p>
-            <a *ngIf="!isEmail" routerLink="/" class="mt-5 btn-primary py-2 px-3">Browse recipes</a>
-            <a *ngIf="isEmail" [routerLink]="'/users/' + currentUser._id" class="mt-5 btn-primary py-2 px-3">View profile</a>
+            <a *ngIf="!isEmail" routerLink="/" class="mt-5 block w-fit mx-auto btn-primary py-2 px-3">Browse recipes</a>
+            <a *ngIf="isEmail" [routerLink]="'/users/' + currentUser._id" class="mt-5 block w-fit mx-auto btn-primary py-2 px-3">View profile</a>
         </div>
     </div>
 </div>

@@ -1,13 +1,11 @@
-import {Component, OnInit} from '@angular/core'
+import {Component, Input, Output, OnInit, EventEmitter} from '@angular/core'
 import getCurrentUser from '../../utilities/getCurrentUser'
 import {UsersService} from "../../services/users.service"
-import {users} from "../../utilities/users"
-import {User} from "../../types"
 import handleAutoResize from "../../utilities/handleAutoResize"
-import {HttpErrorResponse} from "@angular/common/http"
 import { Router } from '@angular/router'
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms'
-import {EditProfileSkeletonComponent} from '../../components/edit-profile-skeleton/edit-profile-skeleton.component'
+import {User} from "../../types";
+import createObserverObject from "../../utilities/createObserverObject"
 
 @Component({
     selector: 'app-edit-profile',
@@ -16,18 +14,19 @@ import {EditProfileSkeletonComponent} from '../../components/edit-profile-skelet
 })
 
 export class EditProfileComponent implements OnInit {
-    currentUser = getCurrentUser()
+    @Input() user: User
+    @Output() close = new EventEmitter()
+    @Output() onDetailsUpdate = new EventEmitter()
 
-    img: string
+    get currentUser() {
+        return getCurrentUser()
+    }
+
     newImg: File
-
-    emailToVerify: string
 
     detailsForm: FormGroup
     emailForm: FormGroup
     passwordForm: FormGroup
-
-    isDataLoaded = false
 
     get username() {
         return this.detailsForm.get('username')
@@ -54,197 +53,121 @@ export class EditProfileComponent implements OnInit {
         return this.passwordForm.get('newPassword')
     }
 
-    retrievalErrorMsg: string
     errorMsg: string
     successMsg: string
 
-    skeleton = EditProfileSkeletonComponent
-
     handleAutoResize = handleAutoResize
+
+    handleClose() {
+        this.close.emit()
+    }
 
     uploadImage(e) {
         const file = e.target.files[0]
         if (file.size > 1048576) {
             this.errorMsg = 'File must not be bigger than 1MB'
             setTimeout(() => this.errorMsg = '', 5000)
+        } else {
+            this.newImg = file
         }
-        else this.newImg = file
     }
 
-    saveProfile(e) {
-        e.target.innerText = 'Saving...'
-        e.target.disabled = true
-
+    saveProfile() {
         // convert the data into the form/multipart format, to successfully send files to the api
         const formData = new FormData()
-        formData.append('username', this.username.value)
-        formData.append('name', this.name.value)
-        formData.append('about', this.about.value)
-        formData.append('link', this.link.value)
-        formData.append('img', this.img)
+        formData.append('data', JSON.stringify({
+            username: this.username.value,
+            name: this.name.value,
+            about: this.about.value,
+            link: this.link.value,
+            img: this.user.img
+        }))
         formData.append('newImg', this.newImg)
 
-        this.usersService.updateProfile(formData).subscribe((response: string | null) => {
-            if (response) this.img = response // if the response is not empty, which means that the new profile image has been uploaded successfully, set the image url sent back by the api to the src of the profile image
+        this.usersService.updateProfile(formData).subscribe(createObserverObject(response => {
+            if (response.img) this.user.img = response.img // if the response is not empty, which means that the new profile image has been uploaded successfully, set the image url sent back by the api to the src of the profile image
             this.newImg = undefined
+            this.onDetailsUpdate.emit(response)
             this.successMsg = 'Your profile has been updated successfully'
             setTimeout(() => this.successMsg = '', 5000) // make the success popup disappear after 5 seconds
-            e.target.innerText = 'Save'
-            e.target.disabled = false
-        }, (error: HttpErrorResponse) => {
-            this.errorMsg = error.message
-            setTimeout(() => this.errorMsg = '', 5000) // make the error popup disappear after 5 seconds
-            e.target.innerText = 'Save'
-            e.target.disabled = false
-        })
+        }, msg => {
+            this.errorMsg = msg
+        }, undefined, true))
     }
 
-    saveEmail(e) {
-        e.target.innerText = 'Saving...'
-        e.target.disabled = true
-        this.usersService.updateEmail(this.newEmail.value).subscribe(() => {
-            this.emailToVerify = this.newEmail.value
-        }, (error: HttpErrorResponse) => {
-            this.errorMsg = error.message
-            setTimeout(() => this.errorMsg = '', 5000) // make the error popup disappear after 5 seconds
-            e.target.innerText = 'Save'
-            e.target.disabled = false
-        })
+    saveEmail() {
+        this.usersService.updateEmail(this.newEmail.value).subscribe(createObserverObject(
+        () => {
+            this.user.newEmail.address = this.newEmail.value
+        }, msg => {
+            this.errorMsg = msg
+        }, undefined, true))
     }
 
-    stopUpdateEmail(e) {
-        e.target.innerText = 'Reverting changes...'
-        e.target.disabled = true
-        this.usersService.stopUpdateEmail().subscribe(() => {
+    stopUpdateEmail() {
+        this.usersService.stopUpdateEmail().subscribe(createObserverObject(() => {
             this.successMsg = 'Your email is successfully reverted back to original'
             setTimeout(() => this.successMsg = '', 5000) // make the success popup disappear after 5 seconds
-        }, (error: HttpErrorResponse) => {
-            this.errorMsg = error.message
-            setTimeout(() => this.errorMsg = '', 5000) // make the error popup disappear after 5 seconds
-            e.target.innerText = 'Save'
-            e.target.disabled = false
-        })
+            this.user.newEmail.address = undefined
+        }, msg => {
+            this.errorMsg = msg
+        }, undefined, true))
     }
 
-    savePassword(e) {
-        e.target.innerText = 'Saving...'
-        e.target.disabled = true
-        this.usersService.updatePassword(this.password.value, this.newPassword.value).subscribe(() => {
+    savePassword() {
+        this.usersService.updatePassword(this.password.value, this.newPassword.value).subscribe(createObserverObject(() => {
             this.successMsg = 'Your password has been updated successfully'
             setTimeout(() => this.successMsg = '', 5000) // make the success popup disappear after 5 seconds
-        }, (error: HttpErrorResponse) => {
-            this.errorMsg = error.message
-            setTimeout(() => this.errorMsg = '', 5000) // make the error popup disappear after 5 seconds
-            e.target.innerText = 'Save'
-            e.target.disabled = false
-        })
+        }, msg => {
+            this.errorMsg = msg
+        }, undefined, true))
     }
 
-    deleteProfile(e) {
-        e.target.innerText = 'Deleting...'
-        e.target.disabled = true
-        this.usersService.deleteProfile().subscribe(() => {
+    deleteProfile() {
+        this.usersService.deleteProfile().subscribe(createObserverObject(() => {
             // if profile is deleted successfully, log out the user and redirect to home page
             localStorage.removeItem('token')
-            sessionStorage.removeItem('token')
             this.router.navigate(['/'])
-        }, (error: HttpErrorResponse) => {
-            this.errorMsg = error.message
-            setTimeout(() => this.errorMsg = '', 5000) // make the error popup disappear after 5 seconds
-            e.target.innerText = 'Delete account'
-            e.target.disabled = false
-        })
+        }, msg => {
+            this.errorMsg = msg
+        }, undefined, true))
     }
 
     constructor(private usersService: UsersService, private router: Router, private formBuilder: FormBuilder) {}
 
     ngOnInit() {
-        this.usersService.getUser(this.currentUser._id).subscribe(response => {
-            this.isDataLoaded = true
-            const profile = response.user
-            this.img = profile.img
-            this.emailToVerify = profile.newEmail.address
-            this.detailsForm = this.formBuilder.group({
-                username: new FormControl(profile.username, [
-                    Validators.required,
-                    Validators.maxLength(30)
-                ]),
-                name: new FormControl(profile.name, [
-                    Validators.maxLength(50)
-                ]),
-                about: new FormControl(profile.about, [
-                    Validators.maxLength(1000)
-                ]),
-                link: new FormControl(profile.link, [
-                    Validators.maxLength(100)
-                ]),
-            })
-            this.emailForm = this.formBuilder.group({
-                email: new FormControl({ value: profile.email.address, disabled: true }),
-                newEmail: new FormControl('', [
-                    Validators.required,
-                    Validators.email,
-                    Validators.maxLength(30)
-                ]),
-            })
-            this.passwordForm = this.formBuilder.group({
-                password: new FormControl('', [
-                    Validators.required,
-                    Validators.maxLength(20)
-                ]),
-                newPassword: new FormControl('', [
-                    Validators.required,
-                    Validators.maxLength(20)
-                ]),
-            })
-        }, (error: HttpErrorResponse) => {
-            this.retrievalErrorMsg = error.message
+        this.detailsForm = this.formBuilder.group({
+            username: new FormControl(this.user.username, [
+                Validators.required,
+                Validators.maxLength(30)
+            ]),
+            name: new FormControl(this.user.name || '', [
+                Validators.maxLength(50)
+            ]),
+            about: new FormControl(this.user.about || '', [
+                Validators.maxLength(1000)
+            ]),
+            link: new FormControl(this.user.link || '', [
+                Validators.maxLength(100)
+            ]),
+        })
+        this.emailForm = this.formBuilder.group({
+            email: new FormControl({ value: this.user.email.address, disabled: true }),
+            newEmail: new FormControl('', [
+                Validators.required,
+                Validators.email,
+                Validators.maxLength(30)
+            ]),
+        })
+        this.passwordForm = this.formBuilder.group({
+            password: new FormControl('', [
+                Validators.required,
+                Validators.maxLength(20)
+            ]),
+            newPassword: new FormControl('', [
+                Validators.required,
+                Validators.maxLength(20)
+            ]),
         })
     }
 }
-
-/*
-this.usersService.getUser(this.currentUser._id).subscribe(response => {
-    this.isDataLoaded = true
-    const profile = response.user
-    this.img = profile.img
-    this.emailToVerify = profile.newEmail.address
-    this.detailsForm = this.formBuilder.group({
-        username: new FormControl(profile.username, [
-            Validators.required,
-            Validators.maxLength(30)
-        ]),
-        name: new FormControl(profile.name, [
-            Validators.maxLength(50)
-        ]),
-        about: new FormControl(profile.about, [
-            Validators.maxLength(1000)
-        ]),
-        link: new FormControl(profile.link, [
-            Validators.maxLength(100)
-        ]),
-    })
-    this.emailForm = this.formBuilder.group({
-        email: new FormControl({ value: profile.email.address, disabled: true }),
-        newEmail: new FormControl('', [
-            Validators.required,
-            Validators.email,
-            Validators.maxLength(30)
-        ]),
-    })
-    this.passwordForm = this.formBuilder.group({
-        password: new FormControl('', [
-            Validators.required,
-            Validators.maxLength(20)
-        ]),
-        newPassword: new FormControl('', [
-            Validators.required,
-            Validators.maxLength(20)
-        ]),
-    })
-}, (error: HttpErrorResponse) => {
-    this.retrievalErrorMsg = error.message
-})
-
-this.profile = users.find(user => user._id === this.currentUser._id)
-*/

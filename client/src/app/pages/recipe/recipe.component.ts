@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
 import {Recipe, Review} from "../../types"
-import { recipes } from "../../utilities/recipes"
 import getTimeLabel from '../../utilities/getTimeLabel'
 import { RecipesService } from "../../services/recipes.service"
 import getCurrentUser from '../../utilities/getCurrentUser'
 import {HttpErrorResponse} from "@angular/common/http"
 import {RecipeSkeletonComponent} from '../../components/recipe-skeleton/recipe-skeleton.component'
 import handleAutoResize from "../../utilities/handleAutoResize"
+import createObserverObject from "../../utilities/createObserverObject";
 
 @Component({
     selector: 'app-recipe',
@@ -16,8 +16,22 @@ import handleAutoResize from "../../utilities/handleAutoResize"
 })
 
 export class RecipeComponent implements OnInit {
-    currentUser = getCurrentUser()
+    get currentUser() {
+        return getCurrentUser()
+    }
     skeleton = RecipeSkeletonComponent
+
+    isBoxOpen = false
+
+    toggleBox(isOpen: boolean) {
+        if (isOpen) {
+            document.documentElement.style.overflow = 'hidden'
+            this.isBoxOpen = true
+        } else {
+            document.documentElement.style.overflow = 'auto'
+            this.isBoxOpen = false
+        }
+    }
 
     recipe: Recipe
 
@@ -26,59 +40,98 @@ export class RecipeComponent implements OnInit {
 
     retrievalErrorMsg: string
     errorMsg: string
+    successMsg: string
+
+    isEditReviewBoxOpen = false
+    selectedReview: Review
 
     getTimeLabel = getTimeLabel
     handleAutoResize = handleAutoResize
 
-    setRating(n: number) {
-        this.rating = n
+    get ratingCountArray() {
+        return [5, 4, 3, 2, 1].map(item => ([
+            this.countReview(item, 'raw'),
+            this.countReview(item, 'percentage')
+        ]))
     }
 
-    submitReview(e) {
-        e.target.innerText = 'Submitting...'
-        e.target.disabled = true
+    openEditReview(review: Review) {
+        this.selectedReview = {...review}
+        document.documentElement.style.overflow = 'hidden'
+        this.isEditReviewBoxOpen = true
+    }
+
+    closeEditReview() {
+        document.documentElement.style.overflow = 'auto'
+        this.isEditReviewBoxOpen = false
+    }
+
+    submitEditedReview() {
+        this.recipesService.editReview(this.recipe._id, this.selectedReview._id, this.selectedReview).subscribe(createObserverObject(() => {
+            this.successMsg = 'Your reply has been successfully updated'
+            setTimeout(() => this.successMsg = '', 5000)
+            // update the current recipe
+            const review = this.recipe.reviews.find(r => r._id === this.selectedReview._id)
+            review.rating = this.selectedReview.rating
+            review.body = this.selectedReview.body
+        }, msg => {
+            this.errorMsg = msg
+        }, undefined, true))
+    }
+
+    submitReview() {
         this.recipesService.submitReview(this.recipe._id, {
             user: this.currentUser._id,
             body: this.review,
             rating: this.rating
-        }).subscribe((response: Recipe) => {
+        }).subscribe(createObserverObject(
+        (response) => {
             // the response is the updated recipe. Update the state of this component based on the updated recipe
             this.recipe.reviews = response.reviews
             this.recipe.rating = response.rating
-            e.target.innerText = 'Submit'
-            e.target.disabled = false
-        },(error: HttpErrorResponse) => {
-            this.errorMsg = error.message
-            setTimeout(() => this.errorMsg = '', 5000)
-            e.target.innerText = 'Submit'
-            e.target.disabled = false
-        })
+        },msg => {
+            this.errorMsg = msg
+        }, undefined, true))
     }
 
     likeReview(reviewId: string) {
         const review = this.recipe.reviews.find(review => review._id === reviewId)
         this.handleReact(review, 'like')
-
-        this.recipesService.likeReview(this.recipe._id, reviewId).subscribe(() => {
-            console.log('Liked review')
-        }, (error: HttpErrorResponse) => {
-            this.errorMsg = error.message
-            setTimeout(() => this.errorMsg = '', 5000)
-            this.handleReact(review, 'like')
+        this.recipesService.likeReview(this.recipe._id, reviewId).subscribe({
+            error: (error: HttpErrorResponse) => {
+                this.errorMsg = error.error || error.message || 'An unknown error has occurred'
+                setTimeout(() => this.errorMsg = '', 5000)
+                this.handleReact(review, 'like')
+            }
         })
     }
 
     dislikeReview(reviewId: string) {
         const review = this.recipe.reviews.find(review => review._id === reviewId)
         this.handleReact(review, 'dislike')
-
-        this.recipesService.dislikeReview(this.recipe._id, reviewId).subscribe(() => {
-            console.log('Disliked review')
-        }, (error: HttpErrorResponse) => {
-            this.errorMsg = error.message
-            setTimeout(() => this.errorMsg = '', 5000)
-            this.handleReact(review, 'dislike')
+        this.recipesService.dislikeReview(this.recipe._id, reviewId).subscribe({
+            error: (error: HttpErrorResponse) => {
+                this.errorMsg = error.error || error.message || 'An unknown error has occurred'
+                setTimeout(() => this.errorMsg = '', 5000)
+                this.handleReact(review, 'dislike')
+            }
         })
+    }
+
+    deleteReview(e, reviewId: string) {
+        e.target.innerText = 'Deleting'
+        e.target.disabled = true
+        this.recipesService.deleteReview(this.recipe._id, reviewId).subscribe(createObserverObject(() => {
+            this.successMsg = 'Your review has been successfully deleted'
+            setTimeout(() => this.successMsg = '', 5000)
+            // update the current recipe
+            const newReviews = this.recipe.reviews.filter(r => r._id !== reviewId)
+            this.recipe.reviews = newReviews
+        }, msg => {
+            this.errorMsg = msg
+            e.target.innerText = 'Delete'
+            e.target.disabled = false
+        }, undefined, true))
     }
 
     handleReact(review: Review, type: 'like' | 'dislike') {
@@ -96,7 +149,7 @@ export class RecipeComponent implements OnInit {
 
     countReview(rating: number, type: 'raw' | 'percentage') {
         const filtered = this.recipe.reviews.filter(review => review.rating === rating)
-        if (type === 'raw') return filtered.length
+        if (type === 'raw') return filtered.length.toString()
         if (type === 'percentage') return `${((filtered.length / this.recipe.reviews.length) * 100)}%`
         return null
     }
@@ -105,26 +158,11 @@ export class RecipeComponent implements OnInit {
 
     ngOnInit() {
         this.route.params.subscribe(params => {
-            this.recipe = recipes.find(recipe => recipe._id === params['id'])
+            this.recipesService.getRecipe(params['id']).subscribe(createObserverObject(response => {
+                this.recipe = response
+            }, msg => {
+                this.retrievalErrorMsg = msg
+            }))
         })
     }
 }
-
-/*
-this.route.params.subscribe(params => {
-    this.recipe = recipes.find(recipe => recipe._id === params['id'])
-})
-
-this.route.params.subscribe(params => {
-    this.recipesService.getRecipe(params['id']).subscribe(response => {
-        this.recipe = response
-    }, (error: HttpErrorResponse) => {
-        this.retrievalErrorMsg = error.message
-    })
-})
-*/
-
-/*
-const ratingTotal = recipe.reviews.map(review => review.rating)
-this.rating = ratingTotal.reduce((a, b) => a + b, 0) / ratingTotal.length
-*/

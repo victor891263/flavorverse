@@ -1,10 +1,53 @@
 <header class="fixed top-0 left-0 w-full bg-white border-b z-20 dark:bg-gray-900">
-    <div class="mx-auto container xl:max-w-screen-xl py-5 px-6 text-sm flex items-center justify-between max-sm:px-6">
+    <div class="mx-auto max-w-6xl py-[18px] px-6 text-sm flex items-center justify-between sm:py-5">
         <a routerLink="/" class="block">🍰 flavorverse</a>
-        <div class="flex items-center space-x-5 sm:space-x-6">
+        <div class="flex items-center space-x-6 max-sm:hidden">
             <app-theme-button></app-theme-button>
-            <a routerLink="/login" class="block">Login</a>
-            <a routerLink="/join" class="block">Join</a>
+            <ng-container *ngIf="!currentUser">
+                <a routerLink="/login" class="block">Login</a>
+                <a routerLink="/join" class="block">Join</a>
+            </ng-container>
+            <ng-container *ngIf="currentUser">
+                <a [routerLink]="'/users/' + currentUser._id" class="block">Profile</a>
+                <button (click)="logout()">Logout</button>
+            </ng-container>
+        </div>
+        <div class="flex items-center space-x-4 sm:hidden">
+            <app-theme-button></app-theme-button>
+            <div class="relative">
+                <button (click)="isMenuOpen = !isMenuOpen" class="block">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.25" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" /></svg>
+                </button>
+                <div *ngIf="isMenuOpen" class="absolute right-0 mt-2 bg-white z-10 shadow border rounded-md w-24 py-1.5">
+                    <ng-container *ngIf="!currentUser">
+                        <a routerLink="/login" class="block px-4 py-1.5">Login</a>
+                        <a routerLink="/join" class="block px-4 py-1.5">Join</a>
+                    </ng-container>
+                    <ng-container *ngIf="currentUser">
+                        <a [routerLink]="'/users/' + currentUser._id" class="block px-4 py-1.5">Profile</a>
+                        <button (click)="logout()" class="px-4 py-1.5">Logout</button>
+                    </ng-container>
+                </div>
+            </div>
         </div>
     </div>
 </header>
+
+<!--
+
+<div *ngIf="tagKeyword" class="absolute mt-2 bg-white z-10 shadow border rounded-md w-full py-1.5">
+    <ng-container *ngIf="allTags">
+        <div *ngIf="relevantTags.length > 0">
+            <button
+                *ngFor="let tag of relevantTags"
+                (click)="addTag(tag)"
+                class="block first-letter:capitalize text-sm px-4 py-1.5 w-full text-left hover:bg-slate-100"
+            >{{ tag }}</button>
+        </div>
+        <span *ngIf="relevantTags.length === 0" class="block text-sm text-slate-400 px-4 py-1.5">No tags found</span>
+    </ng-container>
+    <span *ngIf="tagErrorMsg" class="block text-sm text-slate-400 px-4 py-1.5 break-words">Failed. {{ tagErrorMsg }}</span>
+    <span *ngIf="!(allTags || tagErrorMsg)" class="block text-sm text-slate-400 px-4 py-1.5">Retrieving tags...</span>
+</div>
+
+-->

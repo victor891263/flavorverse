@@ -1,10 +1,9 @@
 const express = require('express')
 const router = express.Router()
 const jwt = require('jsonwebtoken')
-const handleAccess = require('../middleware/handleAccess')
 const User = require('../models/user')
 
-router.get('/:id', handleAccess, async (req, res) => {
+router.get('/:id', async (req, res) => {
     const verificationId = req.params.id
     const token = req.headers.authorization // get jwt sent by client
 
@@ -18,10 +17,8 @@ router.get('/:id', handleAccess, async (req, res) => {
 
     // if no user with the given verification id is found, return an error the the client
     const user = await User.findOne({
-        _id: userInfo.id,
-        email: {
-            verificationId
-        }
+        _id: userInfo._id,
+        'email.verificationId': verificationId
     })
     if (!user) {
         res.status(400).send('The verification link appears to be invalid')
