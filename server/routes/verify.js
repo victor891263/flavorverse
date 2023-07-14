@@ -26,10 +26,16 @@ router.get('/:id', async (req, res) => {
     }
 
     // remove the verification id
-    user.email.verificationId = null
+    user.email.verificationId = undefined
     user.save()
 
-    res.sendStatus(200)
+    // create the json web token
+    const newToken = jwt.sign({
+        _id: user.id,
+        isVerified: true
+    }, process.env.JWT_SECRET)
+
+    res.send(newToken)
 })
 
 module.exports = router

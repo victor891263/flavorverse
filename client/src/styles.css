@@ -9,6 +9,10 @@
         outline: none;
     }
 
+    p {
+        line-height: 1.6;
+    }
+
     input[type='text']:not(.no-styles),
     input[type='number']:not(.no-styles),
     input[type='email']:not(.no-styles),

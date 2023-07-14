@@ -54,6 +54,10 @@ export class RecipeComponent implements OnInit {
         ]))
     }
 
+    get isReviewAlreadyGiven() {
+        return this.recipe.reviews.find(r => r.user._id === this.currentUser._id)
+    }
+
     openEditReview(review: Review) {
         this.selectedReview = {...review}
         document.documentElement.style.overflow = 'hidden'
@@ -86,6 +90,8 @@ export class RecipeComponent implements OnInit {
         }).subscribe(createObserverObject(
         (response) => {
             // the response is the updated recipe. Update the state of this component based on the updated recipe
+            this.successMsg = 'Your review has been added successfully'
+            setTimeout(() => this.successMsg = '', 5000)
             this.recipe.reviews = response.reviews
             this.recipe.rating = response.rating
         },msg => {

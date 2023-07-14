@@ -25,10 +25,8 @@ const User = new mongoose.Schema({
     newEmail: {
         address: {
             type: String,
-            unique: true,
             min: 1,
             max: 30,
-            default: null,
             validate: {
                 validator: function(value) {
                     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -41,7 +39,6 @@ const User = new mongoose.Schema({
             type: String,
             min: 1,
             max: 100,
-            default: null
         }
     },
     username: {

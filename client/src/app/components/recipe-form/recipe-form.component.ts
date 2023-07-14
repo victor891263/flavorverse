@@ -175,6 +175,7 @@ export class RecipeFormComponent implements OnInit {
         formData.append('img', this.newImg)
 
         this.recipesService.addRecipe(formData).subscribe(createObserverObject(response => {
+            document.documentElement.style.overflow = 'auto' // reactivate scroll which is disabled by opening side menu
             this.router.navigate(['/recipes/' + response]) // if recipe is added successfully, redirect to the newly added recipe page
         }, msg => {
             this.operationErrorMsg = msg
@@ -202,6 +203,7 @@ export class RecipeFormComponent implements OnInit {
         formData.append('newImg', this.newImg)
 
         this.recipesService.updateRecipe(formData, this.recipe._id).subscribe(createObserverObject(response => {
+            document.documentElement.style.overflow = 'auto' // reactivate scroll which is disabled by opening side menu
             this.router.navigate(['/recipes/' + this.recipe._id]) // if recipe is updated successfully, redirect to the recipe page
         }, msg => {
             this.operationErrorMsg = msg

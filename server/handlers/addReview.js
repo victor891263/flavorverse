@@ -13,7 +13,7 @@ module.exports = async (req, res) => {
                 rating: review.rating
             }
         }
-    }, { new: true }) // return the updated recipe
+    }, { new: true }).populate('reviews.user', '_id username img') // return the updated recipe
 
     if (!result) {
         res.status(404).send(`The recipe you're trying to engage with doesn't exist`)
@@ -29,7 +29,18 @@ module.exports = async (req, res) => {
 
     // assign the calculated rating to the recipe and save it to the database
     result.rating = recipeRating
-    result.save()
+    const response = await result.save()
+    const recipe = response.toObject()
 
-    res.send(result)
+    // if there is a user who is currently logged in, check if said user reacted to this recipe
+    if (currentUserId) {
+        recipe.reviews.forEach(review => {
+            review.liked = review.likes.some(userId => userId.toString() === currentUserId)
+            review.disliked = review.dislikes.some(userId => userId.toString() === currentUserId)
+            review.likes = review.likes.length
+            review.dislikes = review.dislikes.length
+        })
+    }
+
+    res.send(recipe)
 }

@@ -9,10 +9,13 @@ module.exports = async (req, res) => {
     const verificationId = crypto.randomBytes(32).toString('hex') // generate a 64-character long random string
 
     // check if the new email is already taken. If it is, don't proceed
-    const user = await User.exists({
+    const isEmail = await User.exists({
         'newEmail.address': newEmail
     })
-    if (user) {
+    const isNewEmail = await User.exists({
+        'email.address': newEmail
+    })
+    if (isEmail || isNewEmail) {
         res.status(400).send('The provided email is already taken')
         return
     }

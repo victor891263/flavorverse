@@ -5,8 +5,8 @@ module.exports = async (req, res) => {
 
     await User.findByIdAndUpdate(currentUserId, {
         newEmail: {
-            address: null,
-            verificationId: null
+            address: undefined,
+            verificationId: undefined
         }
     })
 

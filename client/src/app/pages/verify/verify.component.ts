@@ -35,7 +35,8 @@ export class VerifyComponent implements OnInit {
             this.route.params.subscribe(params => {
                 this.route.queryParams.subscribe(queryParams => {
                     this.isEmail = queryParams['email']
-                    this.handleVerify(queryParams['email'], params['id']).subscribe(createObserverObject(() => {
+                    this.handleVerify(queryParams['email'], params['id']).subscribe(createObserverObject(response => {
+                        if (response && (response.length > 5)) localStorage.setItem('token', response)
                     }, (msg: string) => {
                         this.errorMsg = msg
                     }, () => {
