@@ -4,7 +4,6 @@ import {Recipe, RecipeBrief, User} from "../../types"
 import getTimeLabel from '../../utilities/getTimeLabel'
 import {UsersService} from "../../services/users.service"
 import {HttpErrorResponse} from "@angular/common/http"
-import {ProfileSkeletonComponent} from '../../components/profile-skeleton/profile-skeleton.component'
 import getCurrentUser from '../../utilities/getCurrentUser'
 
 @Component({
@@ -18,7 +17,6 @@ export class ProfileComponent implements OnInit {
     recipes: RecipeBrief[]
 
     errorMsg: string
-    skeleton = ProfileSkeletonComponent
 
     isBoxOpen = false
 

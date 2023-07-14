@@ -7,6 +7,8 @@ import {RecipeComponent} from "./pages/recipe/recipe.component"
 import {ProfileComponent} from "./pages/profile/profile.component"
 import {UnverifiedComponent} from "./pages/unverified/unverified.component"
 import {CheckVerificationGuard} from "./guards/check-verification.guard"
+import {RecoverComponent} from "./pages/recover/recover.component";
+import {ResetPasswordComponent} from "./pages/reset-password/reset-password.component";
 
 const routes: Routes = [
     {
@@ -20,6 +22,14 @@ const routes: Routes = [
     {
         path: 'join',
         component: AuthComponent
+    },
+    {
+        path: 'recover',
+        component: RecoverComponent
+    },
+    {
+        path: 'reset/:id',
+        component: ResetPasswordComponent
     },
     {
         path: 'verify/:id',

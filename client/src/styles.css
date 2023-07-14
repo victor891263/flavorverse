@@ -60,6 +60,10 @@
 }
 
 @layer utilities {
+    .text-2xl {
+        letter-spacing: -0.0125em;
+    }
+
     .divide-x, .divide-y {
         @apply dark:divide-gray-700
     }
@@ -95,4 +99,28 @@
     .bg-white {
         @apply dark:bg-gray-900
     }
+}
+
+/* SKELETONS */
+
+.skeleton h1,
+.skeleton p,
+.skeleton input,
+.skeleton button,
+.skeleton span {
+    @apply bg-slate-100 text-slate-100 rounded-none animate-pulse hover:!bg-slate-100 hover:!text-slate-100
+}
+
+.skeleton h1,
+.skeleton p,
+.skeleton span {
+    @apply w-fit
+}
+
+.skeleton input {
+    @apply !ring-0 !rounded-none
+}
+
+.skeleton input::placeholder {
+    @apply text-slate-100
 }

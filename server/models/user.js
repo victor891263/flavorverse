@@ -74,6 +74,11 @@ const User = new mongoose.Schema({
         type: String,
         min: 1,
         max: 100
+    },
+    recoveryId: {
+        type: String,
+        min: 1,
+        max: 100
     }
 }, { timestamps: true })
 

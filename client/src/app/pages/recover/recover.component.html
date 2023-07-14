@@ -1,0 +1,12 @@
+<app-popup *ngIf="errorMsg" type="error">{{errorMsg}}</app-popup>
+<app-popup *ngIf="successMsg" type="success">{{successMsg}}</app-popup>
+<div class="flex min-h-screen px-6">
+    <div class="m-auto container max-w-sm py-20 space-y-3">
+        <h1 class="text-2xl leading-9 font-extrabold text-slate-900">Recover password</h1>
+        <p>Instructions on how to recover and reset your password will be sent to your email address.</p>
+        <div class="pt-3.5 flex gap-2.5 flex-col">
+            <input [(ngModel)]="email" class="py-2 px-3 w-full" type="email" placeholder="What is your email?"/>
+            <div class="h-full"><app-button (btnClick)="submitEmail()" [isClickable]="true" [isOperationEnded]="!!(errorMsg || successMsg)">Recover</app-button></div>
+        </div>
+    </div>
+</div>

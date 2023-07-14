@@ -46,6 +46,7 @@ mongoose.connect(process.env.DATABASE_URL, {
     .catch(error => console.log('Error connecting to database', error))
 
 // routes
+app.use('/recover', require('./routes/recover'))
 app.use('/auth', require('./routes/auth'))
 app.use('/verify', require('./routes/verify'))
 app.use(require('./middleware/auth')) // authentication middleware

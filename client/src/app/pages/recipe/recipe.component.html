@@ -19,7 +19,7 @@
     </div>
 </app-full-screen>
 <div class="py-32 px-6 mx-auto container sm:max-w-screen-sm">
-    <app-retrieval-wrapper [data]="recipe" [errorMsg]="retrievalErrorMsg" [skeleton]="skeleton">
+    <app-retrieval-wrapper [data]="recipe" [errorMsg]="retrievalErrorMsg" >
         <ng-container *ngIf="recipe">
             <div class="main">
                 <div class="space-y-5">

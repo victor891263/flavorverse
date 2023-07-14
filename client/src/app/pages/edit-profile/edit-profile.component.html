@@ -54,7 +54,7 @@
                 </div>
             </div>
             <div class="w-fit">
-                <app-button (btnClick)="saveProfile()" [isClickable]="detailsForm.valid" [isOperationEnded]="!!(successMsg || errorMsg)">Save</app-button>
+                <app-button (btnClick)="saveProfile()" [isClickable]="detailsForm.valid" [isOperationEnded]="!!(successMsg || errorMsg)" type="secondary">Save</app-button>
             </div>
         </div>
     </form>
@@ -87,7 +87,7 @@
                     </div>
                 </div>
                 <div class="w-fit">
-                    <app-button (btnClick)="saveEmail()" [isClickable]="emailForm.valid" [isOperationEnded]="!!errorMsg">Save</app-button>
+                    <app-button (btnClick)="saveEmail()" [isClickable]="emailForm.valid" [isOperationEnded]="!!errorMsg" type="secondary">Save</app-button>
                 </div>
             </ng-container>
         </div>
@@ -116,7 +116,7 @@
                 </div>
             </div>
             <div class="w-fit">
-                <app-button (btnClick)="savePassword()" [isClickable]="passwordForm.valid" [isOperationEnded]="!!(successMsg || errorMsg)">Save</app-button>
+                <app-button (btnClick)="savePassword()" [isClickable]="passwordForm.valid" [isOperationEnded]="!!(successMsg || errorMsg)" type="secondary">Save</app-button>
             </div>
         </div>
     </form>
@@ -127,7 +127,7 @@
             <p class="mt-2">This action is not reversible. All information related to this account will be deleted permanently.</p>
         </div>
         <div class="w-fit">
-            <app-button (btnClick)="deleteProfile()" [isClickable]="true" [isOperationEnded]="!!errorMsg">Delete account</app-button>
+            <app-button (btnClick)="deleteProfile()" [isClickable]="true" [isOperationEnded]="!!errorMsg" type="danger">Delete account</app-button>
         </div>
     </div>
 </div>

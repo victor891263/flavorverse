@@ -9,5 +9,4 @@ import {Component, Input, TemplateRef} from '@angular/core';
 export class RetrievalWrapperComponent {
     @Input() data: any
     @Input() errorMsg: string
-    @Input() skeleton: any
 }

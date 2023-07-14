@@ -35,7 +35,7 @@ module.exports = async (req, res) => {
     })
 
     // send an email to the email address provided by the user
-    await sendEmail(userData.email, verificationId)
+    await sendEmail(userData.email, verificationId, 'account')
 
     // create the json web token and send it to the client
     const token = jwt.sign({

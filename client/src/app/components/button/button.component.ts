@@ -9,6 +9,7 @@ import {Component, EventEmitter, Input, Output} from '@angular/core'
 export class ButtonComponent {
     @Output() btnClick = new EventEmitter()
     @Input() isClickable: boolean
+    @Input() type: 'secondary' | 'danger'
     isLoading = false
 
     private _isOperationEnded: boolean

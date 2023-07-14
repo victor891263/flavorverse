@@ -18,4 +18,12 @@ export class AuthService {
     login(data: { email: string, password: string }) {
         return this.http.post(`${this.url}/auth`, data, { responseType: 'text' })
     }
+
+    recoverPassword(email: string) {
+        return this.http.post(`${this.url}/recover`, { email }, { responseType: 'text' })
+    }
+
+    updatePassword(id: string, password: string) {
+        return this.http.put(`${this.url}/recover/${id}`, { password }, { responseType: 'text' })
+    }
 }

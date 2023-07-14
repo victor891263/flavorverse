@@ -1,9 +1,9 @@
 <ng-content></ng-content>
-<div *ngIf="errorMsg" class="text-center pt-10 mx-auto max-w-screen-sm">
+<div *ngIf="errorMsg" class="text-center mx-auto max-w-screen-sm">
     <svg class="h-10 w-10 text-slate-300 mx-auto dark:text-gray-700" viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="m13 13 6 6m0-6-6 6m15-3c0 6.627-5.373 12-12 12S4 22.627 4 16 9.373 4 16 4s12 5.373 12 12Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
     <h3 class="font-extrabold text-lg text-slate-900 mt-4 mb-2">Failed to retrieve</h3>
     <p>{{ errorMsg }}</p>
 </div>
 <div *ngIf="!(data || errorMsg)">
-    <ng-container *ngComponentOutlet="skeleton"></ng-container>
+    <app-loader></app-loader>
 </div>

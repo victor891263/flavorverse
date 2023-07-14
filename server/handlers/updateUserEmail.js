@@ -6,8 +6,6 @@ module.exports = async (req, res) => {
     const newEmail = req.body.email
     const currentUserId = req.user.id
 
-    console.log(newEmail)
-
     const verificationId = crypto.randomBytes(32).toString('hex') // generate a 64-character long random string
 
     // check if the new email is already taken. If it is, don't proceed
@@ -28,7 +26,7 @@ module.exports = async (req, res) => {
     })
 
     // send the verification link to the user's email
-    await sendEmail(newEmail, verificationId, true)
+    await sendEmail(newEmail, verificationId, 'email')
 
     res.sendStatus(200)
 }

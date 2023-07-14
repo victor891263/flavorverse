@@ -1,10 +1,9 @@
 import {Component, OnInit} from '@angular/core'
 import {Recipe, RecipeBrief} from "../../types"
 import {RecipesService} from "../../services/recipes.service"
-import {HttpErrorResponse} from "@angular/common/http"
-import { RecipesSkeletonComponent } from '../../components/recipes-skeleton/recipes-skeleton.component'
 import getTimeLabel from '../../utilities/getTimeLabel'
 import getCurrentUser from "../../utilities/getCurrentUser"
+import createObserverObject from "../../utilities/createObserverObject"
 
 @Component({
   selector: 'app-recipes',
@@ -43,7 +42,6 @@ export class RecipesComponent implements OnInit {
     // PROPERTIES
 
     errorMsg: string
-    skeleton = RecipesSkeletonComponent
 
     recipes: RecipeBrief[]
     allTags: string[] = []
@@ -132,11 +130,11 @@ export class RecipesComponent implements OnInit {
             prepMax: this.prepMax,
             cookMin: this.cookMin,
             cookMax: this.cookMax
-        }).subscribe(response => {
+        }).subscribe(createObserverObject(response => {
             this.recipes = response
-        }, (error: HttpErrorResponse) => {
-            this.errorMsg = error.error || error.message
-        })
+        }, msg => {
+            this.errorMsg = msg
+        }))
     }
 
     // CONSTRUCTION
@@ -145,15 +143,15 @@ export class RecipesComponent implements OnInit {
 
     ngOnInit() {
         this.getRecipes()
-        this.recipesService.getTags().subscribe(response => {
+        this.recipesService.getTags().subscribe(createObserverObject(response => {
             this.allTags = response
-        }, (error: HttpErrorResponse) => {
-            this.tagErrorMsg = error.message
-        })
-        this.recipesService.getIngredients().subscribe(response => {
+        }, msg => {
+            this.tagErrorMsg = msg
+        }))
+        this.recipesService.getIngredients().subscribe(createObserverObject(response => {
             this.allIngredients = response
-        }, (error: HttpErrorResponse) => {
-            this.ingredientErrorMsg = error.message
-        })
+        }, msg => {
+            this.ingredientErrorMsg = msg
+        }))
     }
 }

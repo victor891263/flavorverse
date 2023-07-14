@@ -5,7 +5,6 @@ import getTimeLabel from '../../utilities/getTimeLabel'
 import { RecipesService } from "../../services/recipes.service"
 import getCurrentUser from '../../utilities/getCurrentUser'
 import {HttpErrorResponse} from "@angular/common/http"
-import {RecipeSkeletonComponent} from '../../components/recipe-skeleton/recipe-skeleton.component'
 import handleAutoResize from "../../utilities/handleAutoResize"
 import createObserverObject from "../../utilities/createObserverObject";
 
@@ -19,7 +18,6 @@ export class RecipeComponent implements OnInit {
     get currentUser() {
         return getCurrentUser()
     }
-    skeleton = RecipeSkeletonComponent
 
     isBoxOpen = false
 

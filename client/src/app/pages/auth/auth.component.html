@@ -2,7 +2,7 @@
 <div class="flex min-h-screen px-6">
     <div class="m-auto container max-w-sm py-20">
         <div>
-            <h1 class="text-2xl leading-9 font-extrabold tracking-[-.01em] text-slate-900">{{ url === '/login' ? 'Welcome back!': 'Join Flavorverse' }}</h1>
+            <h1 class="text-2xl leading-9 font-extrabold text-slate-900">{{ url === '/login' ? 'Welcome back!': 'Join Flavorverse' }}</h1>
             <span *ngIf="url === '/login'" class="block mt-2.5 leading-6">Not a member? <a routerLink="/join" class="text-orange-600 font-medium">Join flavorverse</a></span>
             <span *ngIf="url === '/join'" class="block mt-2 leading-6">Already have an account? <a routerLink="/login" class="text-orange-600 font-medium">Sign in</a></span>
         </div>
@@ -29,7 +29,7 @@
                     <div [class]="remember ? 'bg-orange-600 !border-orange-600 dark:text-white dark:!border-orange-500' : ''" class="h-4 w-4 rounded border border-slate-300 leading-none font-semibold text-white flex items-center justify-center dark:text-gray-900">✓</div>
                     <span>Remember me</span>
                 </div>
-                <a routerLink="/join" class="text-orange-600 font-medium">Forgot password?</a>
+                <a routerLink="/recover" class="text-orange-600 font-medium">Forgot password?</a>
             </div>
             <div class="w-full">
                 <app-button (btnClick)="submitData()" [isClickable]="form.valid" [isOperationEnded]="!!errorMsg">{{ url === '/login' ? 'Sign in': 'Create account' }}</app-button>

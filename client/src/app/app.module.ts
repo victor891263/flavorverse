@@ -14,9 +14,6 @@ import { AuthComponent } from './pages/auth/auth.component';
 import { PopupComponent } from './components/popup/popup.component';
 import { ThemeButtonComponent } from './components/theme-button/theme-button.component';
 import { ProfileComponent } from './pages/profile/profile.component';
-import { RecipesSkeletonComponent } from './components/recipes-skeleton/recipes-skeleton.component';
-import { RecipeSkeletonComponent } from './components/recipe-skeleton/recipe-skeleton.component';
-import { ProfileSkeletonComponent } from './components/profile-skeleton/profile-skeleton.component';
 import { EditProfileComponent } from './pages/edit-profile/edit-profile.component';
 import { VerifyComponent } from './pages/verify/verify.component';
 import { UnverifiedComponent } from './pages/unverified/unverified.component';
@@ -26,6 +23,9 @@ import { RatingsComponent } from './components/ratings/ratings.component';
 import { RecipeSmallComponent } from './components/recipe-small/recipe-small.component';
 import { FullScreenComponent } from './components/full-screen/full-screen.component';
 import { MultiSelectComponent } from './components/multi-select/multi-select.component';
+import { RecoverComponent } from './pages/recover/recover.component';
+import { ResetPasswordComponent } from './pages/reset-password/reset-password.component';
+import { LoaderComponent } from './components/loader/loader.component';
 
 @NgModule({
     declarations: [
@@ -39,9 +39,6 @@ import { MultiSelectComponent } from './components/multi-select/multi-select.com
         PopupComponent,
         ThemeButtonComponent,
         ProfileComponent,
-        RecipesSkeletonComponent,
-        RecipeSkeletonComponent,
-        ProfileSkeletonComponent,
         EditProfileComponent,
         VerifyComponent,
         UnverifiedComponent,
@@ -51,6 +48,9 @@ import { MultiSelectComponent } from './components/multi-select/multi-select.com
         RecipeSmallComponent,
         FullScreenComponent,
         MultiSelectComponent,
+        RecoverComponent,
+        ResetPasswordComponent,
+        LoaderComponent,
 
     ],
     imports: [

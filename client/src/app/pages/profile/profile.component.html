@@ -2,7 +2,7 @@
     <app-edit-profile *ngIf="profile && currentUser" [user]="profile" (close)="toggleBox(false)" (onDetailsUpdate)="handleDetailsUpdate($event)"></app-edit-profile>
 </app-full-screen>
 <div class=" py-32 px-6 mx-auto container max-w-3xl">
-    <app-retrieval-wrapper [data]="profile" [errorMsg]="errorMsg" [skeleton]="skeleton">
+    <app-retrieval-wrapper [data]="profile" [errorMsg]="errorMsg" >
         <ng-container *ngIf="profile">
             <div class="space-y-5">
                 <div class="flex justify-between">
