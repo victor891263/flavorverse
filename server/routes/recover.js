@@ -30,7 +30,7 @@ router.post('/', async (req, res) => {
     res.sendStatus(200)
 })
 
-// user clicks on the link in the email
+// user resets their password
 router.put('/:id', async (req, res) => {
     const recoveryId = req.params.id
     const password = req.body.password

@@ -4,6 +4,7 @@ import {RecipesService} from "../../services/recipes.service"
 import getTimeLabel from '../../utilities/getTimeLabel'
 import getCurrentUser from "../../utilities/getCurrentUser"
 import createObserverObject from "../../utilities/createObserverObject"
+import { Title, Meta } from '@angular/platform-browser'
 
 @Component({
   selector: 'app-recipes',
@@ -139,9 +140,14 @@ export class RecipesComponent implements OnInit {
 
     // CONSTRUCTION
 
-    constructor(private recipesService: RecipesService) {}
+    constructor(private recipesService: RecipesService, private titleService: Title, private metaService: Meta) {}
 
     ngOnInit() {
+        // set metadata
+        this.titleService.setTitle('Flavorverse - Home')
+        this.metaService.addTag({ name: 'description', content: 'Browse your favorite recipes on Flavorverse' })
+
+        // retrieve data
         this.getRecipes()
         this.recipesService.getTags().subscribe(createObserverObject(response => {
             this.allTags = response

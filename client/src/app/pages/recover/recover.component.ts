@@ -1,6 +1,7 @@
-import { Component } from '@angular/core'
+import {Component, OnInit} from '@angular/core'
 import {AuthService} from "../../services/auth.service"
 import createObserverObject from "../../utilities/createObserverObject";
+import {Meta, Title} from "@angular/platform-browser";
 
 @Component({
     selector: 'app-recover',
@@ -8,7 +9,7 @@ import createObserverObject from "../../utilities/createObserverObject";
     styleUrls: ['./recover.component.css']
 })
 
-export class RecoverComponent {
+export class RecoverComponent implements OnInit {
     email: string
     errorMsg: string
     successMsg: string
@@ -22,5 +23,11 @@ export class RecoverComponent {
         }, undefined, true))
     }
 
-    constructor(private authService: AuthService) {}
+    constructor(private authService: AuthService, private titleService: Title, private metaService: Meta) {}
+
+    ngOnInit() {
+        // set metadata
+        this.titleService.setTitle('Flavorverse - Recover your account')
+        this.metaService.addTag({ name: 'description', content: 'Get instructions on how to restore access to your account' })
+    }
 }

@@ -3,8 +3,9 @@ import { ActivatedRoute } from '@angular/router'
 import {Recipe, RecipeBrief, User} from "../../types"
 import getTimeLabel from '../../utilities/getTimeLabel'
 import {UsersService} from "../../services/users.service"
-import {HttpErrorResponse} from "@angular/common/http"
 import getCurrentUser from '../../utilities/getCurrentUser'
+import createObserverObject from "../../utilities/createObserverObject"
+import {Meta, Title} from "@angular/platform-browser";
 
 @Component({
     selector: 'app-profile',
@@ -37,20 +38,22 @@ export class ProfileComponent implements OnInit {
     }
 
     handleDetailsUpdate(response: User) {
-        console.log(response)
         this.profile = response
     }
 
-    constructor(private route: ActivatedRoute, private usersService: UsersService) {}
+    constructor(private route: ActivatedRoute, private usersService: UsersService, private titleService: Title, private metaService: Meta) {}
 
     ngOnInit() {
         this.route.params.subscribe(params => {
-            this.usersService.getUser(params['id']).subscribe(response => {
+            this.usersService.getUser(params['id']).subscribe(createObserverObject(response => {
                 this.profile = response.user
                 this.recipes = response.recipes
-            }, (error: HttpErrorResponse) => {
-                this.errorMsg = error.message
-            })
+                // set metadata
+                this.titleService.setTitle(`Flavorverse - ${response.user.username}`)
+                this.metaService.addTag({ name: 'description', content: response.user.about || "This user hasn't added an introduction yet" })
+            }, msg => {
+                this.errorMsg = msg
+            }))
         })
     }
 }

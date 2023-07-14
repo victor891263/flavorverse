@@ -9,10 +9,6 @@
         outline: none;
     }
 
-    p {
-        line-height: 1.6;
-    }
-
     input[type='text']:not(.no-styles),
     input[type='number']:not(.no-styles),
     input[type='email']:not(.no-styles),
@@ -99,28 +95,4 @@
     .bg-white {
         @apply dark:bg-gray-900
     }
-}
-
-/* SKELETONS */
-
-.skeleton h1,
-.skeleton p,
-.skeleton input,
-.skeleton button,
-.skeleton span {
-    @apply bg-slate-100 text-slate-100 rounded-none animate-pulse hover:!bg-slate-100 hover:!text-slate-100
-}
-
-.skeleton h1,
-.skeleton p,
-.skeleton span {
-    @apply w-fit
-}
-
-.skeleton input {
-    @apply !ring-0 !rounded-none
-}
-
-.skeleton input::placeholder {
-    @apply text-slate-100
 }

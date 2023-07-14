@@ -22,10 +22,8 @@ import { ButtonComponent } from './components/button/button.component';
 import { RatingsComponent } from './components/ratings/ratings.component';
 import { RecipeSmallComponent } from './components/recipe-small/recipe-small.component';
 import { FullScreenComponent } from './components/full-screen/full-screen.component';
-import { MultiSelectComponent } from './components/multi-select/multi-select.component';
 import { RecoverComponent } from './pages/recover/recover.component';
 import { ResetPasswordComponent } from './pages/reset-password/reset-password.component';
-import { LoaderComponent } from './components/loader/loader.component';
 
 @NgModule({
     declarations: [
@@ -47,11 +45,8 @@ import { LoaderComponent } from './components/loader/loader.component';
         RatingsComponent,
         RecipeSmallComponent,
         FullScreenComponent,
-        MultiSelectComponent,
         RecoverComponent,
         ResetPasswordComponent,
-        LoaderComponent,
-
     ],
     imports: [
         BrowserModule,

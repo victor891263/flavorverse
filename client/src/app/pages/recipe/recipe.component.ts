@@ -7,6 +7,7 @@ import getCurrentUser from '../../utilities/getCurrentUser'
 import {HttpErrorResponse} from "@angular/common/http"
 import handleAutoResize from "../../utilities/handleAutoResize"
 import createObserverObject from "../../utilities/createObserverObject";
+import {Meta, Title} from "@angular/platform-browser";
 
 @Component({
     selector: 'app-recipe',
@@ -152,12 +153,15 @@ export class RecipeComponent implements OnInit {
         return null
     }
 
-    constructor(private route: ActivatedRoute, private recipesService: RecipesService) {}
+    constructor(private route: ActivatedRoute, private recipesService: RecipesService, private titleService: Title, private metaService: Meta) {}
 
     ngOnInit() {
         this.route.params.subscribe(params => {
             this.recipesService.getRecipe(params['id']).subscribe(createObserverObject(response => {
                 this.recipe = response
+                // set metadata
+                this.titleService.setTitle(`Flavorverse - ${response.title}`)
+                this.metaService.addTag({ name: 'description', content: response.desc.slice(0, 20) })
             }, msg => {
                 this.retrievalErrorMsg = msg
             }))

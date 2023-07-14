@@ -4,6 +4,7 @@ import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms'
 import {AuthService} from "../../services/auth.service"
 import { Router } from '@angular/router'
 import createObserverObject from "../../utilities/createObserverObject"
+import {Meta, Title} from "@angular/platform-browser";
 
 @Component({
     selector: 'app-auth',
@@ -46,9 +47,13 @@ export class AuthComponent implements OnInit {
         }, undefined, true))
     }
 
-    constructor(private authService: AuthService, private location: Location, private formBuilder: FormBuilder, private router: Router) {}
+    constructor(private authService: AuthService, private location: Location, private formBuilder: FormBuilder, private router: Router, private titleService: Title, private metaService: Meta) {}
 
     ngOnInit() {
+        // set metadata
+        this.titleService.setTitle((this.url === '/login') ? 'Flavorverse - Login' : 'Flavorverse - Join')
+        this.metaService.addTag({ name: 'description', content: (this.url === '/login') ? 'Welcome back to Flavorverse' : 'Join Flavorverse now to browse recipes' })
+
         this.form = this.formBuilder.group({
             email: new FormControl('', [
                 Validators.required,

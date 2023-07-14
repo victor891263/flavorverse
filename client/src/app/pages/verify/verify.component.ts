@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router'
 import {VerifyService} from "../../services/verify.service"
 import getCurrentUser from '../../utilities/getCurrentUser'
 import createObserverObject from "../../utilities/createObserverObject"
+import {Meta, Title} from "@angular/platform-browser";
 
 @Component({
     selector: 'app-verify',
@@ -23,16 +24,19 @@ export class VerifyComponent implements OnInit {
         return this.verifyService.verify(id)
     }
 
-    constructor(private verifyService: VerifyService, private route: ActivatedRoute) {}
+    constructor(private verifyService: VerifyService, private route: ActivatedRoute, private titleService: Title, private metaService: Meta) {}
 
     ngOnInit() {
+        // set metadata
+        this.titleService.setTitle('Flavorverse - Verification')
+        this.metaService.addTag({ name: 'description', content: 'Account verification' })
+
         if (this.currentUser) {
             this.route.params.subscribe(params => {
                 this.route.queryParams.subscribe(queryParams => {
                     this.isEmail = queryParams['email']
                     this.handleVerify(queryParams['email'], params['id']).subscribe(createObserverObject(() => {
                     }, (msg: string) => {
-                        console.log(msg)
                         this.errorMsg = msg
                     }, () => {
                         this.isLoading = false
