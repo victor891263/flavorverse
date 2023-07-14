@@ -1,3 +1,3 @@
 export default function getApiUrl() {
-    return 'http://localhost:4000'
+    return 'https://flavorverse-5uzf.onrender.com'
 }
