@@ -1,7 +1,7 @@
 <div [class]="isVisible ? 'bg-black/50' : 'pointer-events-none'" class="fixed top-0 left-0 w-screen h-screen z-30 transition-colors"></div>
 <div [class]="isVisible ? 'overflow-y-auto' : 'overflow-y-hidden pointer-events-none'" class="fixed top-0 right-0 w-screen h-screen z-40 flex overflow-x-hidden">
     <div [class]="isVisible ? '' : 'translate-x-full'" class="ml-auto transition-transform">
-        <div [class]="small ? 'max-w-sm' : 'sm:max-w-screen-sm'" class="sm:p-12 p-6 bg-white min-h-screen dark:bg-gray-800">
+        <div [class]="small ? 'max-w-sm' : 'sm:max-w-screen-sm max-sm:w-screen'" class="sm:p-12 p-6 bg-white min-h-screen dark:bg-gray-800">
             <ng-content></ng-content>
         </div>
     </div>

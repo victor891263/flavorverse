@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core'
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms"
+import { Location } from '@angular/common'
 import {HttpErrorResponse} from "@angular/common/http"
 import {RecipesService} from "../../services/recipes.service"
 import {Router} from "@angular/router"
@@ -18,13 +19,16 @@ export class RecipeFormComponent implements OnInit {
 
     @Input() new: boolean
     @Input() recipe?: Recipe
+
     @Output() close = new EventEmitter()
+    @Output() updateSuccess = new EventEmitter()
 
     handleClose() {
         this.close.emit()
     }
 
     operationErrorMsg: string
+    updateSuccessMsg: string
 
     form: FormGroup
     get title() {
@@ -203,22 +207,15 @@ export class RecipeFormComponent implements OnInit {
         formData.append('newImg', this.newImg)
 
         this.recipesService.updateRecipe(formData, this.recipe._id).subscribe(createObserverObject(response => {
-            document.documentElement.style.overflow = 'auto' // reactivate scroll which is disabled by opening side menu
-            this.router.navigate(['/recipes/' + this.recipe._id]) // if recipe is updated successfully, redirect to the recipe page
+            this.updateSuccess.emit(response)
+            this.updateSuccessMsg = 'Your recipe has been updated successfully'
+            setTimeout(() => this.updateSuccessMsg = '', 5000)
         }, msg => {
             this.operationErrorMsg = msg
         }, undefined, true))
     }
 
-    deleteRecipe() {
-        this.recipesService.deleteRecipe(this.recipe._id).subscribe(createObserverObject(() => {
-            this.router.navigate(['/'])
-        }, msg => {
-            this.operationErrorMsg = msg
-        }, undefined, true))
-    }
-
-    constructor(private formBuilder: FormBuilder, private recipesService: RecipesService, private router: Router) {}
+    constructor(private formBuilder: FormBuilder, private recipesService: RecipesService, private router: Router, private location: Location) {}
 
     ngOnInit() {
         this.form = this.formBuilder.group({

@@ -20,6 +20,18 @@ module.exports = async (req, res) => {
 
     // delete the review
     recipe.reviews = recipe.reviews.filter(r => r._id.toString() !== reviewId)
+
+    // re-calculate the rating of the recipe every time a new review is added
+    let sumOfAllRatings = 0
+    recipe.reviews.forEach(review => {
+        sumOfAllRatings += review.rating
+    })
+    const recipeRating = sumOfAllRatings / recipe.reviews.length
+
+    // assign the calculated rating to the recipe
+    recipe.rating = recipeRating
+
+    // save it to the database
     await recipe.save()
 
     res.sendStatus(200)

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core'
-import { ActivatedRoute } from '@angular/router'
+import {ActivatedRoute, Router} from '@angular/router'
 import {Recipe, Review} from "../../types"
 import getTimeLabel from '../../utilities/getTimeLabel'
 import { RecipesService } from "../../services/recipes.service"
@@ -69,6 +69,22 @@ export class RecipeComponent implements OnInit {
         this.isEditReviewBoxOpen = false
     }
 
+    handleRecipeUpdateSuccess(newRecipe: Recipe) {
+        this.recipe = newRecipe
+    }
+
+    deleteRecipe(e) {
+        e.target.innerText = 'Deleting'
+        e.target.disabled = true
+        this.recipesService.deleteRecipe(this.recipe._id).subscribe(createObserverObject(() => {
+            this.router.navigate(['/'])
+        }, msg => {
+            this.errorMsg = msg
+            e.target.innerText = 'Delete'
+            e.target.disabled = false
+        }, undefined, true))
+    }
+
     submitEditedReview() {
         this.recipesService.editReview(this.recipe._id, this.selectedReview._id, this.selectedReview).subscribe(createObserverObject(() => {
             this.successMsg = 'Your reply has been successfully updated'
@@ -132,6 +148,12 @@ export class RecipeComponent implements OnInit {
             // update the current recipe
             const newReviews = this.recipe.reviews.filter(r => r._id !== reviewId)
             this.recipe.reviews = newReviews
+            // re-calculate the rating of the recipe
+            let sumOfAllRatings = 0
+            this.recipe.reviews.forEach(review => {
+                sumOfAllRatings += review.rating
+            })
+            this.recipe.rating = sumOfAllRatings / this.recipe.reviews.length
         }, msg => {
             this.errorMsg = msg
             e.target.innerText = 'Delete'
@@ -159,7 +181,7 @@ export class RecipeComponent implements OnInit {
         return null
     }
 
-    constructor(private route: ActivatedRoute, private recipesService: RecipesService, private titleService: Title, private metaService: Meta) {}
+    constructor(private route: ActivatedRoute, private router: Router, private recipesService: RecipesService, private titleService: Title, private metaService: Meta) {}
 
     ngOnInit() {
         this.route.params.subscribe(params => {

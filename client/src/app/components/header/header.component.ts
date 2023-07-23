@@ -15,6 +15,7 @@ export class HeaderComponent {
 
     logout() {
         localStorage.removeItem('token')
+        localStorage.removeItem('rememberMe')
         this.router.navigate(['/'])
     }
 

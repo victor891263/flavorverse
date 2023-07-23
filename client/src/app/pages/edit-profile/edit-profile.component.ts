@@ -98,7 +98,9 @@ export class EditProfileComponent implements OnInit {
     saveEmail() {
         this.usersService.updateEmail(this.newEmail.value).subscribe(createObserverObject(
         () => {
-            this.user.newEmail.address = this.newEmail.value
+            this.user.newEmail = {
+                address: this.newEmail.value
+            }
         }, msg => {
             this.errorMsg = msg
         }, undefined, true))
@@ -118,6 +120,11 @@ export class EditProfileComponent implements OnInit {
         this.usersService.updatePassword(this.password.value, this.newPassword.value).subscribe(createObserverObject(() => {
             this.successMsg = 'Your password has been updated successfully'
             setTimeout(() => this.successMsg = '', 5000) // make the success popup disappear after 5 seconds
+            // reset the inputs
+            this.password.setValue('')
+            this.password.setErrors(null)
+            this.newPassword.setValue('')
+            this.newPassword.setErrors(null)
         }, msg => {
             this.errorMsg = msg
         }, undefined, true))

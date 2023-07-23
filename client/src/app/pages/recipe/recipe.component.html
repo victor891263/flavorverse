@@ -1,7 +1,7 @@
 <app-popup *ngIf="errorMsg" type="error">{{ errorMsg }}</app-popup>
 <app-popup *ngIf="successMsg" type="success">{{ successMsg }}</app-popup>
 <app-full-screen [isVisible]="isBoxOpen">
-    <app-recipe-form *ngIf="recipe" [new]="false" [recipe]="recipe" (close)="toggleBox(false)"></app-recipe-form>
+    <app-recipe-form *ngIf="recipe" (updateSuccess)="handleRecipeUpdateSuccess($event)" [new]="false" [recipe]="recipe" (close)="toggleBox(false)"></app-recipe-form>
 </app-full-screen>
 <app-full-screen [isVisible]="isEditReviewBoxOpen">
     <div *ngIf="selectedReview" class="w-full sm:w-80">
@@ -12,7 +12,7 @@
             </button>
         </div>
         <app-rating (onRatingChange)="this.selectedReview.rating = $event" [isClickable]="true" [rating]="selectedReview.rating"></app-rating>
-        <textarea [(ngModel)]="selectedReview.body" (input)="handleAutoResize($event)" class="mt-4 flex w-full h-32 py-2 px-3 overflow-hidden resize-none" placeholder="What do you think about the recipe?" ></textarea>
+        <textarea [(ngModel)]="selectedReview.body" (input)="handleAutoResize($event)" class="mt-4 flex w-full h-40 py-2 px-3 overflow-hidden resize-none" placeholder="What do you think about the recipe?" ></textarea>
         <div class="mt-2 ml-auto w-fit">
             <app-button (btnClick)="submitEditedReview()" [isClickable]="(selectedReview.rating > 0) && selectedReview.body && (selectedReview.body.length < 1000)" [isOperationEnded]="!!(errorMsg || successMsg)">Submit</app-button>
         </div>
@@ -25,7 +25,7 @@
                 <div class="space-y-5">
                     <div *ngIf="currentUser && (currentUser._id === recipe.user._id)" class="flex space-x-4 text-[15px] text-orange-600">
                         <button (click)="toggleBox(true)">Edit</button>
-                        <button>Delete</button>
+                        <button (click)="deleteRecipe($event)">Delete</button>
                     </div>
                     <div class="flex items-center">
                         <app-rating [rating]="recipe.rating"></app-rating>
@@ -99,30 +99,27 @@
 
                 <div>
                     <h2 class="mb-4">Reviews</h2>
-
                     <div *ngIf="!currentUser" class="mb-10 flex space-x-2 p-4 rounded-md bg-slate-100">
                         <svg class="w-5 h-5 text-slate-400 shrink-0" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
                         <span class="text-[15px]">You must be logged in to submit a review or react to reviews</span>
                     </div>
-
-                    <div *ngIf="currentUser && (currentUser._id === recipe.user._id)" class="mb-10 flex space-x-2 p-4 rounded-md bg-slate-100">
-                        <svg class="w-5 h-5 text-slate-400 shrink-0" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
-                        <span class="text-[15px]">You cannot submit a review for your own recipe</span>
-                    </div>
-
-                    <div *ngIf="isReviewAlreadyGiven" class="mb-10 flex space-x-2 p-4 rounded-md bg-slate-100">
-                        <svg class="w-5 h-5 text-slate-400 shrink-0" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
-                        <span class="text-[15px]">You've already submitted a review</span>
-                    </div>
-
-                    <div *ngIf="currentUser && (currentUser._id !== recipe.user._id) && (!isReviewAlreadyGiven)" class="mb-1">
-                        <app-rating (onRatingChange)="this.rating = $event" [isClickable]="true" [rating]="rating"></app-rating>
-                        <textarea [(ngModel)]="review" (input)="handleAutoResize($event)" class="mt-4 flex w-full h-20 py-2 px-3 overflow-hidden resize-none" placeholder="What do you think about the recipe?" ></textarea>
-                        <div class="mt-2 ml-auto w-fit">
-                            <app-button (btnClick)="submitReview()" [isClickable]="(rating > 0) && review && (review.length < 1000)" [isOperationEnded]="!!(errorMsg || successMsg)">Submit</app-button>
+                    <ng-container *ngIf="currentUser">
+                        <div *ngIf="currentUser._id === recipe.user._id" class="mb-10 flex space-x-2 p-4 rounded-md bg-slate-100">
+                            <svg class="w-5 h-5 text-slate-400 shrink-0" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
+                            <span class="text-[15px]">You cannot submit a review for your own recipe</span>
                         </div>
-                    </div>
-
+                        <div *ngIf="isReviewAlreadyGiven" class="mb-10 flex space-x-2 p-4 rounded-md bg-slate-100">
+                            <svg class="w-5 h-5 text-slate-400 shrink-0" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
+                            <span class="text-[15px]">You've already submitted a review</span>
+                        </div>
+                        <div *ngIf="(currentUser._id !== recipe.user._id) && (!isReviewAlreadyGiven)" class="mb-1">
+                            <app-rating (onRatingChange)="this.rating = $event" [isClickable]="true" [rating]="rating"></app-rating>
+                            <textarea [(ngModel)]="review" (input)="handleAutoResize($event)" class="mt-4 flex w-full h-20 py-2 px-3 overflow-hidden resize-none" placeholder="What do you think about the recipe?" ></textarea>
+                            <div class="mt-2 ml-auto w-fit">
+                                <app-button (btnClick)="submitReview()" [isClickable]="(rating > 0) && review && (review.length < 1000)" [isOperationEnded]="!!(errorMsg || successMsg)">Submit</app-button>
+                            </div>
+                        </div>
+                    </ng-container>
                     <ng-container *ngIf="!(recipe.reviews.length > 0)">
                         <div class="m-auto max-w-md py-10 text-center">
                             <svg class="h-10 w-10 text-slate-300 mx-auto dark:text-gray-700" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.25" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.182 16.318A4.486 4.486 0 0012.016 15a4.486 4.486 0 00-3.198 1.318M21 12a9 9 0 11-18 0 9 9 0 0118 0zM9.75 9.75c0 .414-.168.75-.375.75S9 10.164 9 9.75 9.168 9 9.375 9s.375.336.375.75zm-.375 0h.008v.015h-.008V9.75zm5.625 0c0 .414-.168.75-.375.75s-.375-.336-.375-.75.168-.75.375-.75.375.336.375.75zm-.375 0h.008v.015h-.008V9.75z" /></svg>
@@ -136,11 +133,18 @@
                         </div>
                         <div class="space-y-10">
                             <div *ngFor="let review of recipe.reviews" class="review">
-                                <div class="flex items-center">
+                                <div *ngIf="review.user" class="flex items-center">
                                     <img *ngIf="review.user.img" class="h-9 w-9 shrink-0 rounded-full" [src]="review.user.img" />
                                     <svg *ngIf="!review.user.img" class="h-9 w-9 shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64.16 64.16"><path class="text-slate-200 dark:text-gray-700/75" fill="currentColor" d="M95.66,63.85a32,32,0,0,1-9.39,22.68,31.28,31.28,0,0,1-5.19,4.2A32.08,32.08,0,1,1,95.66,63.85Z" transform="translate(-31.5 -31.77)"/><circle class="text-slate-400 dark:text-gray-500" fill="currentColor" cx="63.58" cy="55.1" r="11.67" transform="translate(-32.49 77.26) rotate(-80.78)"/><path class="text-slate-400 dark:text-gray-500" fill="currentColor" d="M81.08,90.1v.63a32,32,0,0,1-35,0V90.1a17.5,17.5,0,0,1,35,0Z" transform="translate(-31.5 -31.77)"/></svg>
                                     <div class="ml-3 space-y-0.5 text-sm">
                                         <a [routerLink]="'/users/' + review.user._id" class="block text-slate-900 font-medium">{{ review.user.username }}</a>
+                                        <span class="block text-slate-400">{{ getTimeLabel(review.createdAt) }}</span>
+                                    </div>
+                                </div>
+                                <div *ngIf="!review.user" class="flex items-center">
+                                    <svg class="h-9 w-9 shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64.16 64.16"><path class="text-slate-200 dark:text-gray-700/75" fill="currentColor" d="M95.66,63.85a32,32,0,0,1-9.39,22.68,31.28,31.28,0,0,1-5.19,4.2A32.08,32.08,0,1,1,95.66,63.85Z" transform="translate(-31.5 -31.77)"/><circle class="text-slate-400 dark:text-gray-500" fill="currentColor" cx="63.58" cy="55.1" r="11.67" transform="translate(-32.49 77.26) rotate(-80.78)"/><path class="text-slate-400 dark:text-gray-500" fill="currentColor" d="M81.08,90.1v.63a32,32,0,0,1-35,0V90.1a17.5,17.5,0,0,1,35,0Z" transform="translate(-31.5 -31.77)"/></svg>
+                                    <div class="ml-3 space-y-0.5 text-sm">
+                                        <span class="block text-slate-900 font-medium">(deleted user)</span>
                                         <span class="block text-slate-400">{{ getTimeLabel(review.createdAt) }}</span>
                                     </div>
                                 </div>
@@ -158,8 +162,10 @@
                                             <svg *ngIf="review.disliked" class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M15.73 5.25h1.035A7.465 7.465 0 0118 9.375a7.465 7.465 0 01-1.235 4.125h-.148c-.806 0-1.534.446-2.031 1.08a9.04 9.04 0 01-2.861 2.4c-.723.384-1.35.956-1.653 1.715a4.498 4.498 0 00-.322 1.672V21a.75.75 0 01-.75.75 2.25 2.25 0 01-2.25-2.25c0-1.152.26-2.243.723-3.218C7.74 15.724 7.366 15 6.748 15H3.622c-1.026 0-1.945-.694-2.054-1.715A12.134 12.134 0 011.5 12c0-2.848.992-5.464 2.649-7.521.388-.482.987-.729 1.605-.729H9.77a4.5 4.5 0 011.423.23l3.114 1.04a4.5 4.5 0 001.423.23zM21.669 13.773c.536-1.362.831-2.845.831-4.398 0-1.22-.182-2.398-.52-3.507-.26-.85-1.084-1.368-1.973-1.368H19.1c-.445 0-.72.498-.523.898.591 1.2.924 2.55.924 3.977a8.959 8.959 0 01-1.302 4.666c-.245.403.028.959.5.959h1.053c.832 0 1.612-.453 1.918-1.227z" /></svg>
                                             <span class="ml-1">{{ review.dislikes }}</span>
                                         </button>
-                                        <button (click)="openEditReview(review)" *ngIf="review.user._id === (currentUser && currentUser._id)" class="block">Edit</button>
-                                        <button (click)="deleteReview($event, review._id)" *ngIf="review.user._id === (currentUser && currentUser._id)" class="block">Delete</button>
+                                        <ng-container *ngIf="review.user">
+                                            <button (click)="openEditReview(review)" *ngIf="review.user._id === (currentUser && currentUser._id)" class="block">Edit</button>
+                                            <button (click)="deleteReview($event, review._id)" *ngIf="review.user._id === (currentUser && currentUser._id)" class="block">Delete</button>
+                                        </ng-container>
                                     </div>
                                 </div>
 

@@ -36,8 +36,21 @@ module.exports = async (req, res) => {
     const result = await Recipe.findOneAndUpdate({
         _id: req.params.id,
         user: currentUserId
-    }, newRecipe)
+    }, newRecipe, { new: true }).populate('user', '_id username img').populate('reviews.user', '_id username img')
 
-    if (!result) res.status(404).send(`The recipe you're trying to update doesn't exist`)
-    else res.sendStatus(200)
+    if (result) {
+        const recipe = result.toObject()
+
+        // recalculate the amount of likes and dislikes and liked/disliked states for each review of the newly returned recipe object
+        recipe.reviews.forEach(review => {
+            review.liked = review.likes.some(userId => userId.toString() === currentUserId)
+            review.disliked = review.dislikes.some(userId => userId.toString() === currentUserId)
+            review.likes = review.likes.length
+            review.dislikes = review.dislikes.length
+        })
+
+        res.send(recipe)
+    } else {
+        res.status(404).send(`The recipe you're trying to update doesn't exist`)
+    }
 }

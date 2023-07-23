@@ -81,8 +81,8 @@ export class RecipesService {
     }
 
     updateRecipe(recipe: FormData, id: string) {
-        return this.http.put(`${this.url}/recipes/${id}`, recipe, {
-            responseType: 'text',
+        return this.http.put<Recipe>(`${this.url}/recipes/${id}`, recipe, {
+            responseType: 'json',
             headers: new HttpHeaders({
                 'Authorization': localStorage.getItem('token') || ''
             })

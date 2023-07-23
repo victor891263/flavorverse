@@ -27,20 +27,21 @@ module.exports = async (req, res) => {
     })
     const recipeRating = sumOfAllRatings / result.reviews.length
 
-    // assign the calculated rating to the recipe and save it to the database
+    // assign the calculated rating to the recipe
     result.rating = recipeRating
+
+    // save it to the database
     const response = await result.save()
+
     const recipe = response.toObject()
 
-    // if there is a user who is currently logged in, check if said user reacted to this recipe
-    if (currentUserId) {
-        recipe.reviews.forEach(review => {
-            review.liked = review.likes.some(userId => userId.toString() === currentUserId)
-            review.disliked = review.dislikes.some(userId => userId.toString() === currentUserId)
-            review.likes = review.likes.length
-            review.dislikes = review.dislikes.length
-        })
-    }
+    // recalculate the amount of likes and dislikes and liked/disliked states for each review of the newly returned recipe object
+    recipe.reviews.forEach(review => {
+        review.liked = review.likes.some(userId => userId.toString() === currentUserId)
+        review.disliked = review.dislikes.some(userId => userId.toString() === currentUserId)
+        review.likes = review.likes.length
+        review.dislikes = review.dislikes.length
+    })
 
     res.send(recipe)
 }

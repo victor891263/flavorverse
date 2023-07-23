@@ -12,7 +12,7 @@ export class UnverifiedComponent implements OnInit {
     logout() {
         // remove all jwts and redirect to home page
         localStorage.removeItem('token')
-        sessionStorage.removeItem('token')
+        localStorage.removeItem('rememberMe')
         this.router.navigate(['/'])
     }
 

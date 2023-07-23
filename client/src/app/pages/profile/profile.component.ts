@@ -25,7 +25,9 @@ export class ProfileComponent implements OnInit {
         return getCurrentUser()
     }
 
-    getTimeLabel = getTimeLabel
+    generateDateLabel(date: string) {
+        return new Date(date).toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: 'numeric' })
+    }
 
     toggleBox(isOpen: boolean) {
         if (isOpen) {

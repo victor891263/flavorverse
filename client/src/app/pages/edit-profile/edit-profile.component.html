@@ -76,7 +76,7 @@
                     <app-button (btnClick)="stopUpdateEmail()" [isClickable]="true" [isOperationEnded]="!!(successMsg || errorMsg)">I don't want to update anymore</app-button>
                 </div>
             </div>
-            <ng-container *ngIf="(!user.newEmail) || (!user.newEmail.address)">
+            <ng-container *ngIf="!(user.newEmail && user.newEmail.address)">
                 <div>
                     <label for="new-email">New email address</label>
                     <input formControlName="newEmail" type="email" name="new-email" id="new-email" class="rounded-md w-full py-2 px-3 text-[15px]"/>

@@ -10,15 +10,16 @@ module.exports = async (req, res) => {
         return
     }
 
-    // if there is a user who is currently logged in, check if said user reacted to this recipe
-    if (currentUserId) {
-        recipe.reviews.forEach(review => {
+    recipe.reviews.forEach(review => {
+        // if there is a user who is currently logged in, check if said user reacted to this recipe
+        if (currentUserId) {
             review.liked = review.likes.some(userId => userId.toString() === currentUserId)
             review.disliked = review.dislikes.some(userId => userId.toString() === currentUserId)
-            review.likes = review.likes.length
-            review.dislikes = review.dislikes.length
-        })
-    }
+        }
+        // calculate the amount of likes and dislikes for each review
+        review.likes = review.likes.length
+        review.dislikes = review.dislikes.length
+    })
 
     res.send(recipe)
 }
