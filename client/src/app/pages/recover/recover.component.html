@@ -1,12 +1,25 @@
 <app-popup *ngIf="errorMsg" type="error">{{errorMsg}}</app-popup>
 <app-popup *ngIf="successMsg" type="success">{{successMsg}}</app-popup>
-<div class="flex min-h-screen px-6">
-    <div class="m-auto container max-w-sm py-20 space-y-3">
-        <h1 class="text-2xl leading-9 font-extrabold text-slate-900">Recover password</h1>
-        <p>Instructions on how to recover and reset your password will be sent to your email address.</p>
-        <div class="pt-3.5 flex gap-2.5 flex-col">
-            <input [(ngModel)]="email" class="py-2 px-3 w-full" type="email" placeholder="What is your email?"/>
-            <div class="h-full"><app-button (btnClick)="submitEmail()" [isClickable]="true" [isOperationEnded]="!!(errorMsg || successMsg)">Recover</app-button></div>
+<div class="bg-white dark:bg-gray-900">
+    <div class="flex items-center h-screen">
+        <div class="max-lg:hidden h-full w-full bg-cover bg-center bg-photo">
+            <div class="flex items-center h-full px-20 bg-gray-900 bg-opacity-40">
+                <div class='max-w-sm text-white'>
+                    <h1 class='text-3xl font-bold'>Discover your favorite recipes</h1>
+                    <p class="mt-4 leading-[1.6]">From mouthwatering mains to irresistible desserts, we've curated a diverse collection of dishes to satisfy every palate. Explore, cook, and create unforgettable meals with ease.</p>
+                </div>
+            </div>
+        </div>
+        <div class="max-lg:mx-auto shrink-0 w-full max-w-md max-lg:px-6 lg:px-12">
+            <div class="py-20 space-y-3">
+                <h1 class="text-[1.75rem] leading-9 font-bold text-slate-900">Recover password</h1>
+                <p>Instructions on how to recover and reset your password will be sent to your email address.</p>
+                <div class="pt-4 space-y-3">
+                    <input [(ngModel)]="email" class="py-2 px-3 w-full" type="email" placeholder="What is your email?"/>
+                    <div class="h-full"><app-button (btnClick)="submitEmail()" [isClickable]="true" [isOperationEnded]="!!(errorMsg || successMsg)">Recover</app-button></div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
+

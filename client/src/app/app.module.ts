@@ -24,6 +24,10 @@ import { RecipeSmallComponent } from './components/recipe-small/recipe-small.com
 import { FullScreenComponent } from './components/full-screen/full-screen.component';
 import { RecoverComponent } from './pages/recover/recover.component';
 import { ResetPasswordComponent } from './pages/reset-password/reset-password.component';
+import { AvatarComponent } from './components/avatar/avatar.component';
+import { AboutComponent } from './pages/about/about.component';
+import { FooterComponent } from './components/footer/footer.component';
+import { HelpComponent } from './pages/help/help.component';
 
 @NgModule({
     declarations: [
@@ -47,6 +51,10 @@ import { ResetPasswordComponent } from './pages/reset-password/reset-password.co
         FullScreenComponent,
         RecoverComponent,
         ResetPasswordComponent,
+        AvatarComponent,
+        AboutComponent,
+        FooterComponent,
+        HelpComponent,
     ],
     imports: [
         BrowserModule,

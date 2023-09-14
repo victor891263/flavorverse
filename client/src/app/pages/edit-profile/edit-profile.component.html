@@ -9,19 +9,19 @@
     </div>
     <form [formGroup]="detailsForm" *ngIf="this.detailsForm">
         <div class="description">
-            <h2>Personal info</h2>
+            <h3>Personal info</h3>
             <p class="mt-2">This data will be displayed publicly so be careful with what you share.</p>
         </div>
         <div class="space-y-8">
-            <div class="flex items-center space-x-3">
+            <div class="flex items-center space-x-4">
                 <img *ngIf="user.img" class="h-20 w-20 shrink-0 rounded-full" [src]="user.img" />
                 <svg *ngIf="!user.img" class="h-20 w-20 shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64.16 64.16"><path class="text-slate-200 dark:text-gray-700/75" fill="currentColor" d="M95.66,63.85a32,32,0,0,1-9.39,22.68,31.28,31.28,0,0,1-5.19,4.2A32.08,32.08,0,1,1,95.66,63.85Z" transform="translate(-31.5 -31.77)"/><circle class="text-slate-400 dark:text-gray-500" fill="currentColor" cx="63.58" cy="55.1" r="11.67" transform="translate(-32.49 77.26) rotate(-80.78)"/><path class="text-slate-400 dark:text-gray-500" fill="currentColor" d="M81.08,90.1v.63a32,32,0,0,1-35,0V90.1a17.5,17.5,0,0,1,35,0Z" transform="translate(-31.5 -31.77)"/></svg>
-                <div class="space-y-2">
+                <div class="space-y-3.5">
                     <div>
-                        <label for="profile-img" class="btn-secondary py-2 px-3 cursor-pointer w-fit !mb-0 hover:bg-slate-100 dark:hover:bg-gray-700/50">Upload image</label>
+                        <label for="profile-img" class="no-apply btn-secondary py-2 px-3 cursor-pointer w-fit hover:bg-slate-100 dark:hover:bg-gray-700/50">Upload image</label>
                         <input type="file" id="profile-img" (change)="uploadImage($event)" accept="image/*" class="hidden" />
                     </div>
-                    <span class="block text-sm break-all">{{newImg ? newImg.name : 'No file selected'}}</span>
+                    <span class="block text-xs break-all">{{newImg ? newImg.name : 'No file selected'}}</span>
                 </div>
             </div>
             <div>
@@ -61,7 +61,7 @@
 
     <form [formGroup]="emailForm" *ngIf="this.emailForm">
         <div class="description">
-            <h2>Contact info</h2>
+            <h3>Contact info</h3>
             <p class="mt-2">You'll have to verify the new email address before the change can be saved.</p>
         </div>
         <div class="space-y-8">
@@ -95,7 +95,7 @@
 
     <form [formGroup]="passwordForm" *ngIf="this.passwordForm">
         <div class="description">
-            <h2>Password</h2>
+            <h3>Password</h3>
             <p class="mt-2">Update your password associated with your account.</p>
         </div>
         <div class="space-y-8">
@@ -123,7 +123,7 @@
 
     <div class="border-t pt-12 mt-12 dark:border-gray-700">
         <div class="description">
-            <h2>Delete account</h2>
+            <h3>Delete account</h3>
             <p class="mt-2">This action is not reversible. All information related to this account will be deleted permanently.</p>
         </div>
         <div class="w-fit">

@@ -9,6 +9,7 @@ import {UnverifiedComponent} from "./pages/unverified/unverified.component"
 import {CheckVerificationGuard} from "./guards/check-verification.guard"
 import {RecoverComponent} from "./pages/recover/recover.component";
 import {ResetPasswordComponent} from "./pages/reset-password/reset-password.component";
+import {AboutComponent} from "./pages/about/about.component";
 
 const routes: Routes = [
     {
@@ -47,6 +48,10 @@ const routes: Routes = [
     {
         path: 'users/:id',
         component: ProfileComponent
+    },
+    {
+        path: 'about',
+        component: AboutComponent
     },
     {
         path: '**',

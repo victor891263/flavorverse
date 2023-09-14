@@ -35,7 +35,7 @@ export class RecipeComponent implements OnInit {
     recipe: Recipe
 
     rating = 0
-    review: string
+    review: string = ''
 
     retrievalErrorMsg: string
     errorMsg: string
@@ -55,7 +55,7 @@ export class RecipeComponent implements OnInit {
     }
 
     get isReviewAlreadyGiven() {
-        return this.recipe.reviews.find(r => r.user._id === this.currentUser._id)
+        return this.recipe.reviews.find(r => r.user && (r.user._id === this.currentUser._id))
     }
 
     openEditReview(review: Review) {

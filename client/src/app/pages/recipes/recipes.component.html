@@ -2,8 +2,8 @@
     <app-recipe-form [new]="true" (close)="toggleBox(false)"></app-recipe-form>
 </app-full-screen>
 
-<app-full-screen [isVisible]="isFilterOpen" [small]="true">
-    <div class="" id="recipes-filters">
+<app-full-screen [isVisible]="isFilterOpen">
+    <div class="max-w-sm" id="recipes-filters">
         <div class="sm:-mt-3 mb-12 flex justify-between">
             <h1 class="text-2xl font-extrabold text-slate-900">Filter recipes</h1>
             <button (click)="toggleFilter(false)">
@@ -151,7 +151,7 @@
     </div>
 </app-full-screen>
 
-<div class="py-24 px-6 mx-auto container md:max-w-3xl xl:max-w-6xl">
+<div class="py-32 px-6 mx-auto container md:max-w-3xl xl:max-w-6xl">
     <div class="mb-4 flex justify-between">
         <span *ngIf="recipes" class="text-sm">{{ recipes.length }} results.</span>
         <span *ngIf="!recipes"></span>
@@ -177,4 +177,6 @@
         </ng-container>
     </app-retrieval-wrapper>
 </div>
+
+<app-footer></app-footer>
 

@@ -5,7 +5,7 @@ type Metadata = {
 }
 
 export type Review = {
-    user: {
+    user?: {
         _id: string
         username: string
         img: string | undefined
@@ -19,7 +19,7 @@ export type Review = {
 } & Metadata
 
 export type RecipeBrief = {
-    user: {
+    user?: {
         _id: string
         username: string
         img: string | undefined
@@ -38,7 +38,7 @@ export type RecipeBrief = {
 } & Metadata
 
 export type Recipe = {
-    user: {
+    user?: {
         _id: string
         username: string
         img: string | undefined

@@ -1,15 +1,17 @@
-<div class="mb-6 mx-auto w-fit text-center">
-    <span class="block font-bold text-slate-900 text-2xl mb-1.5">{{ rating }}<span class="text-sm font-normal">/5</span></span>
-    <app-rating [rating]="rating"></app-rating>
-    <span class="block text-sm mt-2">{{ reviews }} reviews</span>
-</div>
-<div class="max-w-xs mx-auto space-y-1">
-    <div *ngFor="let item of ratingCountArray; index as i" class="flex items-center space-x-2">
-        <span>{{ 5 - i }}</span>
-        <svg class="w-5 h-5 text-yellow-400 shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z" clip-rule="evenodd"></path></svg>
-        <div class="bg-slate-100 rounded-full w-full h-3">
-            <div class="bg-yellow-400 rounded-full h-full" [style.width]="item[1]"></div>
+<div class="sm:flex sm:space-x-14 p-6 sm:p-8 border">
+    <div class="max-sm:mb-8 w-fit">
+        <span class="block font-bold text-slate-900 text-2xl mb-1.5">{{ rating }}<span class="text-sm font-normal">/5</span></span>
+        <app-rating [rating]="rating"></app-rating>
+        <span class="block text-sm mt-2">{{ reviews }} reviews</span>
+    </div>
+    <div class="space-y-1.5 sm:w-full">
+        <div *ngFor="let item of ratingCountArray; index as i" class="flex items-center space-x-2">
+            <span>{{ 5 - i }}</span>
+            <svg class="w-5 h-5 text-yellow-400 shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z" clip-rule="evenodd"></path></svg>
+            <div class="bg-slate-100 rounded-full w-full h-3">
+                <div class="bg-yellow-400 rounded-full h-full" [style.width]="item[1]"></div>
+            </div>
+            <span class="shrink-0 w-20 text-right">{{item[0]}} ({{item[1]}})</span>
         </div>
-        <span class="shrink-0 w-20 text-right">{{item[0]}} ({{item[1]}})</span>
     </div>
 </div>

@@ -3,14 +3,26 @@
 @tailwind utilities;
 
 @layer base {
+    * {
+        letter-spacing: 0.005em;
+    }
+
+    html {
+        @apply max-sm:text-[15px]
+    }
+
     input, textarea, button {
         background: none;
         font-feature-settings: inherit;
         outline: none;
     }
 
-    p {
-        line-height: 1.6;
+    p, textarea {
+        line-height: 1.75;
+    }
+
+    h1, h2 {
+        font-family: 'Domine', serif;
     }
 
     input[type='text']:not(.no-styles),
@@ -20,8 +32,8 @@
     textarea:not(.no-styles) {
         @apply
         appearance-none
-        ring-1 ring-gray-300 rounded-md
-        dark:ring-gray-700
+        ring-1 ring-slate-300 rounded-md
+        dark:ring-gray-700 dark:bg-gray-800/70
         focus:ring-orange-600 dark:focus:ring-orange-500
         dark:placeholder:text-gray-600
     }
@@ -35,27 +47,30 @@
     .btn-primary {
         @apply
         bg-orange-600
-        rounded-md text-sm
+        rounded-md
         font-medium text-white
-        enabled:hover:bg-orange-700 dark:enabled:hover:bg-orange-400
+        enabled:hover:bg-orange-700 dark:enabled:hover:bg-orange-400;
+        font-size: calc(1rem - 1px);
     }
 
     .btn-secondary {
         @apply
-        ring-1 ring-gray-300
-        rounded-md text-sm
-        font-semibold text-sm
+        ring-1 ring-slate-300
+        rounded-md
+        font-semibold
         enabled:hover:bg-slate-100 dark:enabled:hover:bg-gray-800
-        dark:ring-gray-700
+        dark:ring-gray-700 dark:bg-gray-800/70;
+        font-size: calc(1rem - 1px);
     }
 
     .btn-soft {
         @apply
         bg-orange-50
         rounded-md text-sm
-        text-orange-600 font-semibold text-sm
+        text-orange-600 font-semibold
         enabled:hover:bg-orange-100 dark:enabled:hover:bg-orange-900/75
-        dark:bg-orange-900/50
+        dark:bg-orange-900/50;
+        font-size: calc(1rem - 1px);
     }
 }
 
@@ -99,4 +114,8 @@
     .bg-white {
         @apply dark:bg-gray-900
     }
+}
+
+.bg-orange-100 {
+    @apply dark:bg-orange-900/60
 }
