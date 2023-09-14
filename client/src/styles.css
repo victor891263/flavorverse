@@ -3,10 +3,6 @@
 @tailwind utilities;
 
 @layer base {
-    * {
-        letter-spacing: 0.005em;
-    }
-
     html {
         @apply max-sm:text-[15px]
     }
@@ -19,10 +15,6 @@
 
     p, textarea {
         line-height: 1.75;
-    }
-
-    h1, h2 {
-        font-family: 'Domine', serif;
     }
 
     input[type='text']:not(.no-styles),
@@ -75,10 +67,6 @@
 }
 
 @layer utilities {
-    .text-2xl {
-        letter-spacing: -0.0125em;
-    }
-
     .divide-x, .divide-y {
         @apply dark:divide-gray-700
     }
@@ -114,6 +102,10 @@
     .bg-white {
         @apply dark:bg-gray-900
     }
+}
+
+.text-xl, .text-2xl {
+    letter-spacing: -0.01em;
 }
 
 .bg-orange-100 {

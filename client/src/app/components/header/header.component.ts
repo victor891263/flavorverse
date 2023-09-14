@@ -38,6 +38,7 @@ export class HeaderComponent implements OnInit {
             if (event instanceof NavigationEnd) {
                 // get the current URL when navigation is complete
                 this.currentUrl = event.url
+                this.isMenuOpen = false
             }
         })
     }

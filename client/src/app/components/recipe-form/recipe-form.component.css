@@ -7,7 +7,8 @@
 }
 
 .recipe-form .description h3 {
-    @apply font-bold text-lg text-slate-900 dark:text-gray-100
+    @apply font-bold text-lg text-slate-900 dark:text-gray-100;
+    letter-spacing: 0;
 }
 
 .recipe-form label {

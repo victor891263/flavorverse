@@ -1,0 +1,12 @@
+.text-medium-size {
+    font-size: calc(1.25rem - 1px);
+}
+
+#faq-section label {
+    cursor: pointer;
+    height: fit-content;
+}
+
+.faq-opener:checked ~ p {
+    display: block;
+}
