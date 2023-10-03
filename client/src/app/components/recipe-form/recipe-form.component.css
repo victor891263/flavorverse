@@ -1,5 +1,5 @@
 .recipe-form > div:not(:first-of-type) {
-    @apply border-t pt-14 mt-14 dark:border-gray-700
+    @apply border-t border-slate-300 pt-14 mt-14 dark:border-gray-700
 }
 
 .recipe-form .description {

@@ -2,14 +2,8 @@
     <app-recipe-form [new]="true" (close)="toggleBox(false)"></app-recipe-form>
 </app-full-screen>
 
-<app-full-screen [isVisible]="isFilterOpen">
-    <div class="max-w-sm" id="recipes-filters">
-        <div class="sm:-mt-3 mb-12 flex justify-between">
-            <h1 class="text-2xl font-bold text-slate-900">Filter recipes</h1>
-            <button (click)="toggleFilter(false)">
-                <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
-            </button>
-        </div>
+<div class="py-32 px-6 mx-auto container lg:max-w-screen-lg min-h-screen h-full md:flex">
+    <div class="md:w-64 shrink-0" id="recipes-filters">
         <div class="space-y-7">
             <div>
                 <label for="title">Title</label>
@@ -17,27 +11,27 @@
             </div>
             <div>
                 <label>Servings</label>
-                <div class="flex space-x-2">
+                <div class="flex">
                     <div class="relative w-1/2">
                         <div class="absolute left-3 flex items-center h-full text-slate-400">Min:</div>
-                        <input [(ngModel)]="servingsMin" type="number" name="servings-min" id="servings-min" class="w-full rounded-l-md !pl-11"/>
+                        <input [(ngModel)]="servingsMin" type="number" name="servings-min" id="servings-min" class="w-full !rounded-r-none !pl-11"/>
                     </div>
-                    <div class="relative w-1/2">
+                    <div class="ml-[1px] relative w-1/2">
                         <div class="absolute left-3 flex items-center h-full text-slate-400">Max:</div>
-                        <input [(ngModel)]="servingsMax" type="number" name="servings-max" id="servings-max" class="w-full rounded-r-md !pl-12"/>
+                        <input [(ngModel)]="servingsMax" type="number" name="servings-max" id="servings-max" class="w-full !rounded-l-none !pl-12"/>
                     </div>
                 </div>
             </div>
             <div>
                 <label>Rating</label>
-                <div class="flex space-x-2">
+                <div class="flex">
                     <div class="relative w-1/2">
                         <div class="absolute left-3 flex items-center h-full text-slate-400">Min:</div>
-                        <input [(ngModel)]="ratingMin" type="number" name="rating-min" id="rating-min" class="w-full rounded-l-md !pl-11"/>
+                        <input [(ngModel)]="ratingMin" type="number" name="rating-min" id="rating-min" class="w-full !rounded-r-none !pl-11"/>
                     </div>
-                    <div class="relative w-1/2">
+                    <div class="ml-[1px] relative w-1/2">
                         <div class="absolute left-3 flex items-center h-full text-slate-400">Max:</div>
-                        <input [(ngModel)]="ratingMax" type="number" name="rating-max" id="rating-max" class="w-full rounded-r-md !pl-12"/>
+                        <input [(ngModel)]="ratingMax" type="number" name="rating-max" id="rating-max" class="w-full !rounded-l-none !pl-12"/>
                     </div>
                 </div>
             </div>
@@ -117,27 +111,27 @@
         <div class="space-y-7">
             <div>
                 <label>Prep time</label>
-                <div class="flex space-x-2">
+                <div class="flex">
                     <div class="relative w-1/2">
                         <div class="absolute left-3 flex items-center h-full text-slate-400">Min:</div>
-                        <input [(ngModel)]="prepMin" type="number" name="prep-min" id="prep-min" class="w-full rounded-l-md !pl-11"/>
+                        <input [(ngModel)]="prepMin" type="number" name="prep-min" id="prep-min" class="w-full !rounded-r-none !pl-11"/>
                     </div>
-                    <div class="relative w-1/2">
+                    <div class="ml-[1px] relative w-1/2">
                         <div class="absolute left-3 flex items-center h-full text-slate-400">Max:</div>
-                        <input [(ngModel)]="prepMax" type="number" name="prep-max" id="prep-max" class="w-full rounded-r-md !pl-12"/>
+                        <input [(ngModel)]="prepMax" type="number" name="prep-max" id="prep-max" class="w-full !rounded-l-none !pl-12"/>
                     </div>
                 </div>
             </div>
             <div>
                 <label>Cook time</label>
-                <div class="flex space-x-2">
+                <div class="flex">
                     <div class="relative w-1/2">
                         <div class="absolute left-3 flex items-center h-full text-slate-400">Min:</div>
-                        <input [(ngModel)]="cookMin" type="number" name="cook-min" id="cook-min" class="w-full rounded-l-md !pl-11"/>
+                        <input [(ngModel)]="cookMin" type="number" name="cook-min" id="cook-min" class="w-full !rounded-r-none !pl-11"/>
                     </div>
-                    <div class="relative w-1/2">
+                    <div class="ml-[1px] relative w-1/2">
                         <div class="absolute left-3 flex items-center h-full text-slate-400">Max:</div>
-                        <input [(ngModel)]="cookMax" type="number" name="cook-max" id="cook-max" class="w-full rounded-r-md !pl-12"/>
+                        <input [(ngModel)]="cookMax" type="number" name="cook-max" id="cook-max" class="w-full !rounded-l-none !pl-12"/>
                     </div>
                 </div>
             </div>
@@ -149,42 +143,39 @@
             </div>
         </div>
     </div>
-</app-full-screen>
 
-<div class="py-32 px-6 mx-auto min-h-screen h-full grid grid-rows-[max-content_auto] md:max-w-3xl xl:max-w-6xl">
-    <div class="mb-4 flex justify-between">
-        <span *ngIf="recipes" class="text-sm">{{ recipes.length }} results</span>
-        <span *ngIf="!recipes"></span>
-        <div class="flex gap-x-4 text-[15px] text-orange-600">
-            <button *ngIf="currentUser" (click)="toggleBox(true)">Add</button>
-            <button (click)="toggleFilter(true)">Filter</button>
+    <div class="max-sm:pt-12 max-sm:mt-12 max-sm:border-t border-slate-300 w-full md:pl-16">
+        <div class="mb-4 flex justify-between">
+            <span *ngIf="recipes" class="text-sm">{{ recipes.length }} results</span>
+            <span *ngIf="!recipes"></span>
+            <button *ngIf="currentUser" (click)="toggleBox(true)" class="text-[15px] text-orange-600">Add</button>
         </div>
-    </div>
-    <ng-container *ngIf="recipes">
-        <ng-container *ngIf="!(recipes.length > 0)">
-            <div class="m-auto max-w-md text-center">
-                <svg class="h-10 w-10 text-slate-300 mx-auto dark:text-gray-700" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.182 16.318A4.486 4.486 0 0012.016 15a4.486 4.486 0 00-3.198 1.318M21 12a9 9 0 11-18 0 9 9 0 0118 0zM9.75 9.75c0 .414-.168.75-.375.75S9 10.164 9 9.75 9.168 9 9.375 9s.375.336.375.75zm-.375 0h.008v.015h-.008V9.75zm5.625 0c0 .414-.168.75-.375.75s-.375-.336-.375-.75.168-.75.375-.75.375.336.375.75zm-.375 0h.008v.015h-.008V9.75z" /></svg>
-                <h3 class="font-bold text-lg text-slate-900 mt-4 mb-2">No recipes found</h3>
-                <p>No recipes satisfy the selected filters.</p>
-            </div>
+        <ng-container *ngIf="recipes">
+            <ng-container *ngIf="!(recipes.length > 0)">
+                <div class="m-auto max-w-md text-center">
+                    <svg class="h-10 w-10 text-slate-300 mx-auto dark:text-gray-700" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.182 16.318A4.486 4.486 0 0012.016 15a4.486 4.486 0 00-3.198 1.318M21 12a9 9 0 11-18 0 9 9 0 0118 0zM9.75 9.75c0 .414-.168.75-.375.75S9 10.164 9 9.75 9.168 9 9.375 9s.375.336.375.75zm-.375 0h.008v.015h-.008V9.75zm5.625 0c0 .414-.168.75-.375.75s-.375-.336-.375-.75.168-.75.375-.75.375.336.375.75zm-.375 0h.008v.015h-.008V9.75z" /></svg>
+                    <h3 class="font-bold text-lg text-slate-900 mt-4 mb-2">No recipes found</h3>
+                    <p>No recipes satisfy the selected filters.</p>
+                </div>
+            </ng-container>
+            <ng-container *ngIf="recipes.length > 0">
+                <div class="grid gap-6 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2">
+                    <app-recipe-small *ngFor="let recipe of recipes" [recipe]="recipe"></app-recipe-small>
+                </div>
+            </ng-container>
         </ng-container>
-        <ng-container *ngIf="recipes.length > 0">
-            <div class="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-                <app-recipe-small *ngFor="let recipe of recipes" [recipe]="recipe"></app-recipe-small>
+        <div *ngIf="errorMsg" class="flex w-full">
+            <div class="m-auto max-w-screen-sm text-center">
+                <svg class="h-10 w-10 text-slate-300 mx-auto dark:text-gray-700" viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="m13 13 6 6m0-6-6 6m15-3c0 6.627-5.373 12-12 12S4 22.627 4 16 9.373 4 16 4s12 5.373 12 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                <h3 class="font-bold text-lg text-slate-900 mt-4 mb-2">Failed to retrieve</h3>
+                <p>{{ errorMsg }}</p>
             </div>
-        </ng-container>
-    </ng-container>
-    <div *ngIf="errorMsg" class="h-full flex">
-        <div class="m-auto max-w-screen-sm text-center">
-            <svg class="h-10 w-10 text-slate-300 mx-auto dark:text-gray-700" viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="m13 13 6 6m0-6-6 6m15-3c0 6.627-5.373 12-12 12S4 22.627 4 16 9.373 4 16 4s12 5.373 12 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
-            <h3 class="font-bold text-lg text-slate-900 mt-4 mb-2">Failed to retrieve</h3>
-            <p>{{ errorMsg }}</p>
         </div>
-    </div>
-    <div *ngIf="!(recipes || errorMsg)" class="h-full flex">
-        <div class="m-auto">
-            <svg aria-hidden="true" class="mx-auto w-8 h-8 text-slate-200 animate-spin dark:text-gray-600 fill-orange-600 dark:fill-orange-500" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"/><path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill"/></svg>
-            <div class="mt-5 text-lg font-bold">Loading...</div>
+        <div *ngIf="!(recipes || errorMsg)" class="flex w-full">
+            <div class="m-auto">
+                <svg aria-hidden="true" class="mx-auto w-8 h-8 text-slate-200 animate-spin dark:text-gray-600 fill-orange-600 dark:fill-orange-500" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"/><path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill"/></svg>
+                <div class="mt-5 text-lg font-bold">Loading...</div>
+            </div>
         </div>
     </div>
 </div>

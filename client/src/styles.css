@@ -1,3 +1,28 @@
+@font-face {
+    font-family: 'graphik';
+    font-style: normal;
+    font-weight: 400;
+    src: url('./assets/graphik-regular.woff2');
+}
+@font-face {
+    font-family: 'graphik';
+    font-style: normal;
+    font-weight: 500;
+    src: url('./assets/graphik-medium.woff2');
+}
+@font-face {
+    font-family: 'graphik';
+    font-style: normal;
+    font-weight: 600;
+    src: url('./assets/graphik-semibold.woff2');
+}
+@font-face {
+    font-family: 'graphik';
+    font-style: normal;
+    font-weight: 700;
+    src: url('./assets/graphik-semibold.woff2');
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -14,7 +39,7 @@
     }
 
     p, textarea {
-        line-height: 1.75;
+        line-height: 1.6;
     }
 
     input[type='text']:not(.no-styles),

@@ -1,10 +1,10 @@
 
-#recipes-filters > div:not(:nth-of-type(1)):not(:nth-of-type(2)) {
-    @apply pt-12 mt-12 border-t dark:border-gray-700
+#recipes-filters > div:not(:nth-of-type(1)) {
+    @apply pt-12 mt-12 border-t border-slate-300 dark:border-gray-700
 }
 
 #recipes-filters label {
-    @apply block text-sm font-medium text-gray-900 mb-2 leading-6 dark:text-gray-100
+    @apply block text-sm font-medium text-gray-900 mb-1 leading-6 dark:text-gray-100
 }
 
 #recipes-filters input[type='text'],

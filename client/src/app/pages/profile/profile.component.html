@@ -18,10 +18,10 @@
     </div>
 </div>
 <ng-container *ngIf="profile">
-    <div class="py-32 px-6 mx-auto container max-w-3xl">
-        <div class="grid max-lg:space-y-7 lg:grid-cols-[max-content_auto] lg:space-x-12">
+    <div class="py-32 px-6 mx-auto container lg:max-w-screen-lg md:flex">
+        <div class="space-y-7 md:w-72 shrink-0">
             <div class="flex justify-between">
-                <img *ngIf="profile.img" class="h-36 w-36 shrink-0 rounded-full" [src]="profile.img" />
+                <img *ngIf="profile.img" class="h-32 w-32 shrink-0 rounded-full" [src]="profile.img" />
                 <app-avatar *ngIf="!profile.img" className="h-32 w-32 shrink-0" ></app-avatar>
                 <button *ngIf="currentUser && (profile._id === currentUser._id)" (click)="toggleBox(true)" class="lg:hidden btn-secondary py-2 px-3 h-fit">Edit profile</button>
             </div>
@@ -29,12 +29,12 @@
                 <div class="flex justify-between">
                     <div>
                         <h2 class="text-[1.75rem] font-bold tracking-[-0.02em] text-slate-900">{{ profile.name || profile.username }}</h2>
-                        <span class="mt-0.5 block text-slate-400 font-medium">@{{ profile.username }}</span>
+                        <span class="block text-slate-400 font-medium">@{{ profile.username }}</span>
                     </div>
                     <button *ngIf="currentUser && (profile._id === currentUser._id)" (click)="toggleBox(true)" class="max-lg:hidden btn-secondary py-2 px-3 h-fit">Edit profile</button>
                 </div>
-                <p class="!mt-6 big-text leading-[1.75]">{{ profile.about || "This user hasn't added an introduction yet." }}</p>
-                <div class="flex max-md:flex-col max-md:space-y-2 md:space-x-6 text-slate-400">
+                <p class="!mt-6">{{ profile.about || "This user hasn't added an introduction yet." }}</p>
+                <div class="flex flex-wrap gap-y-2 gap-x-6 text-slate-400">
                     <div class="flex items-center space-x-2">
                         <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" /></svg>
                         <span>Joined {{ generateDateLabel(profile.createdAt) }}</span>
@@ -46,7 +46,7 @@
                 </div>
             </div>
         </div>
-        <div class="border-t mt-14 pt-14">
+        <div class="md:pl-16 max-md:pt-12 max-md:mt-12 max-md:border-t max-md:border-slate-300">
             <span class="block text-sm">{{ recipes.length }} recipes found</span>
             <div class="mt-4 grid gap-6 lg:grid-cols-2">
                 <app-recipe-small *ngFor="let recipe of recipes" [recipe]="recipe"></app-recipe-small>

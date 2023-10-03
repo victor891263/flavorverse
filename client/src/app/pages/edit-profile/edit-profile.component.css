@@ -1,5 +1,5 @@
 #settings > form:not(:first-of-type) {
-    @apply border-t pt-12 mt-12 dark:border-gray-700
+    @apply border-t border-slate-300 pt-12 mt-12 dark:border-gray-700
 }
 
 #settings .description {

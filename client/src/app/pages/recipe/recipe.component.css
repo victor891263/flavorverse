@@ -1,9 +1,13 @@
 .main > div:not(:first-of-type) {
-    @apply mt-14 pt-14 border-t
+    @apply mt-14 pt-14 border-t border-slate-300 dark:border-gray-700
+}
+
+.main h1, .main h2 {
+    
 }
 
 .main h2 {
-    @apply mb-7 text-2xl font-bold text-slate-900 dark:text-gray-100 dark:border-b-gray-700;
+    @apply mb-6 text-2xl font-bold text-slate-900 dark:text-gray-100 dark:border-b-gray-700;
     letter-spacing: -0.015em;
 }
 
